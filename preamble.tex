@@ -1,0 +1,127 @@
+\usepackage[utf8x]{inputenc}    % para poder usar acentos e afins
+% \usepackage[portuguese]{babel}  % para por os títulos em português
+%\usepackage{url}                % \url{...}
+\usepackage{graphicx}
+\usepackage[center,small]{caption} 
+\setlength{\captionmargin}{0.5cm}       % Margem das legendas
+\newcommand{\mycaption}[1]{\caption{\small\emph{#1}}}
+
+\usepackage[listofformat=parens]{subfig} % subfiguras
+
+\usepackage{color}
+\definecolor{g1}{gray}{0.97}
+
+%\usepackage[table]{xcolor}              % Cor nas linhas das tabelas --> \rowcolors {rows}{odd - row color}{even - row color}
+\usepackage[figuresright]{rotating}     % Rodar figuras e tabelas (fundo da imagem para a direita) % \begin{sideways}
+
+\usepackage{afterpage}              % obriga a colocar texto só depois de certa imagem (\clearpage)
+
+\usepackage{placeins}               % obriga a colocar todas as imagens antes do proximo bloco de texto.
+
+\usepackage{soul}                   % \hl{} - highlight text, \st -  strikethrough
+
+\usepackage{moreverb}               % listing
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}                   %Fontes para letras matemáticos
+\usepackage{mathrsfs}
+
+\usepackage{eurosym}
+
+\usepackage{longtable}
+\usepackage{ctable}                 % toprule, midrule
+\newcolumntype{Y}{>{\small\centering\arraybackslash}X}  
+\renewcommand{\tabularxcolumn}[1]{>{\small}m{#1}}
+\usepackage{multirow}
+
+\usepackage[pdftex]{hyperref}       % incluir bookmarks no pdf
+
+%\usepackage{helvet}
+%\renewcommand*\familydefault{\sfdefault}    %Familia principal de letra sem serifas
+
+% \usepackage{a4wide}                 % para ocupar os espaço todo
+\usepackage[left=2.5cm,right=2.5cm,top=2.5cm,bottom=2.5cm]{geometry}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{1ex plus 0.5ex minus 0.2ex}
+\renewcommand{\baselinestretch}{1.5}    %Espacamento 1.5
+
+
+
+\usepackage{natbib}  
+\bibliographystyle{ametsoc} 
+
+\setcounter{tocdepth}{4}
+
+\usepackage{enumerate}
+
+\usepackage{appendix}
+% \usepackage{fancyvrb} % Verbatim
+% \newenvironment{verbatim}
+% {\footnotesize \Verbatim [frame=single, numbers=left]}
+% {\endVerbatim}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%           USAGE                 %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% \begin{figure}[!htp]
+%   \addtocounter{figure}{-1} %continuacao da fig anterior
+%   \setcounter{subfigure}{2}
+%   \centering
+%   \subfloat[qq1]{\label{fig:gfWieringa1}\includegraphics[width=0.45\columnwidth]{pics/1973_Wieringa_dado_z0_5sec.pdf}}
+%   \subfloat[qq2]{\label{fig:gfWieringa2}\includegraphics[width=0.45\columnwidth]{pics/1973_Wieringa_dado_z_5sec.pdf}}\\
+%   \mycaption{Coeficiente de Rajada de \cite{Wieringa:1973}.}
+%   \label{fig:gfWieringa}
+% \end{figure}
+
+
+%\begin{table}[!htp]
+%\small
+%\centering
+%\mycaption{Very short term forecasts.}
+%\label{tb:mos}
+%\begin{tabular}{cccccccc}
+%\toprule
+%             & $mae$ & $rmse$ & $bias$ & $sde$ & $sdbias$ & $r$   & $disp$ \\
+%             & MAE  & RMSE  & BIAS  & SDE  & SDBIAS  & R &  DISP \\ 
+%\midrule
+%velocidade  & 1.948 & 2.508  & -1.219 & 2.193 &  -0.575  & 0.684 &  2.117 \\
+%rajada      & 3.196 & 3.881  & -2.492 & 2.977 &  0.776   & 0.665 &  2.874 \\
+%\bottomrule
+%\end{tabular}
+%\end{table}
+
+%%% use of multirow %%%
+%\begin{table}[!htp]
+%\begin{center}
+%\begin{tabular}{rllcrr}
+%\toprule
+%\multirow{2}*{ID} & \multirow{2}*{Acronym} & \multirow{2}*{Name} & Hub Height & Installed Capacity        & Lim P \\
+%                  &                        &                     & (m)        & (ng $\times$ Pag = Ptot) & (MW) \\            
+%\midrule
+%10 & ATE     & S. Pedro              & 65 & $5\times 2 = 10$ & 10 \\
+%7 & AZM     & Malhadizes            & 65 & $6\times 2 = 12$ & 10.57 \\    
+%2 & ATD     & Trandeiras            & 60 & $14\times 1.3= 18.2$ & 18.2 \\
+%8 & AIL     & Cabril I \& II        & 65 & $9\times 1.8 + 2\times 2= 20.2$ & 20.2 \\
+%1 & APO     & Pinheiro              & 65 & $12\times 1.8 = 21.6$ & 21.6 \\
+%5 & APZ     & Pampilhosa da Serra   & 80 & $38\times 3=114$ & 96.6 \\
+%6 & ACD     & Candeeiros            & 80 & $37\times 3=111$ & 104.4 \\
+%\midrule
+%  &      &                       &     & Total  & 281.57 \\    
+%\bottomrule
+%\end{tabular}
+%\mycaption{Wind farms with data and forecasts for 2007, 2008 and 2009.}
+%\label{tb:farms3yearsa}
+%\end{center}
+%\end{table}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%           REGRAS                %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% - unidades das coisas, e.g. 4 m/s: $4\mathrm{\ m\ s^{-1}}$
+% - excepto temperatura que é  $-1.036\mathrm{\ ^{\circ}C}$
+% - termos em ingles estao em italico
+% - horas do dia: HHZ ? 
+

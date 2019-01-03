@@ -1,0 +1,908 @@
+\chapter{Wind Power Forecasting} \label{sec:wp_forecasting}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\FloatBarrier
+\section{Introduction}
+\label{sec:wp_intro}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Renewable energy sources (RES) such as wind, biomass, hydropower, ocean wave and currents are increasingly being considered real alternatives to fossil fuels. Besides being more environmental friendly (renewable and not air pollutant), they can be locally produced and therefore increase a country's energetic independence while promoting domestic economic growth. 
+
+For these reasons, and also to comply with the Kyoto Protocol, global efforts have been made to develop mature and economically viable technology for the use of RES. Wind power has had a huge impulse and since the early 70s and 80s, meteorological and climatological studies related to wind speed started to be developed, mainly through national wind resource surveys.  Among these, the best known are the Wind Energy Resource Atlas of the United States by Pacific Northwest Laboratory \citep{USAtlas1987} and the Wind atlas for Denmark  by Ris\o{} National Laboratory \citep{DenAtlas1981}. During the 80s, wind turbine development had a high growth leading to the appearance of first markets in Europe and in North America. By the end of 2010 there were 197 GW wind power capacity installed worldwide mainly distributed in China, USA, Germany, Spain and India, with 459 GW predicted for 2015 \citep{GWEC2010rep}, representing 2.5 \% of worldwide electricity usage \citep{WWEA2010}.
+
+The European Union (EU) has been a leading market, potentiating RES growth, with the commitment of having 22.1 \% share of RES in its total electricity consumption by 2010 (White Paper, 1998) and 20 \% share in energy consumption by 2020 (Directive 2009/28/EC) (table \ref{tb:targets}). In terms of wind power, by the end of 2010, EU wind power installed capacity was at 83.4 GW, of which 2944 MW off and near shore, meeting 5.3 \% of overall EU electricity consumption. Since then, European growth has been slowing down and it's currently driven by national policies, Eastern Member States new installed capacity and offshore wind. The European Wind Energy Association's (EWEA) scenarios predict that wind energy in 2020 will reach 230 GW, representing 15.7 \% of EU electricity, and by 2030, 400 GW representing 28.5 \%. Also, EWEA believes wind energy can provide half of Europe's power by 2050, with the remainder from other renewable sources \citep{EWEA2011}.
+
+In Portugal, targets were set to 39 \% share of RES in electricity by 2010 (Directive 2001/77/EC) and 55.3 \% by 2020, taking into account Portugal's renewable energy potential and the energy mix - 20.5 \% share of energy from RES in gross final consumption of energy in 2005 \citep{NREAP2010} (table \ref{tb:targets}). Total installed wind power capacity went from 1047 MW in 2005 to more than 3500 MW in 2010 (table \ref{tb:dgeg}). The 39 \% 2010 target was surpassed with 50.2 \% of RES in total electricity demand, of which 32.1 \% came from wind power, with 3865 MW installed. This gives a wind power penetration of 16.7 \% in total national electric demand, making Portugal one of the leading countries in Europe in terms of wind power penetration. 
+
+To meet the 2020 target (31 \% of RES in final energy consumption), the Portuguese government plans to increase wind power capacity to 6875 MW in 2020 \citep{NREAP2010}. This action plan, mandatory for each Member State as established by Directive 2009/28/EC, expects an additional 2000 MW to be installed by 2012 (table \ref{tb:tgn}) as a result of the capacity attributed in 2008 and 2009 by means of tender processes. A further 400 MW will be installed as a result of equipment upgrades in existing wind farms by application of Decree Law nº 51/2010. The exploration of the offshore potential for wind energy will play a negligible role in 2020 since it strongly depends on technological developments and their economic viability. Currently, the support structure towers that are best suited to the conditions off the Portuguese coast are still at a nascent stage and entail very high costs. Hence, 75 MW will essentially serve the purposes of research and technological development.
+
+
+\begin{table}[!htp]
+\small
+\centering
+\mycaption{Targets summary, with \% share of RES in electricity or energy consumption.}
+\label{tb:targets}
+\begin{tabular}{lp{6cm}p{6cm}}
+\toprule
+    & 2010                                     & 2020 \\
+\midrule
+EC                      & 22.1 \% in electricity (WhitePaper,1998) & 20 \% in energy (2009/28/EC) \\
+\midrule
+\multirow{2}*{Portugal} & 12 \% in energy (WhitePaper,1998)        & 31 \% in energy (2009/28/EC) \\
+                        & 39 \% in electricity up from 38.5 \% (14.30 TWh) in 1997 (2001/77/EC) & 55.3 \% in electricity up from 29.3 \% in 2005  \citep{NREAP2010} \\
+\bottomrule
+\end{tabular}
+\end{table}
+\FloatBarrier
+
+
+\begin{table}[!htp]
+\small
+\centering
+\mycaption{Portuguese historical data \citep{DGEG2011}. *total electricity = raw production + importing net balance.}
+\label{tb:dgeg}
+\begin{tabular}{p{5cm}rrrrrrrrr}
+\toprule
+                                      & 2003 & 2004 & 2005 & 2006 & 2007 & 2008 & 2009 & 2010 & 2011-06 \\
+\midrule
+Wind Power Installed (MW)             & 253  & 537  & 1047 & 1681 & 2446 & 3012 & 3507 & 3865 & 4120 \\
+\% Wind power in total electricity*   & 1.0 & 1.6 & 3.4 & 5.5 & 7.6 & 10.7 & 14.1 & 16.7 & 16.0 \\
+\% Wind power in renewable production     & 2.6  & 6.3  & 20.1 & 17.9 & 24.4 & 38.4 & 40.3 & 32.1 & 34.7 \\
+\midrule
+\% Renewables in total electricity*   & 37.3 & 25.2 & 16.8 & 30.6 & 31.1 & 27.8 & 35.0 & 52.1 &  46.1 \\
+\% Renewables in total electricity (Directive)   & 33.9 & 34.6 & 35.9 & 36.0 & 42.5 & 43.3 & 44.5 & 50.2 & 50.1 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[!htp]
+\small
+\centering
+\mycaption{National targets and estimated trajectories \citep{NREAP2010}.}
+\label{tb:tgn}
+\begin{tabular}{ccccccccccccc}
+\toprule
+              & 2011 & 2012 & 2013 & 2014 & 2015 & 2016 & 2017 & 2018 & 2019 & 2020 \\
+\midrule
+Onshore (MW)  & 4928 & 5600 & 5600 & 5600 & 6100 & 6100 & 6100 & 6600 & 6800 & 6800 \\
+Offshore (MW) & 0    & 0    & 0    & 0    & 25   & 25   & 25   & 25   & 25   & 75 \\
+\bottomrule
+\end{tabular}
+\end{table}
+\FloatBarrier
+
+In order to reach the 6800 MW of installed power outlined in the NREAP for 2020, approximately 1000 MW still need to be permitted. These will be contracted by future competitive tenders, which are expected to attract bids with a considerably lower tariff than the official feed-in tariff. This already happened in the third phase of the last wind tender in 2005, for which the reference tariff was around 73 \euro/MWh but the lowest bid was only 56 \euro/MWh. 
+
+Also, procedures for the allocation of excess production of wind power during off-peak hours (\textit{wind integration costs}) and the remuneration of curtailed wind farms is starting to be discussed. Moreover, the implementation of the Large Hydro National Plan is expected to increase Portugal's pumped storage capacity, and thus reduce the limitations of wind production during off-peak hours, ensuring the economic feasibility of the installation of the new capacity \citep{GWEC2010out}.
+
+%=======================================
+\subsection{Forecast Value}
+%=======================================
+
+With this scenario, the total installed capacity of wind power has reached a significant part of the overall power sources in some countries, such that it has to be taken into account in the electrical grid load balance, not just as a negative consumer \citep{Riso1997}. Wind is a highly variable resource that can vary from near zero to maximum output in periods of several hours or less, with no economically viable means of large scale storage. High penetration levels represent a high variable electric load that must be integrated in the grid in a secure and economic way.
+
+Grid utilities must balance supply and demand in the grid system by adjusting generation capacity to meet demand. Accurate forecasts reduce the need of extra balance energy and reserve power. Conventional fossil fuel plants are stable and continuous sources that can be controlled for the purpose of balancing (dispatchable) and are therefore completely predictable (on demand). However, fossil fuel plants running at suboptimal output levels are not very efficient in terms of energy and $\mathrm{CO_2}$ emissions per unit of fuel. This favours turning off some of them when wind power (or other RES) generation is high. But restarting a fossil fuel plant is a lengthy process that can go from several hours to 1 day depending on the plant type and age, while increasing the output of a plant running at reduced capacity is relatively quick. To minimize extra costs of having traditional thermal generation being held ready to balance the variability of wind, or other mitigation costs, is the main reason why accurate forecasts of wind power are important for TSOs \citep{Marquis2011}. Forecast can be also important to wind farm promoters and other market operators in competitive trading markets as for example in Spain and UK.
+
+\bigskip
+
+Being a highly variable resource, the importance to know in advance of how much wind energy will be available to the grid increases with the total installed capacity. Transmission System Operator's (TSOs) need not just to have accurate forecasts of wind power, but also in different temporal scales \citep{Costa2008}:
+
+\begin{itemize}
+    \item up to a few hours (short-term), for dispatching decisions,
+    \item up to the next day (medium-term), for load scheduling strategy, and
+    \item up to next week (long-term), for maintenance scheduling.
+\end{itemize}
+
+To better understand wind power forecasting, a brief overview of the general characteristics of wind and its relation to power is given in the following subsection. 
+
+%======================================
+\FloatBarrier
+\subsection{General Characteristics of Wind}
+%======================================
+
+Wind has typical variations (scales) both in time and space, that can be summarized in the atmospheric motions illustrated in figure \ref{fig:scales_wind}, as applied to wind energy \citep{Manwell2002}. 
+
+\begin{figure}[!htp]
+    \centering
+    \includegraphics[width=0.7\columnwidth]{eolica/escalas_cut.png}
+    \mycaption{Time and space scales of atmospheric motion as applied to wind energy. Source: Spera, 1994 in \cite{Manwell2002}.}
+    \label{fig:scales_wind}
+\end{figure}
+\FloatBarrier
+
+Time variations of wind speed at a site can be divided into inter-annual, annual, diurnal and very short term (gusts and turbulence). 
+
+\textit{Inter-annual} variations occur over time scales greater than 1 year. They can have a large effect on long-term wind turbine production and so the knowledge of the inter-annual variability is as important as the knowledge of long-term average mean wind speed at a site. Usually 30 years of data is taken to determine long-term properties of any weather variable, and at least 5 years to get a reliable average annual wind speed at a given location. However, shorter data sets can be used, accounting for the uncertainty. Aspliden \textit{et al} (1986) shows that one year of record data are generally sufficient to predict long-term seasonal mean wind speeds with an accuracy of 10 \% \cite[p.27]{Manwell2002}. This long term variability is related to planetary scale motions, such as trade winds, monsoons, El Niño Southern Oscillation, North Atlantic Oscillation, etc.
+
+\textit{Annual} variations occur within a year, and refer to significant variations in seasonal and monthly average wind speeds. They are related to the synoptic scale (500-5000 km), the scale of migratory high and low pressure systems (frontal cyclones) of the lower troposphere. In general, Portugal's wind conditions are dominated by the seasonal migration of the Azores High, the Icelandic Low \citep{Fiuza1980} and low pressure systems coming from the South. In autumn and winter months, the Azores High moves equatorward and Portugal is influenced by frontal systems associated with the polar front. Winds are south-westerly shifting to north-westerly after the passage of the cold front. Portugal can also be influenced by a blocking high, with north, north-easterly winds bringing polar or artic air masses. In the spring and summer (i.e. from April to September), the Azores High moves poleward causing northerly, north-easterly winds over Portugal. Also, an inverted trough extending from a thermal low originating in the hot regions of the North of Africa can cause easterly winds in Portugal. More information on Portuguese weather can be found in \cite{Azevedo2006}.
+
+\textit{Diurnal} variations occur due to differential heating of the earth's surface during the daily radiation cycle, with the largest diurnal changes occurring in spring and summer where the daily thermal amplitude is higher. The diurnal cycle is intimately related to local topographic conditions and ground cover characteristics that determine local vertical variations (i.e., the wind vertical profile) by influence of surface roughness, atmospheric stability and ascendant/subsident air fluxes. Vertical variations are very important in wind energy engineering because they determine the productivity of a wind turbine on a tower with a certain height (hub height). For surface wind, a typical diurnal variation is an increase of speed  during the day, due to increasing mixing in the planetary boundary layer (effect of atmospheric instability) and a decrease from midnight to sunrise (stability). However, at turbine height, this might be different, particularly at night.  If the mixed boundary layer height is below hub height, a low level jet can be formed and winds at this height can be more intense than during the day.
+
+\textit{Short-term} variations of interest for wind energy applications include turbulence and gusts that influence the lifetime of the rotor blades and down times. Gust is defined by the World Meteorological Organization as the maximum wind speed exceeding the "mean speed" by 10 knots (5 $\mathrm{m\ s^{-1}}$ or 10 $\mathrm{km\ h^{-1}}$)  during the preceding 10-minute interval, determined using sampling rates of about 3 seconds \citep{WMO306}. Turbulence can be considered as random wind speed fluctuations imposed on a mean wind speed, in all three spatial directions. Gusts are discrete events within the turbulent wind field, characterized by amplitude, rise time, maximum gust variation and lapse time. 
+
+%======================================
+\FloatBarrier
+\subsubsection{Wind Power}
+%======================================
+
+The available wind power (potential) from a given site can be estimated from the rate of kinetic energy of wind passing perpendicular through a rotor disk of area $A$ with uniform velocity $U$:
+
+\begin{equation}
+    P = \dfrac{1}{2} \dfrac{d}{dt}mU^3 = \dfrac{1}{2} \rho A U^3
+\end{equation}
+
+The wind power density available for each site is then:
+
+\begin{equation}
+    \dfrac{P}{A} = \dfrac{1}{2} \rho U^3
+\end{equation}
+
+It should be noted that wind power density is proportional to (i) the density of the air (for standard conditions - sea-level, $15\,^{\circ}\mathrm{C}$ - the density of air is $1.225\mathrm{\ kg\ m^{-3}}$), and (ii) to the cube of wind speed. This is the maximum available power that can be extracted from the wind. In practice, the efficiency of modern horizontal axis turbines is about $45 \%$, which is a high value considering the maximum theoretical limit given by Betz Law (59.3\%). 
+
+Qualitative magnitude evaluations of the wind resource are:
+
+\begin{itemize}
+    \item $P/A < 100\mathrm{\ W\ m^{-2}}$ - poor
+    \item $P/A \approx 400\mathrm{\ W\ m^{-2}}$ - good
+    \item $P/A > 700\mathrm{\ W\ m^{-2}}$ - great
+\end{itemize}
+
+Each type of aerogenerator produces power from wind following a specific curve. The power output of each turbine type is measured under standardized conditions (wind tunnel), as a function of wind speed at hub height, and sometimes air density and temperature. This curve, obtained in idealized conditions, is called the manufacturer's power curve \citep{Manwell2002}.
+
+In the manufacturer's power curve, there are three key points on the velocity scale:
+
+\begin{itemize}
+    \item Cut-in speed: the minimum wind speed at which the machine will deliver useful power,
+    \item Rated wind speed: the wind speed at which the rated power (generally the maximum power output of the electrical generator) is reached.
+    \item Cut-out speed: the maximum wind speed at which the turbine is allowed to deliver power (usually limited by engineering design and safety constrains).
+\end{itemize}
+
+% http://zone.ni.com/devzone/cda/tut/p/id/8189
+% http://www.wind-power-program.com/turbine_characteristics.htm
+\begin{figure}[!htp]
+    \centering
+    \includegraphics[width=0.45\columnwidth]{eolica/power_curve_theoretic.jpg}   
+    \mycaption{Typical power curve. Source: \url{http://www.wind-power-program.com/turbine_characteristics.htm}}
+    \label{fig:powercurve_theo}
+\end{figure}
+\FloatBarrier
+
+However, in the field, deviations to optimal behaviour occur due to wind speed and direction variations, turbulence and gusts, diurnal variations in air temperature and density and, if part of a wind farm, possible wake effects. All this factors introduce latency periods that are not accounted for in the manufacturer's curve. 
+
+Also, because wind is not spatially homogeneous, and within a wind farm each aerogenerator is sited in different topographic and land use conditions, the power output of the wind farm will be a combination of power outputs of different turbines working from different conditions and at different rates. 
+
+Therefore, to effectively know the power output of a wind farm given a wind speed value, a power curve for the total farm can be determined from historical data. However, if historical data is not available, which is usually the case in the current growing market, a polynomial approximation of the manufacturer's curve is usually employed. 
+
+%======================================
+\FloatBarrier
+\subsection{Forecast Tools}
+%=======================================
+
+There is an extensive body of literature on wind power forecasts. Reviews of methods are given by several authors \citep{Giebel2003, Costa2008, Lei2009, Sweeney2011, Foley2012}. The European experience with these tools is in great extent summarized  in the results of ANEMOS project \citep{Giebel2006, Kariniotakis2006} culminating in a set of guidelines for best practices in using wind power forecasts \citep{Giebel2007}.
+
+Wind power forecasting presents new challenges in meteorology, namely:
+
+\begin{itemize}
+    \item the wind turbine hub height is within the atmospheric boundary layer but above the traditionally 10 meters forecast and measurements,
+    \item wind speed to power transformation is not linear, and
+    \item uncertainty of the forecast needs to be as low as possible to maintain its applicability.
+\end{itemize} 
+
+Wind power forecasting tools range from purely statistical methods to physically based ones. Modern approaches make use of NWP models that simulate the physical processes occurring in the air by solving the mass, \textit{momentum} and energy balance equations that govern fluid dynamics. However, uncertainty is always present because of the atmosphere is a non linear dynamical system. Statistical methods can be used per se (classical approach) or in combination with NWP information. Pure statistical forecasts bring added value to the forecast at very short lead times (hours in advance), or very long lead times (weeks or more in advance) where NWP information is not available with either sufficient promptness or accuracy, respectively \citep{Wilks2005}. Combined statistical and physical methods are usually the statistical postprocessing of NWP information, for example, for guidance products at specific locations not in the grid points (e.g. cities or wind farms). These statistical techniques are commonly referred to as Model Output Statistics (MOS) and are chosen according to the intended time horizon of forecasts. They consist in determining statistical relationships between a predictand and variables forecast by a numerical model at some projection time(s) \citep{GlahnLowry1972}. 
+
+Figure \ref{fig:nwp_pers} shows the performance of different wind power forecast methods with lead time for a specific wind farm: the persistence forecast, or the naive predictor who forecasts the previously observed value; the NWP and the NWP corrected with MOS. It can be seen that, although persistence is a better forecast in the first few hours, it's surpassed by NWP and NWP+MOS whose RMSE doesn't increase so steeply with time. NWP+MOS has lower systematic error than NWP. NWP models are still used at short lead times because observational data is not always available in real-time.
+
+\begin{figure}[!htp]
+    \centering
+    \includegraphics[width=0.7\columnwidth]{eolica/nws_vs_persistence.png}
+    \mycaption{Performance of different forecasting systems for the Nojsomhedsodde wind farm: HWP refers to the NWP model and HWP/MOS to NWP model coupled with a Model Output Statistics (MOS) model. It can be seen that after 6 hours of forecast length the NWP models perform better than Persistence \citep{Giebel2003}.}
+    \label{fig:nwp_pers}
+\end{figure}
+\FloatBarrier
+
+MOS techniques such as screening regressions, regression estimates of event probabilities and logit models have been used operationally at NCEP at least since 1974 \citep{KleinGlahn1974} for several locations in the United States. \cite{Brunet1988}, \cite{Carter1989} and \cite{JacksEtAl1990} compared MOS and ``Perfect-Prog'' (PP) approaches, concluding that although MOS forecasts are superior to PP, they rely on a relatively stable NWP model. Dynamical changes and increase in model skill may lead PP approach being preferred for some applications. \cite{VislockyFritsch1995} verified that a consensus (average) MOS between single model MOS showed a substantial improvement over each individual MOS for different variables and at different projection times, illustrating that statistically combining available forecasts products might be better than relying upon a single considered superior product. MOS techniques were successfully applied in complex terrain with high resolution models (MM5 4 km) during the 2002 Olympic and Paralympic Winter Games in Utah \citep{HartEtAl2004}. \cite{BaarsMass2005} compared multiple model operational MOS with Consensus MOS (CMOS) and a Weighting MOS (WMOS) where each prediction is weighted according to their past performance determined by the minimum variance method. They concluded that CMOS is superior to each MOS and WMOS superior to CMOS at nearly all locations. 
+
+Although successful in improving raw model output, MOS usually requires a lengthy data archive period from an unchanged model to develop statistically stable equations. This is difficult to maintain when new and better physical parameterizations, grid spacing and data assimilation techniques are changing frequently, particularly in operational global models, such as GFS, used as boundary and initial conditions in local mesoscale NWP systems. Another MOS approach was developed to overcome this obstacle, which permits a rapid adaptation of the statistical forecast to changes in the formulation of the driving model. This approach is known as Updatable MOS (UMOS) and uses a shorter training period that is continuously being updated. It needs however an automatically updatable database for the training period. \cite{WilsonVallee2002, WilsonVallee2003} tested this approach against the Canadian model raw output and PP during changes in the driving model, concluding that UMOS forecasts were superior in all tested variables (2 m temperature, 10 m wind speed and direction and probability of precipitation) and that forecast bias could be corrected with relatively little data. \cite{StensrudYussouf2003, StensrudYussouf2005} presented an operational MOS product in the United States with a running-mean bias correction approach to multimodel ensembles for 2 m temperature and dewpoint temperature and 10 m wind speed. As stated by \cite{StensrudYussouf2005}, the bias correction is intended to compensate persistent errors (even trough atmospheric regime changes) in the predictions such as net radiation received at the ground, ratio of sensible to  latent heat fluxes, amount of entrainment that occurs at the top of the boundary layer, depth and intensity of the surface superadiabatic layer and differences between model and actual terrain heights. They concluded that a 12 days (optimal window length) running mean bias correction gives better results than GFS-MOS for temperature and dewpoint and comparable results for wind speed. \cite{YussoufStensrud2007} compared this running mean bias correction ensemble (BCE) approach with two other performance-based weighted-average BCE schemes: the exponential smoothing method (ESM) and the minimum variance estimate (MVE) method, already used in \cite{BaarsMass2005} for WMOS. They concluded that the BCE approach outperforms the routinely available GFS-MOS during a cool season for 2 m temperature and dewpoint forecasts, but not for 10 m wind speed. They also found that ESM and MVE performed better than the original BCE for wind speed and were comparable for temperature and dewpoint. The probabilistic guidance provided by these methods was always found to be more reliable than the raw ensemble forecasts. \cite{Stull2008} compared different UMOS techniques for max/min daily temperatures and quantitative precipitation forecasts. The methods tested for temperature were removing a 6-month seasonal average (SNL), a moving average (MA), linear weighting (LIN), $\cos^2$ weighting (COS), best easy systematic estimator (BES) and Kalman filtering (KF). A 14 days window length was shown to the optimal window length for all methods and KF method was superior to the other methods. \cite{WilsonVallee2002} refer that although KF is simple to implement and can be very responsive following a model change, it can have a somewhat large development and maintenance cost in an operational setting because the filter parameters have to be tuned and optimized for each application (each equation, each projection time, each station). \cite{Stull2008} also found that, for daily max/min temperatures and precipitation, postprocessing methods that weight recent error estimates most heavily perform better in the short term (days 1-4), while methods that weight errors more evenly perform better at midterm (days 5-8).
+
+Statistical combinations of TLE members (TLE-MOS) can also be used to improve deterministic forecasts, particularly at medium range (a few days). Several methodologies have been tested in the literature since TLEs are now a common (cheap) choice in operational systems, with proven benefits. According to \cite{Wilks2005}, statistical postprocessing of ensembles is in its initial stages, although ensemble forecast methods have been intensively investigated, both in research and operational settings. Some examples of TLE-MOS usage follow.
+
+\cite{Mittermaier2007} evaluated improvement in spatial short-range (6 h) precipitation forecasts by using different combinations (ensemble probability of precipitation, mean and maximum) of the TLE produced with Met Office Unified Model (MetUM) every 6 h for 36 h lead time, concluding that the proportion of missed forecast events is reduced and that the forecast skill remains higher for longer, especially for the short forecasting range. 
+
+\cite{Lu2007} used a set of hourly initialized Rapid Update Cycle (RUC) model deterministic forecasts with 1-3 h lead time, to forecast geopotential height, temperature, wind speed and relative humidity. They analysed deterministic forecasts produced by the ensemble mean and by a multilinear regression approach, concluding that although both method improved very short range forecasts, maybe by correcting the errors resulting from model initial spinup, the second one provided better results. Also, probabilistic forecasts constructed from the TLE, although underdispersive, can be more useful than ensemble mean ones, accounting for model uncertainty. This is also referred in \cite{Warner2011} as different outcomes in consecutive forecasts in the cycle are a signal of uncertainty and thus less confidence should be given in the final product.
+
+\cite{Yuan2008} combined high resolution (3 km) multimodel (WRF, MM5 and RAMS) TLE members with Artificial Neural Networks (ANN) and \cite{Lu2007} multilinear regression method (LR) to improve short range (6 h) quantitative precipitation forecasts (QPFs) and probabilistic QPFs (PQPFs). They concluded that both methods effectively improve PQPFs, especially for lower thresholds and that the LR method outperformed ANN method in BIAS correction. 
+
+\cite{Yuan2009} evaluated the improvement of using large multi-model time lagged ensembles in short range precipitation forecasts concluding that QPFs and PQFs skill improved at longer lead times by adding members from earlier initialized forecast cycles, but that further studies on multimodel TLEs for operational forecasts are still needed.
+
+
+%=======================================
+\subsection{Wind Power Forecasting System for the Portuguese TSO}
+%=======================================
+
+In this thesis, the objective is to explore methodologies that can improve wind power forecasts for the Portuguese TSO (Rede Elétrica Nacional (REN)), combining NWP and statistical methods at the different temporal horizons needed by the TSO. 
+
+As illustrated in figure \ref{fig:wp_model}, the Portuguese TSO receives NWP of wind speed from the MM5 operational system running at IST (section \ref{sec:meteo_ist}). Wind forecasts are interpolated for previously specified wind farms, using bilinear interpolation from grid points for a representative location in the wind farm, and vertical interpolation to the turbine height. The ``representative location'' will be discussed in next in section \ref{sec:power_curve}. Numerical forecasts are sent to the TSO every time a new forecast is available (every 6 hours). These values are then converted in wind power and added to produce a wind power forecast at national level. 
+As illustrated in figure \ref{fig:wp_model}, the Portuguese TSO receives NWP of wind speed from the MM5 operational system running at IST (section \ref{sec:meteo_ist}). Wind forecasts are interpolated for previously specified wind farms, using bilinear interpolation from grid points for a representative location in the wind farm, and vertical interpolation to the turbine height. The ``representative location'' will be discussed in next in section \ref{sec:power_curve}. Numerical forecasts are sent to the TSO every time a new forecast is available (every 6 hours). These values are then converted in wind power and added to produce a wind power forecast at national level. 
+
+\begin{figure}[!htp]
+    \centering
+     \includegraphics[width=0.7\columnwidth]{eolica/wind_power_forecast_model/wind_power_forecast_model_pst-pdf.pdf}
+    \mycaption{Wind power forecast model for the TSO.}
+    \label{fig:wp_model}
+\end{figure}
+\FloatBarrier
+
+The TSO wind power forecasts are available at their website (figure \ref{fig:ren_fcst}) with real time observation data, obtained by telemeasure systems in each wind farm. 
+
+\begin{figure}[!htp]
+    \centering
+%     \includegraphics[width=0.7\columnwidth]{eolica/REN_20051216.png}
+     \includegraphics[width=0.7\columnwidth]{eolica/RENmax02_20091223.png}
+    \mycaption{Total wind power forecast and observations in Dec 23rd 2009, the day with highest wind power decrease and increase in an 8 hours period between 2007 and 2009. Source: \url{http://www.centrodeinformacao.ren.pt/EN/InformacaoExploracao/Pages/DiagramadeProdu\%C3\%A7\%C3\%A3oE\%C3\%B3lica.aspx}}
+    \label{fig:ren_fcst}
+\end{figure}
+\FloatBarrier
+
+The next section describes the verification measures used to assess the performance of wind forecasts. After, in section \ref{sec:ws_wp} the difference between wind speed and power forecasts in a single wind farm is investigated to identify and evidence the challenges that need to be addressed when trying to forecast wind power from physical models that forecast wind speed. In section \ref{sec:wp} results for the overall wind farms are shown. Both MOS and UMOS methods are tested for short term wind power forecasts (up to 6 hours). MOS to improve NWP at longer projection times were also investigated benefiting from the existing TLE (TLE-MOS), and are presented in the last subsection. The last section (\ref{sec:regimes}) investigates the influence of weather regimes in forecast error uncertainty.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Forecast Verification Measures}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Wind speed and power forecasts are verified (validated or evaluated) against observational data with two commonly used scalar accuracy measures: the Mean Absolute Error (MAE) and the Root Mean Square Error (RMSE). RMSE is more sensitive to large errors (outliers) than MAE but it can be decomposed into meaningful parts that distinguish between amplitude (BIAS and SDBIAS) and phase errors (DISP) by simple algebraic manipulations (see details in appendix section \ref{sec:verif_cont}). 
+
+The improvement gained with the developed methodologies will be assessed with a skill score based on RMSE. Skill scores are performance measures relative to a reference forecast (see appendix \ref{sec:verif_ss}). In wind power, persistence forecasts, i.e., future power generation will be the same as the last measured value, were commonly used as reference forecasts, particularly for short-term. But there is no adopted standard mainly because the purpose of the forecast usually determines the reference adopted \citep{Madsen2004, Costa2008}. Since the purpose of this work is to develop methodologies that improve the raw NWP, the reference forecast will be the direct model output from MM5. Care should be taken when comparing improvement values from different studies that use different reference forecasts.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\FloatBarrier
+\section{Wind Speed vs Power}
+\label{sec:ws_wp}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Evaluating the forecasts quality in terms of wind speed is not the same as in terms of wind power. As their relationship is not linear, their statistical properties will differ and so their predictability \citep{Lange2005}. The objective of this section is to explore those differences, in an effort to better understand wind power forecast errors and further improve them. 
+
+Only one of the studied wind farms had wind speed data at turbine hub height, with reasonable quality (SCADA system) to be used in forecast verification. That wind farm (AGM) had with 40 turbines of 2 MW each, all of the same type with hub height at 67 m.  The available data set covered the second semester of 2007 (from 2007-07-01 to 2007-12-31). 
+
+The following sub sections quantify the relationship between forecast wind speed to wind power errors, starting by evaluating the applicability of the manufacturer's curve to convert wind speed to power, and then to separately verify speed and power forecasts produced by the same NWP system.
+
+
+%======================================
+\FloatBarrier
+\subsection{Power Curve}
+\label{sec:power_curve}
+%======================================
+
+Figure \ref{fig:powercurve} shows the wind speed versus power output for AGM wind farm. The power output of the farm was normalized dividing by the total number of aerogenerators, producing a power curve for an ``equivalent'' aerogenerator. As it can be seen, there's a high dispersion of points, mainly in the steep slope of the curve, which is the most sensitive area in forecasting, because relatively small errors in wind speed forecasts will give higher errors in the power forecast. In the same figure, the manufacturer's curve is presented (black dots), as well as approximations made through polynomial regression with cubic and $\mathrm{5^{th}}$ degree polynomial (poly3 and poly5, red and green, respectively) and a natural cubic spline with knots at 5, 10 and 15 $\mathrm{m\ s^{-1}}$ (blue). While the manufacturer's curve has a regression coefficient ($R^2$) of only 0.09, the other regressions have $R^2$ in the order of 0.7. It can be seen that the natural spline is the best approximation, closely followed by the $\mathrm{5^{th}}$ polynomial regression. 
+
+
+\begin{figure}[!htp]
+    \centering
+    \includegraphics[width=0.45\columnwidth]{eolica/plots_CAF_2007/plt_power_curve_aero_virtual_CAF15min-2.png}
+    \mycaption{Power curve regressions for AGM wind farm with 80 MW ($40\times 2$ MW) for the second semester of 2007: the black line is the manufacturer's wind power curve (manuf), the red line is a cubic polynomial regression (poly3) with $R^2=0.7461$, the green line is a fifth degree polynomial regression (poly5) with $R^2=0.7560$ and blue line is a natural spline regression (nat. spline) with knots at 5, 10 and 15 $\mathrm{m\ s^{-1}}$ with $R^2=0.7568$.}
+    \label{fig:powercurve}
+\end{figure}
+\FloatBarrier
+
+The same analysis can be applied by quadrant sectors (figure \ref{fig:powercurve_quad}) revealing different curves for each one, depending on the quadrant frequency of occurrence: the power output in the west quadrant, the most frequent one, is near the total output, but the same doesn't happen for other quadrants. This means that for a better prediction of the power output, different ``real'' wind farm power curves could be used for each quadrant. 
+
+
+\begin{figure}[!htp]
+    \centering
+    \subfloat[Power curve regressions per wind quadrant: the black line with dots is the manufacturer's wind power curve (manuf), dashed line is the natural spline regression with knots at 5, 10 and 15 $\mathrm{m\ s^{-1}}$ for all directions (all), and the other lines are natural spline regression for each quadrant.]{\label{fig:powercurve_quad1}\includegraphics[width=0.45\columnwidth]{eolica/plots_CAF_2007/plt_power_curve_aero_virtual_CAF15min_quadrantes-1.png}}    
+    \subfloat[Wind rose with cumulative wind speed frequencies.]{\label{fig:windrose}\includegraphics[width=0.45\columnwidth]{eolica/plots_CAF_2007/plt_power_curve_aero_virtual_CAF15min_quadrantes-0.png}}
+    \mycaption{Power curve regressions per wind quadrant for AGM wind farm with 80 MW ($40\times 2$ MW) for the second semester of 2007.}
+    \label{fig:powercurve_quad}
+\end{figure}
+\FloatBarrier
+
+The development of these ``equivalent'' aerogenerator power curves needs both reliable wind speed data and a stable wind farm, in what concerns the number and type of aerogenerators. These conditions are rarely met, because wind data is lacking and/or not accurate and many farms are expanding. Although producers do not care much about accurate wind data in the present legal framework, they care about energy produced (kWh) because it is paid. This suggests the construction of a normalized power curve based on the wind forecasts and the electrical energy produced (figure \ref{fig:powercurve_fcst}). However, taking into account that electricity is produced only between cut-in and cut-out speeds, the data falls almost all on the central part of the curve, nearly a strait segment similar to the manufacturer's curve. So, as a first approximation, the manufacturer's curve is used and applied to a representative location in the wind farm. In this way, the errors of individual forecast are somewhat balanced, i.e., the overestimate caused by using the manufacturer's curve is compensated by forecasting at a representative point and not at each turbine location, each with different wind conditions. This balance is improved in very highly extended wind farms by dividing them in two more homogeneous sections. This global balance also improved when more wind farms located far apart are put together in a single forecast (upscaling).
+
+\begin{figure}[!htp]
+    \centering
+    \includegraphics[width=0.45\columnwidth]{eolica/03_AGM_TerrasAltasFafe/plt_power_curve_aero_virtual_AGM_final.png}
+    \mycaption{Power curve regressions with 00d0 wind speed forecasts for AGM wind farm with 80 MW ($40\times 2$ MW) for the second semester of 2007: black line is the manufacturer's wind power curve (manuf), the red line is a cubic polynomial regression (poly3) with $R^2=0.6803$, the green line is a fifth degree polynomial regression (poly5) with $R^2=0.6824$ and blue line is a natural spline regression (nat. spline) with knots at 4, 8 and 10 $\mathrm{m\ s^{-1}}$ with $R^2=0.6828$.}
+    \label{fig:powercurve_fcst}
+\end{figure}
+\FloatBarrier
+
+%======================================
+\FloatBarrier
+\subsection{Wind Speed vs Power Errors}
+%======================================
+
+The different statistical properties of wind speed and power that confer distinct predictability can be immediately seen through the autocorrelation function of each time series. Figure \ref{fig:acf} shows the autocorrelation of hourly wind speed, obtained by integration of 1 minute frequency SCADA data, and wind power obtained from the former by applying a the manufacturer's curve. It can be seen that wind power as an autocorrelation higher than 0.6 for at least on more hour lag than wind speed, allowing for better performance of persistence forecast techniques. The diurnal cycle is evident in both cases.
+
+\begin{figure}[!htp]
+    \centering
+%    \subfloat[wind speed]{\label{fig:ws_acf}\includegraphics[width=0.45\columnwidth]{eolica/plots_CAF_2007/plt_acf_CAF15min_2sem2007.png}}
+%    \subfloat[wind power]{\label{fig:p_acf}\includegraphics[width=0.45\columnwidth]{eolica/03_AGM_TerrasAltasFafe/plt_acf_AGM15min.png}}\\
+    \includegraphics[width=0.45\columnwidth]{eolica/03_AGM_TerrasAltasFafe/plt_acf_CAF_AGM_15min_2sem2007-2.png}
+    \mycaption{Autocorrelation functions of wind speed and power.}
+    \label{fig:acf}
+\end{figure}
+\FloatBarrier
+
+NWP forecast error properties are also different when analysing wind speed or power. Figure \ref{fig:00d0_CAF1h} shows typical error measures for the first day of 00Z hourly wind speed forecasts (lead time from 6 to 30 hours). It can be seen in the linear regression that, although well correlated ($R^2=0.573$), the model underestimates wind speeds mainly in the high values. This is corroborated by the difference in observed and forecast wind speed histograms. Although observations follow a Weibull distribution with p-value of 0.3991 given by the Kolmogorov-Smirnov test\footnote{the data set was re-sampled to avoid serial correlation dependency. The results of the K-S test are conservative because scale and shape parameters were drawn from the distribution. The Anderson-Darling test was also applied but the null hypothesis of the sample being Weibull was rejected.}, forecasts do not. Being so, it is expected that the errors are not Normal distributed, as evident from the error histogram and the Q-Q plot. The overall mean and standard deviation of the error are $BIAS \pm SDE = -0.430 \pm 2.437 \mathrm{\ m\ s^{-1}}$ which is $-7 \pm 41\%$ with a mean wind speed of $5.965 \mathrm{\ m\ s^{-1}}$.
+
+% \cite{Monahan2011} shows that while daytime surface wind speeds are consistent with the Weibull distribution, nighttime winds are more positively skewed, particularly in summer. In mid-latitudes, this positive skewness is associated with strong surface stability and weak lower-tropospheric wind shear conditions.
+
+% Serially correlation violates the assumption of independent observations in normality tests. \cite{Wilks2005} and \cite{vonStorch2001} refer that autocorrelation will cause an inflated sample size, $n$, which in turn will underestimate the sample variance ($\hat{Var}(X) = s^2(X)/n$ and the test statistic $T = (\bar{X} - \mu_0) / \hat{Var(X)}$ resulting in overconfidence in rejection.
+
+% Outra duvida: para as velocidades observadas, integradas em intervalos de 15 min, o ks.test da p-value = 0, com 1h da 0.3991, com 6h da 0.7092. Afinal e ou nao e weibull?
+
+
+\begin{figure}[!htp]
+  \centering
+  \subfloat[linear regression]{\label{fig:00d0_CAF1h_reg}\includegraphics[width=0.45\columnwidth]{eolica/WindSpeed_CAF/plt_compara_CAF1h_00d0_regression-0.png}}
+  \subfloat[wind speed distributions]{\label{fig:00d0_CAF1h_hwsconj}\includegraphics[width=0.45\columnwidth]{eolica/WindSpeed_CAF/plt_compara_CAF1h_00d0_histWS.png}}\\
+  \subfloat[error distribution]{\label{fig:00d0_CAF1h_histe}\includegraphics[width=0.45\columnwidth]{eolica/WindSpeed_CAF/plt_compara_CAF1h_00d0_histE-0.png}}
+  \subfloat[error normal Q-Q plot]{\label{fig:00d0_CAF1h_qq}\includegraphics[width=0.45\columnwidth]{eolica/WindSpeed_CAF/plt_compara_CAF1h_00d0_qqplotE-1.png}}
+  \mycaption{Summaries for hourly wind speed at hub height verification, with 00d0 forecasts, from 2007-07-01 to 2007-12-31.}
+  \label{fig:00d0_CAF1h}
+\end{figure}
+\FloatBarrier
+
+Figure \ref{fig:00d0_AGM1h} shows the same analysis but for wind power forecasts. The correlation is better ($R^2=0.733$) and, as expected, there is a distortion in error distribution, due to the non-linear relationship between wind speed and power \citep{Lange2005}. The overall mean and standard deviation of the error are $BIAS \pm SDE = 1.856 \pm 11.255$ MW which is $11 \pm 65\%$ relative to the mean wind power (17.44 MW), and $2 \pm 14\%$ relative to the installed capacity (80 MW). 
+
+\begin{figure}[!htp]
+  \centering
+  \subfloat[linear regression]{\label{fig:00d0_AGM1h_reg}\includegraphics[width=0.45\columnwidth]{eolica/03_AGM_TerrasAltasFafe/plt_compara_AGM1h_00d0_regression_20070701-20071231-0.png}}
+  \subfloat[wind power distribution]{\label{fig:00d0_AGM1h_hPconj}\includegraphics[width=0.45\columnwidth]{eolica/03_AGM_TerrasAltasFafe/plt_compara_AGM1h_00d0_histP_20070701-20071231.png}}\\
+  \subfloat[error distribution]{\label{fig:00d0_AGM1h_hE}\includegraphics[width=0.45\columnwidth]{eolica/03_AGM_TerrasAltasFafe/plt_compara_AGM1h_00d0_histE_20070701-20071231-0.png}}
+  \subfloat[error normal Q-Q plot]{\label{fig:00d0_AGMh_qq}\includegraphics[width=0.45\columnwidth]{eolica/03_AGM_TerrasAltasFafe/plt_compara_AGM1h_00d0_qqplotE_20070701-20071231-0.png}}
+  \mycaption{Summaries for hourly wind power  with 00d0 forecasts, from 2007-07-01 to 2007-12-31. Compare with figure \ref{fig:00d0_CAF1h}.}
+  \label{fig:00d0_AGM1h}
+\end{figure}
+\FloatBarrier
+
+Figure \ref{fig:decerr_CAF1h_00} shows the error decomposition for wind speed (left panel) and power (right panel), in an average day (upper panel) and by lead time (lower panel). As expected, MAE is lower than RMSE, and the difference is higher for wind power because there are outliers (see figure \ref{fig:bxp_obs_hours_Fafe}). It can also be seen that both speed and power errors have a diurnal cycle. 
+
+Wind speed MAE and RMSE are higher during daytime, with a peak around 12:00, due to an increase in the magnitude of BIAS (in negative values). According to figure \ref{fig:bxp_obs_CAF1h_hours} this period corresponds to the peak median wind speeds during an average day, allowing to conclude that the model underestimates daytime higher wind speeds. These are due to increased mixing in the boundary layer driven by solar radiation ground heating, revealing that the model has some difficulty simulating the full extent (amplitude) of the diurnal temperature cycle. This can be due to a poor representation of the ground cover characteristics, inadequate land surface model parameterizations, and/or insufficient vertical resolution near surface (the lower three sigma layers are approximately at 40, 60 and 100 m). On the other hand, proximity to the boundary layer height increases even further the uncertainty in the model. At night, wind speed RMSE is lower, which is important for the TSO because it corresponds to wind energy production during off-peak consumption hours. Since it can't be stored, forecast errors can have high integration costs. The negative SDBIAS corroborates figure \ref{fig:00d0_CAF1h_hwsconj} where it can be seen that wind speed forecast spread is lower than observations. 
+
+Unlike wind speed, wind power RMSE is almost completely comprised of DISP errors, decreasing in the afternoon and increasing during the night. The higher errors during the night can be due to lower wind speeds in the cut-in vicinity of the manufacturer's curve. During the day, the underestimation of higher wind speed and the overestimation by the power curve balance each other leading to lower wind power RMSE.
+
+
+\begin{figure}[!htp]
+    \centering
+    \subfloat[wind speed error in average day]{\label{fig:decerr_CAF1h_00d0_hours}\includegraphics[width=0.45\columnwidth]{eolica/WindSpeed_CAF/plt_decerr_CAF1h_00d0_hours-0.png}}
+    \subfloat[power error in average day]{\label{fig:decerr_AGM1h_00d0_hours}\includegraphics[width=0.45\columnwidth]{eolica/03_AGM_TerrasAltasFafe/plt_decerr_AGM1h_00d0_hours_20070701-20071231-0.png}}\\
+    \subfloat[wind speed error with lead time]{\label{fig:decerr_CAF1h_00_hz}\includegraphics[width=0.45\columnwidth]{eolica/WindSpeed_CAF/plt_decerr_CAF1h_00hz-2.png}}
+    \subfloat[power error with lead time]{\label{fig:decerr_AGM1h_00hz}\includegraphics[width=0.45\columnwidth]{eolica/03_AGM_TerrasAltasFafe/plt_decerr_AGM1h_00hz_20070701-20071231-2.png}}
+    
+     \mycaption{Error decomposition for hourly wind speed at hub height (left panel) and power (right panel) verification, with 00Z forecasts, for AGM wind farm, from 2007-07-01 to 2007-12-31.}
+  \label{fig:decerr_CAF1h_00}
+\end{figure}
+\FloatBarrier
+
+
+\begin{figure}[!htp]
+    \centering
+    \subfloat[wind speed]{\label{fig:bxp_obs_CAF1h_hours}\includegraphics[width=0.45\columnwidth]{eolica/WindSpeed_CAF/plt_bxp_obs_CAF1h_hours-0.png}}
+    \subfloat[wind power (MW)]{\label{fig:bxp_obs_AGM1h_hours}\includegraphics[width=0.45\columnwidth]{eolica/03_AGM_TerrasAltasFafe/plt_bxp_obs_AGM1h_hours_20070701-20071231-0.png}}
+     \mycaption{hourly wind speed and power measurements at a wind farm with 80 MW, with data from 2007-07-01 to 2007-12-31.}
+  \label{fig:bxp_obs_hours_Fafe}
+\end{figure}
+\FloatBarrier
+
+The above forecast errors were for the first day of 00Z simulation, but the other daily forecasts behave alike (figure \ref{fig:RMSE_d0_Fafe}).
+
+\begin{figure}[!htp]
+    \centering
+    \subfloat[wind speed]{\label{fig:CAF1h_d0_RMSE}\includegraphics[width=0.45\columnwidth]{eolica/WindSpeed_CAF/plt_decerr_CAF1h_d0_RMSE_hours-0.png}}
+    \subfloat[wind power (MW)]{\label{fig:AGM1h_d0_RMSE}\includegraphics[width=0.45\columnwidth]{eolica/03_AGM_TerrasAltasFafe/plt_decerr_AGM1h_d0_RMSE_hours_20070701-20071231-0.png}}
+     \mycaption{RMSE for hourly wind speed and power, for d0 forecasts, with data from 2007-07-01 to 2007-12-31.}
+  \label{fig:RMSE_d0_Fafe}
+\end{figure}
+\FloatBarrier
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\FloatBarrier
+\section{Wind Power Forecasts for the TSO}
+\label{sec:wp}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%======================================
+\subsection{Data and Methodology}
+\label{sec:wind_farms}
+%======================================
+
+Wind power observational data available after quality checks covered three years (from 2007 to 2009) and seven wind farms with a total installed power of 281.57 MW (figure \ref{fig:farms3years} and table \ref{tb:farms3years}). Figure \ref{fig:parques_bxp_obs} shows the mean observed power in absolute and relative to installed power capacity values.
+
+\begin{figure}[!htp]
+    \centering
+    \includegraphics[width=0.7\columnwidth]{eolica/plot_mapa_parques/juntos.png}
+    \mycaption{Wind farms with data and forecasts for 2007, 2008 and 2009. See details in table \ref{tb:farms3years}}
+  \label{fig:farms3years}
+\end{figure}
+\FloatBarrier
+
+\begin{table}[!htp]
+\small
+\centering
+\mycaption{Wind farms with data and forecasts for 2007, 2008 and 2009. See location in figure \ref{fig:farms3years}.}
+\label{tb:farms3years}
+\begin{tabular}{lcrr}
+\toprule
+\multirow{2}*{Acronym} & Hub Height & Installed Capacity        & Lim P \\
+                       &     (m)    & (ng $\times$ Pag = Ptot)  & (MW) \\            
+\midrule
+ATE  & 65 & $5\times 2 = 10$ & 10 \\  % id=10, S. Pedro 
+AZM  & 65 & $6\times 2 = 12$ & 10.57 \\ % id=7, Malhadizes
+ATD  & 60 & $14\times 1.3= 18.2$ & 18.2 \\ %id=2, Trandeiras
+AIL  & 65 & $9\times 1.8 + 2\times 2= 20.2$ & 20.2 \\ % id=8, Cabril I \& II
+APO  & 65 & $12\times 1.8 = 21.6$ & 21.6 \\ % id=1, Pinheiro
+APZ  & 80 & $38\times 3=114$ & 96.6 \\ % id=5, Pampilhosa da Serra
+ACD  & 80 & $37\times 3=111$ & 104.4 \\ % id=6, Candeeiros
+\midrule
+     &    &           Total  & 281.57 \\    
+\bottomrule
+\end{tabular}
+\end{table}
+\FloatBarrier
+
+\begin{figure}[!htp]
+    \centering
+    \subfloat[wind power (MW)]{\label{fig:parques_bxp_obs_abs}\includegraphics[width=0.45\columnwidth]{eolica/ParquesIndiv/plt_bxp_Parques15min_obs-0.png}}
+    \subfloat[wind power (rel. inst. cap.)]{\label{fig:parques_bxp_obs_rel}\includegraphics[width=0.45\columnwidth]{eolica/ParquesIndiv/plt_bxp_Parques15min_obs-1.png}}
+    \mycaption{Boxplot of observed wind power for each considered wind farm, with data from 2007-01-01 to 2009-12-31.}
+  \label{fig:parques_bxp_obs}
+\end{figure}
+\FloatBarrier
+
+As the forecast system updates every 6 hours, the reference forecast for performance assessment will be the combination of the most recent available model output, from now on referred to as \textbf{Recent}. According to section \ref{sec:tle}, this is a temporal composition of the most recent member in the 11-member time lagged ensemble, corresponding to lead times ]6,12] hours for each cycle as illustrated in the boxed elements in table \ref{tb:tle11_members}. 
+%---------------------------------------
+\subsubsection{MOS}
+%---------------------------------------
+
+MOS techniques investigated are for short-term forecasting (up to 6 hours). They correspond to the different methods of weighting NWP and persistence (the most recent available observational value) at different projection times, i.e., determining the weighting coefficient $\alpha$ in the following relation:
+
+\begin{equation}
+    \hat{F}(t) = \alpha F(t) + (1-\alpha) P(t')
+\end{equation}
+
+where $\hat{F}$ is the MOS forecast, $F$ is the NWP at time of day $t$ and $P$ is the most recent available power measurement, available at time $t'$. Due to operational constrains in the transmission system, telemeasured data from wind farms is only available every 6 hours (at 00Z, 06Z, 12Z and 18Z) for each wind farm. Therefore, the relationship between $t$ and $t'$ is given by:
+
+\begin{align}
+    t & = t_0 + h \\
+    t'& = t_0 + 6.
+\end{align}
+
+where $t_0$ is the initial hour of the forecast run and $h$ is the lead time, varying which $h \in ]6,12]$ h. Being so, $t'$ is the time of the most recent observation available when the latest forecast is received for the TSO (6 hours after simulation initial time).
+
+The tested weighting combinations are summarized in table \ref{tb:mos}. The Recent forecast is used at $F(t)$. LIN method decreases persistence weights at 10\% per hour. EXP method uses an exponential function that decreases the persistence weight at the rate of $1/2.5=0.4$ per hour (rate chosen by the TSO). The ACF method uses the autocorrelation function at lag $k$ as $1-\alpha(k)$. Development data set was 2007 and test data set 2008 and 2009.
+
+\begin{table}[!htp]
+    \small
+    \centering
+    \mycaption{Short-range MOS forecasting methods: correction with persistence. $k = h - 6$ is the lead time minus 6 hours of spin up.}
+    \label{tb:mos}
+    \begin{tabular}{lll}
+        \toprule
+        Method & Description & $\alpha(k)$ \\
+        \midrule
+        LIN & Linear weighting             & $k/10$ \\
+        EXP & Exponential weighting        & $1-e^{-k/2.5}$ \\
+        ACF & Autocorrelation weighting    & $1-acf(lag=k)$ \\
+        LS  & Least squares weighting      & \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+\FloatBarrier
+
+As an example, LIN method for hourly data becomes, for each hour of the day:
+
+\begin{align*}
+    & t=18+7=1 & \hat{F}(1)  & = 0.1  F(1) +  0.9 P(0) \\
+    & t=18+8=2 & \hat{F}(2)  & = 0.2  F(2) +  0.8 P(0) \\
+    & \ldots & & \\
+    & t=18+12=6 & \hat{F}(6) & = 0.6  F(6) +  0.4 P(0) \\
+    & t=0+7=7   & \hat{F}(7)  & = 0.1  F(7) +  0.9 P(6) \\
+    & t=0+8=8   & \hat{F}(8)  & = 0.2  F(8) +  0.8 P(6) \\
+    & \ldots & &  \\
+    & t=0+12=12 & \hat{F}(12) & = 0.6  F(12) +  0.4 P(6) \\
+    & t=6+7=13  & \hat{F}(13)  & = 0.1  F(13) +  0.9 P(12) \\
+    & t=6+8 =14 & \hat{F}(14)  & = 0.2  F(14) +  0.8 P(12) \\
+    & \ldots & &   \\
+    & t=6+12=18 & \hat{F}(18) & = 0.6  F(18) +  0.4 P(12) \\
+    & t=12+7=19 & \hat{F}(19)  & = 0.1  F(19) +  0.9 P(18) \\
+    & t=12+8=20 &\hat{F}(20)  & = 0.2  F(20) +  0.8 P(18) \\
+    & \ldots & & \\
+    & t=12+12=0 &\hat{F}(0) & = 0.6  F(0) +  0.4 P(18) \\
+\end{align*}
+
+%---------------------------------------
+\subsubsection{UMOS}
+%---------------------------------------
+
+UMOS techniques investigated consist in bias correction by subtracting the error of past forecasts, using the equation in \cite{Stull2008}:
+
+\begin{align}
+    \varepsilon_c^f &= \frac{1}{M} \sum_{k=1}^M \alpha_k \varepsilon_k^f \label{eq:umos}\\
+    \Leftrightarrow \hat{F}(t) &= F(t) - \frac{1}{M} \sum_{k=1}^M \alpha_k \left( \hat{F}(k)-P(k) \right)
+\end{align}
+
+where:
+
+\begin{itemize}
+    \item $\varepsilon_c^f$ is the error correction to be subtracted to the NWP $F(t)$, 
+    \item $M$ is the window length, i.e., number of prior errors to be weighted, 
+    \item $\alpha_k$ is the weight on the $k$th instant prior to the current one, with $\sum_k=1^M = 1$,
+    \item $\varepsilon_k^f$ is the error estimate on the $k$th instant prior to the current day, i.e., $\varepsilon_k^f = \hat{F}(k) - P(k)$
+    \item $\hat{F}(t)$ is the MOS forecast at time instant $t$,
+    \item $F(t)$ is the NWP at time instant $t$,
+    \item $P(t)$ is the measured value at time instant $t$.
+\end{itemize}
+
+
+The weighing methods tested are presented in table \ref{tb:umos}. 
+
+\begin{table}[!htp]
+    \small
+    \centering
+    \mycaption{UMOS forecasting methods. $M$ is the window length and $a$ is the smoothing factor.}
+    \label{tb:umos}
+    \begin{tabular}{llll}
+        \toprule
+        Method & Description & $\alpha(k)$ & Reference \\
+        \midrule
+        MA & Moving Average                & $1/M$              & used since \cite{WilsonVallee2002} \\
+        LIN & Linear weighting             & $k/\sum_{i=1}^M i$ & \cite{Stull2008} \\
+        ESM & Exponential Smoothing Method & $\frac{1-a}{1-a^M} a^{k-1}$  & \cite{YussoufStensrud2007}. \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+\FloatBarrier
+
+A slight modification to the traditional application of this method has been done because wind power observations are only available every 6 hours, at 00Z, 06Z, 12Z and 18Z. For example, the MA method with a 2 hour window width gives the following equation system:
+
+\begin{align}
+    \hat{F}(7) &= F(7) - \frac{1}{2} \left( \hat{F}(6)-P(6) \right) - \frac{1}{2} \left( \hat{F}(5)-P(5) \right) \\
+    \hat{F}(8) &= F(8) - \frac{1}{2} \left( \hat{F}(6)-P(6) \right) - \frac{1}{2} \left( \hat{F}(5)-P(5) \right) \\
+    \nonumber ... \\
+    \hat{F}(13) &= F(13) - \frac{1}{2} \left( \hat{F}(12)-P(12) \right) - \frac{1}{2} \left( \hat{F}(11)-P(11) \right) \\
+    \nonumber ... \\
+\end{align}
+
+Because the NWP errors have such a strong diurnal cycle (figure \ref{fig:decerr_CAF1h_00}) another type of UMOS was tested (UMOS2), where the errors to be subtracted from the NWP correspond to the same hour from the previous days and not from the most recent past hours. The same MA, LIN and ESM weighting methods were applied, but referred as MA2, LIN2 and ESM2.
+
+%---------------------------------------
+\subsubsection{TLE-MOS}
+%---------------------------------------
+
+Several statistical combinations of the TLE members were analysed with:
+
+\begin{equation}
+    \hat{F}(t) = \sum_{i=1}^N w_i F_i(t)
+    \label{eq:ens}
+\end{equation}
+
+where $F_i(t)$ is the $\mathrm{i^{th}}$ ensemble member and $w_i$ is the applied weight. Table \ref{tb:tle_methods} shows the weighting methods analysed.
+
+\begin{table}[!htp]
+    \small
+    \centering
+    \mycaption{TLE-MOS forecasting methods.}
+    \label{tb:tle_methods}
+    \begin{tabular}{ll}
+        \toprule
+        Method & Description \\
+        \midrule
+        MEAN     & Mean \\
+        ESM     & Exponential Smoothing Method \\
+        FIX     & Least squares multiple regression \\
+        STEP     & Stepwise multiple regression \\
+        PCR     & Principal components regression \\
+        PLSR     & Partial least squares regression \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+\FloatBarrier
+
+The simplest method of utilizing an ensemble forecast is to compute its mean.  It is hypothesized that the averaging of ensembles of sufficient size should remove most of the unpredictable component of natural variability in a forecast, leaving the retained variability as the predicted signal in the model \citep{MoStraus2002}. The average can be considered the quasi-deterministic large scale and low frequency part of the forecast \citep{vandenDoolRukhovets1994}.
+
+The Exponential Smoothing Method (ESM) follows \cite{YussoufStensrud2007}:
+
+\begin{equation}
+    w_i = \frac{1-\alpha}{1-\alpha^d} \alpha^{i-1}
+    \label{eq:esm}
+\end{equation}
+
+where $d$ is the ensemble size, and $\alpha$ is the smoothing factor, equal to 0.85 as in the paper. Members are ordered so that the most recent has more weight.
+
+Multiple regression methods can run into difficulties when there are a large number of predictors, not just because of the computational burden but also because the interrelationships among the predictors will lead to unstable equations. Principal components analysis (PCA) is a technique to reduce the dimensionality of a data set into uncorrelated new dimensions. Therefore, more efficient and stable regression models could be developed over the uncorrelated principal components. \cite{Merz1997} and \cite{MoStraus2002} used principal components regression (PCR) and partial least squares regression (PLSR) to combine ensemble forecasts. 
+
+%=======================================
+\subsection{Results}
+%=======================================
+
+Pure NWP forecast errors are presented to assess the reference error, from which improvements are to be quantified. 
+
+%---------------------------------------
+\FloatBarrier
+\subsubsection{Direct Model Output}
+%---------------------------------------
+
+Incorporating all the non-linearities between velocity and power, and the compensation between turbine performance within and between wind farms, the RMSE of the first day of each one of the four daily simulation with MM5 is presented in figure \ref{fig:RMSE_d0}. It can be seen that, for all wind farms (281.57 MW), the lowest RMSE is obtained by the composition of the most recent available forecasts (lead times from 6 to 12 h): from 00:00 to 06:00, lowest RMSE is given by 18Z simulation, which has lead times 6 to 12 hours in this time of day; from 06:00 to 12:00, it's 00Z, from 12:00 to 18:00, 06Z and from 18:00 to 00:00, 12Z. Overall, the mean four cycles RMSE is 43.76 MW (15.5 \% of the total installed capacity) and the most recent forecast composite (Recent) is 41.95 MW (15.0 \%). The Recent forecast will be the reference forecast for improvements assessment. 
+
+The theoretical upper and lower RMSE limits are given by climatology (forecast is the mean observed value in the data study period) and persistence (forecast is the value measured in the previous instant, considering it to be available), with 62.85 MW (22.3 \%) and 6.5 MW (2.3\%), respectively.
+
+\begin{figure}[!htp]
+    \centering
+    \includegraphics[width=0.45\columnwidth]{eolica/ParquesIndiv/plt_decerr_ParquesSum15min_d0_RMSE_hours-2.png}
+     \mycaption{RMSE for wind power, for d0 forecasts, with data from 2007-01-01 to 2009-12-31. Compare with figures \ref{fig:RMSE_d0_Fafe}}
+  \label{fig:RMSE_d0}
+\end{figure}
+\FloatBarrier
+
+The overall RMSE of the Recent forecast for each wind farm is shown in figure \ref{fig:parques_decerr_eRecent}. As expected, RMSE magnitude increases with installed power but decreases in relative terms. This is because wind power is being forecast for a single representative point and, the bigger the wind farm, the more wind turbines dispersed in the field that are subject to different wind speeds. Therefore, the forecasting error in one turbine/location can be compensated by another subject to different wind conditions. The same reasoning can be applied to the totally of wind farms. These results are in accordance with \cite{Foley2012} that states that RMSE of state of the art models is usually around 10 \% of installed capacity for all wind farms, and 10-20 \% for individual wind farms. Besides the installed capacity, the wind farm layout, terrain complexity in the vicinity, and the choice of the representative point for forecasts will determine the relative percentage of RMSE.
+
+\begin{figure}[!htp]
+    \centering
+    \subfloat[wind power (MW)]{\label{fig:parques_decerrr_eRecent_abs}\includegraphics[width=0.45\columnwidth]{eolica/ParquesIndiv/plt_decerr_Parques15min_Recent_all-2.png}}
+    \subfloat[wind power (rel. inst. cap.)]{\label{fig:parques_decerr_eRecent_rel}\includegraphics[width=0.45\columnwidth]{eolica/ParquesIndiv/plt_decerr_Parques15min_Recent_all-3.png}}
+     \mycaption{Error decomposition for Recent forecast, for each considered wind farm, with data from 2007-01-01 to 2009-12-31.}
+  \label{fig:parques_decerr_eRecent}
+\end{figure}
+
+Figure \ref{fig:parques_RMSE_BIAS_eRecent_hours} shows that the error (RMSE and BIAS) have the same diurnal cycle discussed before about figure \ref{fig:decerr_AGM1h_00d0_hours}.
+
+\begin{figure}[!htp]
+    \centering
+    \includegraphics[width=0.9\columnwidth]{eolica/ParquesIndiv/plt_decerr_Parques15min_Recent_RMSE_BIAS_hours.png}
+     \mycaption{RMSE and BIAS for Recent forecast, for an average day, for each considered wind farm, with data from 2007-01-01 to 2009-12-31.}
+  \label{fig:parques_RMSE_BIAS_eRecent_hours}
+\end{figure}
+\FloatBarrier
+
+%Figure \ref{fig:parques_RMSE_BIAS_eRecent_hours} shows monthly RMSE and BIAS. \hl{It might be expected the error to decrease...}
+%
+%\begin{figure}[!htp]
+%    \centering
+%    \includegraphics[width=0.9\columnwidth]{eolica/ParquesIndiv/plt_decerr_Parques15min_Recent_RMSE_BIAS_monthly.png}
+%     \mycaption{Error decomposition for Recent forecast, per month, for each considered wind farm, with data from 2007-01-01 to 2009-12-31.}
+%  \label{fig:parques_RMSE_BIAS_eRecent_montlhy}
+%\end{figure}
+
+%---------------------------------------
+\FloatBarrier
+\subsubsection{MOS}
+%---------------------------------------
+
+Results for the methods described in table \ref{tb:mos} are presented. Figure \ref{fig:st_weights} shows the weighting coefficients of each method applied to wind farm APO. The LS method produces different coefficients for each of the four daily simulations, and a mean is also presented (LSm). It can be seen that the EXP method is the one that gives more weight to NWP, followed by LS and then by LIN. ACF forecast weights are more constant with lead time than the other methods, giving higher importance to NWP in the first lead times.
+
+\begin{figure}[!htp]
+    \centering
+    \includegraphics[width=0.7\columnwidth]{eolica/01_APO_Pinheiro/plt_weights_APO15min_VeryShortTerm_used_both.png}
+    \mycaption{Weights in short-range MOS forecasting, for wind farm APO.}
+    \label{fig:st_weights}
+\end{figure}
+\FloatBarrier
+
+Figure \ref{fig:coefs_ls} shows the LS coefficients for each wind farm. Here, regressions were computed from 6 to 16 h lead times because the TSO issues forecasts with MOS up to this horizon. By the $\mathrm{12^{th}}$ hour they are replaced by the new more recent MOS. Thus, when computing short-range forecast error, only lead times from 6 to 12 h are used. Figure \ref{fig:coefs_ls_00d0} shows the weight and regression coefficients obtained for the 00Z cycle. It can be seen that the dispersion of weights is not related to the wind farm installed power, but dispersion of $R^2$ is: it's higher for higher installed capacities, revealing the importance of compensation effects between turbines in the same wind farm. Nevertheless, all $R^2$ are above 0.7. Figure \ref{fig:coefs_ls_mean} shows mean weight coefficients and $R^2$ for all wind farms, in comparison with the LIN weights. It is interesting to note that the 06Z forecast gives more weight to the NWP than the others, up to the $12^{th}$ hour in advance. This is because, for this simulation, lead times 6 to 12 h correspond to day hours 12:00 to 18:00 (UTC) where the RMSE of the model is lower (see figure \ref{fig:RMSE_d0}).
+
+
+\begin{figure}[!htp]
+    \centering
+    \subfloat[coefficients for the first day of 00Z forecast cycle.]{\label{fig:coefs_ls_00d0}\includegraphics[width=0.7\columnwidth]{eolica/ParquesIndiv/plt_coefs_ls_15min_00d0_3x1.png}}\\
+    \subfloat[Mean for the 4 daily forecasts.]{\label{fig:coefs_ls_mean}\includegraphics[width=0.7\columnwidth]{eolica/ParquesIndiv/plt_coefs_ls_15min_mean_d0_3x1.png}}
+    \mycaption{Weight and regression coefficient in short-term MOS forecasts, with data from 2007.}
+    \label{fig:coefs_ls}
+\end{figure}
+\FloatBarrier
+
+Figure \ref{fig:decerr_st} compares the different MOS methods, in terms of overall error decomposition (top panel) and RMSE and BIAS evolution for an average day (bottom panel). From here and from table \ref{tb:sum_st}, it can be seen that the short-term MOS forecasts greatly improve the Recent forecast, by 33.8 \%, 24.3 \%, 30.1 \% and 34.9 \% for LIN, EXP, ACF and LS respectively, in terms of RMSE. LS method is the one with superior performance but it has the disadvantage of needing historical data, while the LIN method gives comparable results and can be readily applied to any wind farm, stable or in expansion.
+
+\begin{figure}[!htp]
+    \centering
+    \subfloat[Overall RMSE decomposition of MOS forecasts]{\label{fig:decerr_st_all}\includegraphics[width=0.45\columnwidth]{eolica/ParquesIndiv/plt_decerr_ParquesSumAfter15min_VeryShortTerm_all-6.png}}
+    \subfloat[RMSE decomposition for LIN forecast for an average day]{\label{fig:decerr_st_hours}\includegraphics[width=0.45\columnwidth]{eolica/ParquesIndiv/plt_decerr_ParquesSumAfter15min_VeryShortTerm_LIN_hours-0.png}}\\
+    \subfloat[RMSE for an average day]{\label{fig:decerr_st_rmse_hours}\includegraphics[width=0.45\columnwidth]{eolica/ParquesIndiv/plt_decerr_ParquesSumAfter15min_VeryShortTerm_RMSE_hours-2.png}}
+    \subfloat[BIAS for an average day]{\label{fig:decerr_st_bias_hours}\includegraphics[width=0.45\columnwidth]{eolica/ParquesIndiv/plt_decerr_ParquesSumAfter15min_VeryShortTerm_BIAS_hours-2.png}}
+    \mycaption{RMSE and BIAS for the short-range MOS for all wind farms.}
+    \label{fig:decerr_st}
+\end{figure}
+\FloatBarrier
+
+
+\begin{table}[!htp]
+\small
+\centering
+\mycaption{Summary for short-term MOS (lead times 6 - 12 h) for a total power = 281.57 MW.}
+\label{tb:sum_st}
+\begin{tabular}{lccc}
+    \toprule
+            &	RMSE (MW)	&	RMSE (\%)	&	SS (\%)	\\
+    \midrule
+    Recent	&	42.61	&	15.1	&	-	\\
+    LIN	    &	28.20	&	10.0	&	33.8	\\
+    EXP	    &	32.27	&	11.5	&	24.3	\\
+    ACF	    &	29.80	&	10.6	&	30.1	\\
+    LS	    &	27.75	&	9.9     &	34.9	\\
+    \bottomrule
+\end{tabular}
+\end{table}
+\FloatBarrier
+
+%--------------------------------------
+\FloatBarrier
+\subsubsection{UMOS}
+%--------------------------------------
+
+UMOS techniques were first applied to the first day of the 00Z forecast cycle and BIAS and RMSE are presented in figure \ref{fig:StullYussouf} for window lengths from 1 to 12 days. The smoothing factors in ESM method that yield the best results were 0.95 and 0.85 for UMOS and UMOS2 respectively. It can be seen that all methods improve BIAS and RMSE but at different degrees and windows widths. MA is the quicker method, removing BIAS and decreasing RMSE with just a one day window, but with longer windows (6 days), the LIN method achieves better results (smallest RMSE) than all the methods, with 5 \% improvement. The ESM method decreases but doesn't remove the BIAS (minimum is 1.3 MW). UMOS2 methods are more efficient than UMOS at removing BIAS but not at decreasing RMSE. 
+
+Comparing with the tested MOS methods, that can have RMSE improvements of at least 20\%, UMOS methods do not seem to bring any advantage (maximum of 5 \% improvement). However, they can be valuable when BIAS removal is of greater importance. Unfortunately that is not the case in wind power, where errors in forecasting ramps events, i.e., large changes in energy generation over short periods, are of most concern and are not corrected by BIAS removal methods \citep{Marquis2011}.
+
+
+\begin{figure}[!htp]
+    \centering
+    \subfloat[BIAS]{\label{fig:StullYussouf_BIAS}\includegraphics[width=0.45\columnwidth]{eolica/ParquesIndiv/plt_StullYussouf_ParquesSum1h_00d0-4.png}}
+    \subfloat[RMSE]{\label{fig:StullYussouf_RMSE}\includegraphics[width=0.45\columnwidth]{eolica/ParquesIndiv/plt_StullYussouf_ParquesSum1h_00d0-2.png}}
+    \mycaption{BIAS and RMSE variation with window length in UMOS and UMOS2 with moving average (MA), linear weighting (LIN) and exponential smoothing method (ESM) for wind power, using the first day of 00Z MM5 forecast.}
+    \label{fig:StullYussouf}
+\end{figure}
+\FloatBarrier
+
+The same analysis made with the Recent forecast combination actually increase RMSE, because of the intrinsic discontinuities in this forecast (composition of different forecast runs).
+
+\begin{figure}[!htp]
+    \centering
+    \subfloat[BIAS]{\label{fig:StullYussouf_Recent_BIAS}\includegraphics[width=0.45\columnwidth]{eolica/ParquesIndiv/plt_StullYussouf_ParquesSum1h_Recent-4.png}}
+    \subfloat[RMSE]{\label{fig:StullYussouf_Recent_RMSE}\includegraphics[width=0.45\columnwidth]{eolica/ParquesIndiv/plt_StullYussouf_ParquesSum1h_Recent-2.png}}
+    \mycaption{BIAS and RMSE variation with window length in UMOS and UMOS2 with moving average (MA), linear weighting (LIN) and exponential smoothing method (ESM) for wind power, using Recent NWP forecast.}
+    \label{fig:StullYussouf_Recent}
+\end{figure}
+
+%---------------------------------------
+\FloatBarrier
+\subsubsection{TLE-MOS}
+\label{sec:eolica_tle}
+%---------------------------------------
+
+To have an idea of the ensemble consistency (discussed at the end of section \ref{sec:tle}), the rank histogram of the short-term TLE (11 members) is presented in figure \ref{fig:tle11_talagrand}. As expected for TLEs, the histogram has a U-shape distribution revealing underdispersion, i.e., observations are frequently lower or higher than ensemble forecasts. It also shows that the ensemble doesn't have an unconditional bias (all observations would be either lower or higher than the members) which is a necessary condition for a good ensemble.
+
+\begin{figure}[!htp]
+    \centering
+    \includegraphics[width=0.45\columnwidth]{eolica/ParquesIndiv/plt_tle11_ParquesSum15min_talagrand.png}
+    \mycaption{Rank histogram for the short-term TLE for all studied wind farms. The grey dashed line corresponds to the uniform frequency ($[n_{ens}+1]^{-1}$) that members should have if they were equiprobable of containing the observation value.}
+    \label{fig:tle11_talagrand}
+\end{figure}
+\FloatBarrier
+
+
+The weights obtained from fixed (FIX) and stepwise (STEP) multiple regression, for wind farm APO, with a developmental data set of one year (2007) are shown in figure \ref{fig:tle11_reg}.
+
+\begin{figure}[!htp]
+    \centering
+    \subfloat[Fixed regression]{\label{fig:tle11_fix_coef}\includegraphics[width=0.45\columnwidth]{eolica/01_APO_Pinheiro/plt_tle11_APO15min_FixRegCoefs-0.png}}
+    \subfloat[Fixed regression]{\label{fig:tle11_fix_r2}\includegraphics[width=0.45\columnwidth]{eolica/01_APO_Pinheiro/plt_tle11_APO15min_FixRegCoefs-1.png}}\\
+    \subfloat[Stepwise regression]{\label{fig:tle11_step_coef}\includegraphics[width=0.45\columnwidth]{eolica/01_APO_Pinheiro/plt_tle11_APO15min_StepRegCoefs-0.png}}
+    \subfloat[Stepwise regression]{\label{fig:tle11_step_r2}\includegraphics[width=0.45\columnwidth]{eolica/01_APO_Pinheiro/plt_tle11_APO15min_StepRegCoefs-1.png}}
+    \mycaption{Weighting coefficients and regression $R^2$ using a 2007 as a developmental data set, for APO wind farm.}
+    \label{fig:tle11_reg}
+\end{figure}
+\FloatBarrier
+
+For PCR and PLSR, 3 components explained more than 95 \% of the variance.
+
+Figure \ref{fig:decerr_tle11_parks} shows the impact of the different TLE-MOS methods in RMSE and BIAS for all wind farms. As it can be seen,  methods involving regressions (FIX, STEP, PCR and PLSR) decrease RMSE, mainly by removing part of the BIAS. Part of DISP is also diminished because the forecast variance decreases, as shown by the decrease in SDBIAS. MEAN and ESM methods only show improvements for the northern wind farms (see figure \ref{fig:farms3years}), and give comparable or worse results for the centre wind farms AZM (10.6 MW), APZ (96.6 MW) and ACD (104.4 MW), and for the sum of wind farms (281.57 MW). The higher the installed capacity, the worse the results. Improvements in RMSE are quantified in table \ref{tb:decerr_tle11_ssrmse}.
+
+\begin{figure}[!htp]
+    \centering
+    \includegraphics[width=0.9\columnwidth]{eolica/ParquesIndiv/plt_decerr_Parques15min_tle11_combined_all.png}
+    \mycaption{Overall error for short term TLE-MOS forecasts per wind farm.}
+    \label{fig:decerr_tle11_parks}
+\end{figure}
+\FloatBarrier
+
+
+\begin{table}[!htp]
+    \small
+    \centering
+    \mycaption{Short term TLE-MOS RMSE improvement over Recent forecasts.}
+    \label{tb:decerr_tle11_ssrmse}
+    \begin{tabular}{ccccccccc}
+    \toprule
+    Forecasts & ATE & AZM & ATD & AIL & APO & APZ & ACD & sum \\ 
+    \midrule
+    MEAN & 2.1 & -0.8 & 3.3 & 3.5 & 2.2 & -1.6 & -4.6 & -4.9 \\ 
+    ESM & 3.1 & 0.1 & 3.3 & 4.6 & 3.2 & 0.2 & -2.1 & -2.3 \\ 
+    FIX & 6.7 & 11.1 & 6.1 & 6.5 & 6.6 & 4.3 & 10.5 & 11.7 \\ 
+    STEP & 6.7 & 11.3 & 6.2 & 6.4 & 6.4 & 4.2 & 10.5 & 11.6 \\ 
+    PCR & 7.1 & 11.3 & 6.1 & 6.9 & 7.3 & 4.7 & 9.6 & 10.8 \\ 
+    PLSR & 7.0 & 11.2 & 6.1 & 6.7 & 7.0 & 4.7 & 10.5 & 11.7 \\ 
+    \bottomrule
+    \end{tabular}
+\end{table}
+\FloatBarrier
+
+Figure \ref{fig:decerr_tle11} shows the impact of the TLE-MOS methods in error evolution for an average day, for the total installed capacity. As expected, the diurnal error in RMSE is not corrected as it is mainly comprised of phase errors. The regression methods attenuate the BIAS diurnal error but don't remove it entirely.
+
+\begin{figure}[!htp]
+    \centering
+    \subfloat[RMSE]{\label{fig:decerr_tle11_rmse_hours}\includegraphics[width=0.45\columnwidth]{eolica/ParquesIndiv/plt_decerr_ParquesSum15min_tle11_combined_RMSE_hours-0.png}}
+    \subfloat[BIAS]{\label{fig:decerr_tle11_bias_hours}\includegraphics[width=0.45\columnwidth]{eolica/ParquesIndiv/plt_decerr_ParquesSum15min_tle11_combined_BIAS_hours-0.png}}
+    \mycaption{Short term TLE-MOS RMSE and BIAS evolution in for an average day, for the total of wind farms.}
+    \label{fig:decerr_tle11}
+\end{figure}
+\FloatBarrier
+
+Figure \ref{fig:tle_decerr_hz} shows the RMSE, BIAS and RMSE improvement over Recent per lead time for the sum of wind farms. It should be noted that short term forecast (up to 6 hours) correspond to lead times from 6 to 12 h and medium term forecasts from 12 to 72 h (3 days). As expected, RMSE and BIAS (absolute value) increase with lead times for all methods. MEAN and ESM methods do not improve the most recent forecast up to 36 hours in advance, and after that improvements only go up to 2 \%. The regression methods (FIX, STEP, PCR and PLSR) show clear positive improvements in RMSE and BIAS at all projection times. Table \ref{tb:sum_tle} shows that improvements range from 10 to 15 \% and that all regression methods are comparable, with PCR and PLSR performing a little better than FIX and STEP. 
+
+\begin{figure}[!htp]
+    \centering
+    \subfloat[RMSE]{\label{fig:tle_rmse_hz}\includegraphics[width=0.45\columnwidth]{eolica/ParquesIndiv/plt_decerr_ParquesSum15min_tle_combined_RMSE_hz-0.png}}
+    \subfloat[BIAS]{\label{fig:tle_bias_hz}\includegraphics[width=0.45\columnwidth]{eolica/ParquesIndiv/plt_decerr_ParquesSum15min_tle_combined_BIAS_hz-0.png}}\\
+    \subfloat[SS based on RMSE]{\label{fig:tle_ssrmse_hz}\includegraphics[width=0.45\columnwidth]{eolica/ParquesIndiv/plt_decerr_ParquesSum15min_tle_combined_SSRMSE_hz.png}}
+    \mycaption{Error scores for the TLE with lead time, for all wind farms.}
+    \label{fig:tle_decerr_hz}
+\end{figure}
+
+\begin{table}[!htp]
+\small
+\centering
+\mycaption{Summary for TLE, for all wind farms (281.57 MW). ST means short-term forecast, with lead times from 6 to 12 h.}
+\label{tb:sum_tle}
+\begin{tabular}{llccc}
+    \toprule
+	&		&	RMSE (MW)	&	RMSE (\%)	&	SS (\%)	\\
+\midrule								
+ST (6-12 h)	&	Recent	&	42.65	&	15.1	&	-	\\
+	        &	MEAN	&	44.73	&	15.9	&	-4.9	\\
+        	&	ESM	    &	43.61	&	15.5	&	-2.2	\\
+        	&	FIX	    &	37.68	&	13.4	&	11.7	\\
+        	&	STEP	&	37.69	&	13.4	&	11.6	\\
+        	&	PCR	    &	38.04	&	13.5	&	10.8	\\
+        	&	PLSR	&	37.68	&	13.4	&	11.7	\\
+\midrule
+D+0 (12-24 h) &	Recent	&	44.96	&	16.0	&	-	\\
+        	&	MEAN	&	45.78	&	16.3	&	-1.8	\\
+        	&	ESM	    &	45.03	&	16.0	&	-0.1	\\
+        	&	FIX	    &	39.43	&	14.0	&	12.3	\\
+        	&	STEP	&	39.42	&	14.0	&	12.3	\\
+        	&	PCR	    &	39.52	&	14.0	&	12.1	\\
+        	&	PLSR	&	39.39	&	14.0	&	12.4	\\
+\midrule
+D+1 (24 -48 h)&	Recent	&	48.04	&	17.1	&	-	\\
+        	&	MEAN	&	47.73	&	16.9	&	0.7	\\
+        	&	ESM	    &	47.36	&	16.8	&	1.4	\\
+        	&	FIX	    &	41.88	&	14.9	&	12.8	\\
+        	&	STEP	&	41.88	&	14.9	&	12.8	\\
+        	&	PCR	    &	41.93	&	14.9	&	12.7	\\
+        	&	PLSR	&	41.87	&	14.9	&	12.9	\\
+\midrule
+D+2 (48-72 h)&	Recent	&	52.61	&	18.7	&	-	\\
+        	&	MEAN	&	51.63	&	18.3	&	1.9	\\
+        	&	ESM	    &	51.57	&	18.3	&	2.0	\\
+        	&	FIX	    &	45.64	&	16.2	&	13.3	\\
+        	&	STEP	&	45.64	&	16.2	&	13.2	\\
+        	&	PCR	    &	45.03	&	16.0	&	14.4	\\
+        	&	PLSR	&	45.03	&	16.0	&	14.4	\\
+\bottomrule
+\end{tabular}
+\end{table}
+\FloatBarrier
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\input{eolica/weather_regime}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\FloatBarrier
+\section{Conclusions}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The analysis presented for a single wind farm shows that the real relationship between wind speed and power differs from the manufacturer's curve. An ``equivalent'' power curve can be developed for the wind farm and is best approximated by a natural cubic spline, for all wind sectors or per quadrant. Using forecasts leads to an equivalent power curve that is a strait segment similar to the manufacturer's curve since electricity is produced only between cut-in and cut-out speeds. So, as a first approximation in wind speed to power conversion, the manufacturer's curve is applied to a representative location in the wind farm, balancing the errors of individual forecasting for each turbine.
+
+Wind speed and power show different statistical properties with implications on their predictability. While measured wind speed has a Weibull distribution, forecasts do not. Both variables have diurnal cycles in their errors but wind power RMSE is higher during the night and wind speed RMSE is higher in during the day, with a strong increase in negative BIAS. This can be connected to the model underestimation of the amplitude in diurnal temperature cycle (as will be seen in chapter \ref{sec:warnings}), which can be due to poor representation of topography, ground cover characteristics or limitations in the land surface model or cloudiness parameterizations, or to the use of a bad ``representative'' location. The lower wind power RMSE during the day can be connected with this wind speed underestimation, balanced by the overestimation caused by the manufacturer's curve. At night, the lower wind speed RMSE is an important feature for the TSO because it corresponds to wind energy production during off-peak consumption hours. The higher errors of wind power RMSE during the night, with increase in negative BIAS for almost all wind farms, can be due to lower wind speeds in the cut-in vicinity of the manufacturer's curve.
+
+As expected, in the analysis for all wind farms, it was verified that MM5 forecasts RMSE increases with installed capacity but decreases in relative terms, because of statistical compensation between aerogenerators. The RMSE of MM5 system is approximately 20 \% of installed capacity for individual small wind farms ($\sim$ 10-20 MW) and 15 \% for the total of wind farms, placing the model in the state of the art according to recent literature \citep{Foley2012}. 
+
+Short term MOS forecasts improve the numerical model by about 30 \%, with better performance for the LS method. However, this method has the disadvantage of needing historical data, while the LIN method gives comparable results and can be readily applied to any wind farm, stable or in expansion. EXP method might give better results with a lower decaying rate.
+
+UMOS and UMOS2 approaches, while completely removing the BIAS, were only able to improve RMSE by 5 \%, which is much inferior to MOS methods. 
+
+TLE-MOS allowed for RMSE improvements in the order of 10 \% for short term forecasts, and 13 to 15 \% for medium term. In the short-term, improvements are inferior to MOS but these methods have the advantage of not needing an updatable observational database to be applied. 
+
+The analysis with PCA and clusters was able to identify weather regimes over Portugal and correlate them to forecast uncertainty. Results allow to distinguish two geographical groups: northern wind farms, with higher forecast uncertainty upon the arrival of low pressure systems, and wind farms from the centre of Portugal, with more uncertainty under north-westerly winds and south-easterly winds associated with high pressure conditions over the European continent. This difference might lead to different forecast methodologies for each group. However, the correlation is not strong and the analysis should be made with observations (or at least reanalysis winds) instead of forecasts, and for more than a one year period.
+
+

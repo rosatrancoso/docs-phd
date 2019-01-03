@@ -1,0 +1,42 @@
+\chapter{Conclusions and Future Work}
+\label{sec:conclusions} 
+
+With the availability of skillful models and cheap computing power, operational meteorological modelling is increasingly being used as support tool in areas that need meteorological derived products to answer their specific needs. It is recognized that better weather forecasts lead to better decision making and therefore, assessment of forecast's quality is an essential part of NWP, bringing confidence in their use. 
+
+The research presented in this thesis consists in the assessment of the quality of forecasts produced at IST with the MM5 and WRF models, for two main different purposes: wind power forecasts for the grid utility (TSO), both onshore and offshore, and meteorological warnings for Lisbon's Civil Protection authorities (SMPC).
+
+\section{Wind Power Forecasting}
+
+In wind power forecasting, the purpose of the research was twofold: to assess IST MM5 forecasts and to explore new methodologies to improve them, for a secure and economic wind power integration in the grid. Some considerations were made regarding the non-linear conversion between wind speed and power, with the conclusion that, as a first approximation in the current framework, the conversion can be made with the manufacturer's curve applied to a representative location in the wind farm, thus balancing the errors of individual forecasts for each turbine. It was also verified that the diurnal cycles in wind speed and wind power errors are different as a consequence of this conversion and of the statistical compensation between aerogenerators in one or multiple wind farms. Results show that MM5 short-term forecast errors are in accordance with the state of the art models, with RMSE of approximately 20 \% of installed capacity for small wind farms ($\sim$ 10-20 MW) and 15 \% for the total of wind farms ($\sim$ 300 MW). MOS can bring improvements over this of about 30 \% in the short-term (up to 6 h) and TLE can improve 13-15 \% in the medium term (from 12 hours to 3 days in advance). Forecast uncertainty dependence on weather regimes was also analysed, and although the dependence doesn't seem to be strong, northern wind farms had higher forecast errors upon the arrival of low pressure systems, while centre farms had more error in north-westerly winds and south-easterly winds associated with high pressure conditions over Europe. This difference might lead to different forecast methodologies for each group. 
+
+Improvements in wind power forecasting can be further developed by investigating the diurnal cycle in the error, particularly the phase error contribution, since amplitude errors can be removed by linear MOS techniques. Phase errors are usually related to power ramps events (large changes in energy generation over short periods), which are of main concern to grid utilities since they determine the necessary amount of contingency reserve. Better characterization of these situations (timing, duration, amplitude) is needed since they are inherently difficult to forecast and can be caused by meteorological phenomena at all scales. Forecasting high loads during the night should also be better assessed as it is the off-peak consumption period, increasing wind integration costs in the electric grid. Non-linear MOS methodologies, such as data mining and machine learning methods, could also be pursued. 
+
+Research on whether the probabilistic information contained in the TLE could provide valuable uncertainty estimations should be made. Since only 3-day forecasts produced by MM5 were analysed, other forecasts produced by the operational IST system could be verified, such as MM5 7 days forecasts and WRF 3 and 7 days forecasts. These could also enrich the TLE. 
+
+Sensitivity studies concerning the representative location(s) assigned for each wind farm would also benefit the overall system performance.
+
+\section{Influence of Upwelling in Offshore Winds}
+
+The influence of upwelling (colder SST) in offshore winds was also addressed, contributing for the creation of knowledge and new capacities in the emergent offshore wind technology. A twin experiment was made with WRF model and realistic high-resolution SST provided by satellite imagery during a strong upwelling episode in the Portuguese coast. Results allowed to identify a positive feedback between SST and wind speed, i.e., a decrease in SST causes a decrease in the nearshore wind speed. In addition, the lower SSTs have a stabilizing effect in the atmosphere that can reach more than 200 m in height, well within the level of wind power turbines. This effect is propagated inland and affects coastal zones, attenuating the characteristic daily cycle. In addition, there seems to be a clockwise rotation of the northerly winds, which could weaken the transversal sea breeze, particularly if the diurnal atmospheric stability cycle is also weakened. These changes can lead to unexpected feedbacks, such as occurrence of power ramp events. 
+
+In summary, results allow to conclude that upwelling has influence in offshore winds and therefore forecast should take into account sea interaction, otherwise they can be too optimistic. Still, the strength of the upwelling episode necessary to significantly impact wind speed profile should to be quantified and a better characterization of the processes occurring in the atmospheric boundary layer should be made, for instance, by coupling with ocean and waves models. 
+
+\section{Meteorological Warnings in Lisbon}
+
+A first approach in the assessment of the Early Warning System for meteorological risk in Lisbon is presented. The system in collaboration with IST, and arose from the need of the SMPC to have hourly and more accurate forecasts and warnings than the ones available at the time. Verification of MM5 and WRF 3 and 7 days forecasts and warnings show that MM5 performs better for precipitation, cold weather and wind forecasts, while WRF is significantly superior in warm weather forecasting, which can be attributed to the higher resolution and different land surface scheme. 
+
+In the overall, the system has demonstrated skill and can be considered reasonable for early warning, since the false alarms are not severe (mainly in “Yellow” category) and correspond to forecasts with lead times above 3 days, usually correct in the occurrence of event, but out of phase by a few hours. This allows the SMPC to monitor a given weather situation with other tools (observations, satellite, radar, etc \ldots) and a potential problematic situation can be anticipated and checked, while avoiding unnecessary economic expenditures if the warnings do not persist with forecast updates. This aspect, together with the intrinsic phase errors of the model, reinforces the importance of having access to the hourly forecasts, allowing the SMPC to be aware of events that are near the threshold limits and/or in the vicinity of the hour.
+
+Future work can be made for a better and more complete verification of meteorological forecasts and their respective warnings namely: an inter-annual study to include more extreme phenomena; tests with other thresholds levels, particularly for precipitation, to have a better insight of the distribution of errors; evaluation of warnings by projection time; use of performance scores that integrate not only hits and false alarms but also missed events; and comparison of warnings issued against the frequency of incidents occurring in the city. This analysis would truly assess the value of the forecast and warnings, contributing to the improvement of emergency preparedness and response systems.
+
+\bigskip
+\bigskip
+
+%\textbf{Main achievements, limitations and future developments!!}
+
+In general terms, the developed research was mainly focused in the evaluation of the quality and reliability of forecasts produced by the NWP running at IST. The accuracy of the system is comparable to other similar state of the art forecasting systems and the developed methodologies allow significant improvements and guidance in providing an answer to ``What is the best forecast?''. Although some of the analyses were first approaches, they provide a solid basis for future developments.
+
+
+
+
+

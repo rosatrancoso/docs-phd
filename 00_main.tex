@@ -1,0 +1,95 @@
+% \documentclass[a4paper,11pt,twoside]{book}
+\documentclass[a4paper,11pt,twoside,draft]{book}
+\input{preamble}
+
+%opening
+%\title{Operational Modelling as a Tool in Wind Power Forecasts and Meteorological Warnings}
+%\author{me}
+
+\begin{document}
+\frontmatter % Numeração romana para primeiros capítulos
+
+%\begin{titlepage}
+%\include{capa_prebolonha}
+%\include{capa_bolonha}
+%\end{titlepage}
+
+%\pagestyle{plain} % Número de página ao centro sem cabeçalho
+%\cleardoublepage  % new right-hand page
+\include{resumo}
+\include{abstract}
+\include{agradecimentos}
+\include{overview}
+
+% Índice
+\cleardoublepage  % new right-hand page
+\phantomsection   % Para incluir bookmark
+\addcontentsline{toc}{chapter}{Contents}  % Incluir no Índice
+\tableofcontents
+
+% Lista de figuras
+\cleardoublepage  % new right-hand page
+\phantomsection   % Para incluir bookmark
+\addcontentsline{toc}{chapter}{List of Figures} % Incluir no Índice
+\listoffigures
+
+% Lista de tabelas
+\cleardoublepage  % new right-hand page
+\phantomsection   % Para incluir bookmark
+\addcontentsline{toc}{chapter}{List of Tables}  % Incluir no Índice
+\listoftables
+
+\include{lista_abreviaturas}
+
+%**************************************
+\mainmatter % Começar a numeração arabica do documento
+%**************************************
+
+\include{introduction}
+\include{eolica}
+\include{offshore}
+\include{warnings}
+\include{conclusions_future_work}
+
+%**************************************
+% Bibliografia (ANTES DOS ANEXOS??)
+%**************************************
+\cleardoublepage  % new right-hand page
+\phantomsection   % Para incluir bookmark
+\addcontentsline{toc}{chapter}{Bibliography}    %Incluir no Índice
+\bibliography{biblio_completa}
+
+
+%**************************************
+% Anexos
+%**************************************
+\cleardoublepage  % new right-hand page
+\phantomsection   % Para incluir bookmark
+\addcontentsline{toc}{part}{Appendix}    %Incluir no Índice
+\part*{Appendix}
+\appendix
+\input{statistics.tex}
+\input{eolica/join_clusters/join_clusters_chosen.tex}
+
+\backmatter
+
+\end{document}
+
+
+% Frases Fixes:
+
+% Second guessing a model - adjusting a forecast for the model's known weaknesses - is precisely what gives an experienced forecaster an adavantage over an inexperienced one
+% (2009, Rife et At Temporal Changes in Wind as Objects for Evaluating Mesoscale Numerical Weather Prediction. Wea. Forecasting, 24, 1374-1389)
+
+% forecasts span a 6 hour window.
+% ensemble members have different age at the target verification time
+
+
+%If you have to forecast, forecast often.
+%Edgar R. Fiedler
+%
+%The most reliable way to forecast the future is to try to understand the present.
+%John Naisbitt
+
+%Bad weather always looks worse through a window.
+%Tom Lehrer 

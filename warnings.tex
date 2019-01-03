@@ -1,0 +1,417 @@
+\chapter{Meteorological Warnings in Lisbon}
+\label{sec:warnings}
+
+%\chapter*{\centering \begin{normalsize}Abstract\end{normalsize}}
+%%\addcontentsline{toc}{chapter}{Abstract}
+%
+%\begin{quotation}
+%\noindent % abstract text
+%The current work describes and evaluates an Early Warning System for meteorological risk in Lisbon that has been functioning in SMPC since February 2008. The system aims to integrate multiple sources of information and facilitate cross checking observations, forecasts and warnings, allowing for an efficient and timely evaluation of the alert level to issue. Currently, it comprises hourly weather and tide level forecasts and automated warnings for Lisbon city, given by MM5 and WRF models running at IST. Results show MM5 performing better than WRF except for warm weather. The overall skill of the warning system is 40\% with some false alarm ratios, mainly for forecasts with more than 3 days in advance. This is a reasonable characteristic for early warning since a potentially problematic situation can be anticipated and checked avoiding unnecessary economic expenditures if the warnings do not persist.
+%\end{quotation}
+%
+%
+%\textbf{Keywords:} Early warning, Lisbon, Weather, Forecasts, Integration
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Introduction}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Weather and climate play an important role in people's well being and long exposure to adverse conditions has negative impacts in daily activities. To cope with unusual and intense meteorological events in an increasing world population, early warning systems are being developed at different scales, allowing the use of the best available technologies \citep{GrassoSingh2008, WMO2010}. The urban environment presents unique challenges due to increased vulnerability (higher population density, impervious surfaces, construction in flood plains, poor isolation in households, etc..., see \cite{SOER2010}) and meteorological events that are influenced by local effects, such as the irregular distribution of building heights, heating footprints, and also by tide level and sea breeze in coastal cities. 
+
+Being so, an early warning system at the city scale requires tools that can describe this heterogeneity and finer scale \citep{Pullen2008, Trusilova2008}. Urban early warning systems are being developed for many cities all over the world \citep{Koskinen2011, Sharif2006, WMO2010} with successful state of the art examples given by the Olympic Games \citep{Mailhot2010, Wilson2010} and the recent implementation of a ``Smart City'' system in Rio de Janeiro for the 2016 Olympics, as reported by The Economist magazine in 2011-01-03).
+
+According to the Civil Protection Department of Lisbon Municipality (Serviço Municipal de Proteção Civil, hereafter SMPC), meteorological situations with greater impact in Lisbon are: (i)intense precipitation, (ii) strong wind speed and gusts, (iii) temperature extremes, and 
+(iv) strong fluvial and maritime agitation and storm surges. Although some of these situations may not be too intense they can cause great damage due to urban specificities. For instance, intense precipitation or persistence of rainy days can cause urban flood events by the abnormal flux of pluvial waters, but this will be more dangerous in the lower parts of the city, near the Tagus Estuary. The vulnerability of these lower areas is very dependent on the tide level at the time of precipitation. Extreme wind speed and gusts affect the functioning of the city mainly in what concerns air transport in Lisbon International Airport, fluvial transport due to the proximity of the Tagus Estuary, and road and rail traffic in the bridges across the estuary. Other frequent damages are in urban furniture (awnings, antennas, lamps, scaffolds, etc...) and fall of trees. Also, despite Lisbon's mild climate, there are episodes of cold and heat waves that endanger several layers of the population. Cold waves affect mainly the homeless while heat waves affect mainly the elderly (24 \% of Lisbon's resident population is over 65, according to 2001 information from the National Statistical Institute), children in their early years, and people with chronic diseases, obesity or bedridden, or simply with deficient air conditioning at home. If coincident with the dry period, heat waves are also precursors of man induced forest fires. 
+
+The SMPC is responsible for the management of the city during crisis and exceptional conditions and works in articulation with the National and District Authorities for Civil Protection (respectively, Autoridade Nacional de Proteção Civil, hereafter ANPC, and Comandos Distritais de Operações de Socorro, hereafter CDOS). Due to urban specificities and detailed knowledge of the city circumstances at all times, the SMPC can give a faster and more efficient response in emergency management. To deal with emergencies at all levels - prevention/mitigation and preparedness/awareness (before), rescue/emergency (during) and normality reposition (after) - the SMPC has an operational structure and daily routines that allow constant monitoring of the current and expected meteorological risk:
+
+\begin{itemize}
+    \item Assembly of daily weather information, by email, fax or online consultation of the National Meteorological Service (Instituto de Meteorologia, hereafter IM) web site. The available data are: 
+
+    \begin{itemize}
+        \item hourly observed precipitation, wind speed, gusts, and temperature in two IM’s meteorological stations in Lisbon (Gago Coutinho and Instituto Geofísico), 
+        \item descriptive weather forecasts for Lisbon district, up to 3 days ahead, 
+        \item 10 day's weather forecasts for Lisbon district with daily values of temperature and precipitation probability, 
+        \item daily briefing issued by the ANPC and CDOS, with weather forecasts for Lisbon district, for the current and next 2 days.
+    \end{itemize}
+
+    \item Consultation of daily tide level and peak time in down town Lisbon, from Hydrographic Institute (Instituto Hidrográfico) web site and from Faculty of Sciences of the University of Lisbon (Faculdade de Ciências da Universidade de Lisboa, hereafter FCUL, \cite{Antunes2007}).
+    \item Conversion of all data to the same tabular format for comparability.
+    \item Evaluation of the risk level, together with the warnings issued by ANPC and CDOS (sent by email). 
+    \item Determination of the alert level to issue and activate the necessary plans and services. 
+\end{itemize}
+
+Notice that IM issues meteorological \textit{warnings}, which shouldn't be confused with the \textit{alerts} that can only be issued by civil protection authorities. Alerts are based on meteorological warnings but take into account specific vulnerabilities that may exist. 
+
+Although the SMPC has a prompt response to emergency it has some limitations, namely:
+
+\begin{enumerate}[i.]
+    \item Existence of multiple sources of information and communication channels (email, fax, website consultation) arriving to the SMPC in different formats, incompatible with each other and sometimes not allowing an immediate statistical treatment of data. This diversification of formats doesn't allow cross checking observations, forecasts and corresponding warnings. For instance, the daily forecasts issued by IM (to the current and 2 days ahead) to the ANPC are received in the SMPC by email but in WORD format, which doesn't allow direct treatment of the data. 
+
+    \item IM forecasts are only sent by the ANPC in work days.
+
+    \item IM forecasts available at their web site are descriptive, and thus not quantifiable, and their update frequency is unknown as well as the spatial resolution of Lisbon district.
+
+    \item Observed data provided by IM via ftp doesn't cover the entire city (only two stations) and the format doesn't allow directly exporting to a database.  
+
+    \item IM meteorological warnings are issued at the district level, which is an area comprising a multitude of microclimatic zones. 
+\end{enumerate}
+
+Being so, the time it takes the SMPC to issue an alert is severely dependent on the time of the reception of the IM meteorological information, telephone clarifications directly with IM for detailed information in Lisbon city, and the manual cross checking of the different meteorological and maritime variables, warnings and briefings, in their multitude of formats. 
+
+For these reasons, the SMPC in collaboration with Instituto Superior Técnico (IST) has been developing an Integrated Operational System for Meteorological Risk in Lisbon Municipality (OS) in a project funded by POVT-QREN (POVT-03-0335-FCOES-000102). Figure \ref{fig:OS} shows the architecture of the system, which aims to integrate the diverse sources of information arriving at the SMPC in a single platform, facilitating cross checking  observations, forecasts and warnings. Also, the platform aims to be compatible with the municipality geographical information system (ArcGIS) and include satellite imagery provided to the SMPC by \cite{ESAUHI}. The system will also allow building a historical thematic database, with meteorological information as well as geo-referenced emergencies and responses, facilitating the evaluation of the city's current vulnerabilities, the quality of forecasts, the adequacy of meteorological warnings to emergency situations, and the efficiency of the municipal services involved.
+
+\begin{figure}[!htp]
+    \centering
+    \includegraphics[width=0.7\columnwidth]{warnings/Figure1.png}
+    \mycaption{Architecture of the Integrated Operational System for Meteorological Risk in Lisbon Municipality (OS).}
+\label{fig:OS}
+\end{figure}
+
+Currently, the system is comprised of hourly weather and tide level forecasts provided by IST, for Lisbon city. Forecast variables are precipitation, 2-meter air temperature and relative humidity, 10-meter wind speed, direction and gust, sea level atmospheric pressure and tide level in Lisbon's down town. This information is delivered to SMPC through a restricted web site, with forecasts in tabular format for direct exportation to other databases, and graphical format for a quicker visualization of unusual phenomena. In addition, at every forecast update, warnings are automatically computed with the thresholds provided by IM for Lisbon (described in the next section), posted in the web site and also sent by email. Precipitation warnings are complemented with the hour and level of the next high tide. The OS has been functioning since February 2008 (WRF only since September 2009) and has proven to be reliable in several occasions, particularly to complement the aggregated information provided by IM.
+
+The objective of this paper is to describe and make a pre-evaluation of the OS, namely the warnings issued with the IM's thresholds and assess the quality of each model in forecasting the different weather variables. The evaluation is a part of the OS as a tool that indicates forecasts strengths and limitations at the city level, allowing confidence in the forecasts delivered and thus better decision making. The next section presents the data and methodologies used in forecasts verification. The results section presents the main statistical results, followed by discussion and conclusions.
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Data and Methodology}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Weather forecasts in OS are hourly precipitation, 2 m temperature and relative humidity, 10 m wind speed, direction and gust, and sea level atmospheric pressure for Lisbon municipality. These are complemented with hourly tide level forecasts for Terreiro do Paço (Lisbon central down town, and outlet of one of the wider drainage basins in Lisbon).  Weather forecasts are from the IST operational meteorological system (section \ref{sec:meteo_ist}), i.e., from MM5 9 km and WRF 3 km, for 3 days ahead, updated 4 times per day (at 00Z, 06Z, 12Z and 18Z) and for 7 days ahead, updated every 00Z. Tide information is provided from two different models: MOHID TidePrev model \citep{Lyard2006}, running at IST, and FCUL model \citep{Antunes2007}, running at FCUL.
+
+Warnings are computed for all projection times, according to the thresholds defined by IM (table \ref{tb:thr}). The colour represents the degree of warning, from not dangerous (green), potentially dangerous (yellow), to dangerous (orange) and very dangerous (red). In other words, yellow warnings are associated with strong but not unusual weather phenomena, orange to unusual, and red to exceptionally intense phenomena. More information can be found in MeteoAlarm (\url{www.meteoalarm.eu}) and in IM's web site (\url{www.meteo.pt}). 
+
+
+\begin{table}[!htp]
+    \small
+    \centering
+    \mycaption{Meteorological warning thresholds indicated by IM (*values in each class required to persist for at least 48 h)}
+    \begin{tabular}{lccc}
+    \toprule
+    Variable & Yellow & Orange & Red \\
+    \midrule
+    6-hour accumulated precipitation (mm) & $> 30$ & $> 40$ & $> 60$ \\
+    Hourly precipitation (mm) & $> 10$ & $> 20$ & $> 40$ \\           
+    Warm weather* - Air temperature ($\mathrm{^{\circ}C}$) & $> 33$ & $> 37$ & $> 40$ \\           
+    Cold weather* - Air temperature ($\mathrm{^{\circ}C}$) & $< 3$ & $< 0$ & $< -1$ \\    
+    Wind speed ($\mathrm{km\ h^{-1}}$) & $> 50$ & $> 70$ & $> 90$ \\        
+    Wind gust ($\mathrm{km\ h^{-1}}$) & $> 70$ & $> 90$ & $> 130$ \\               
+    \bottomrule
+    \end{tabular}
+    \label{tb:thr}
+\end{table}
+
+In this paper, forecasts quality is assessed in terms of issued warnings, for hourly and 6 hour accumulated precipitation and hourly temperature and wind speed. Wind gusts are not evaluated as the diagnostic algorithm to compute this variable is still being tested. 
+
+Forecasts are compared with observations from different meteorological stations, depending on the available data: 
+
+\begin{itemize}
+    \item 6-hour accumulated precipitation is compared with a station located in the center of Lisbon (Instituto Geofísico – IGeo), which has data available at \url{http://idl.ul.pt/bd_horaria.htm} with 3 hour temporal resolution,
+    \item hourly precipitation is compared with a certified udometric station from the National Water Institute  – São Julião do Tojal (SJT), located in Sacavém, just outside Lisbon, which has hourly data available at \url{http://snirh.pt},
+    \item 2 m temperature and 10 m wind speed is compared with the Lisbon airport METAR (LPPT) which has hourly data but without precipitation information. 
+\end{itemize}
+
+Comparisons are performed for both models (MM5 and WRF) during the hydrological year 2009/2010, for all forecasts, and for lead times from 6 to 180 h (7.5 days), using categorical performance scores such as frequency bias (FBIAS), hit rate (H) and false alarm ratio (FAR) described in appendix \ref{sec:verif_mcat}. Warnings are multi-category variables that can only have a small set of values, corresponding to danger levels ("Green", "Yellow", "Orange" and "Red"). Each warning level corresponds to a range of values of the forecast meteorological variables, i.e., a bin. In the case of precipitation warnings, one more category was defined, corresponding to a special kind of "Green" events: the "No Rain" events. This option was taken due to the high frequency of these events (that would further increase the frequency of "Green" events) and the importance of having weather forecasts than can discriminate "NoRain" from all other "Rain". For warm and cold weather the 48 h persistence of extreme temperatures was disregarded or else just one temperature related warning would have been issued for the entire study period, in the summer of 2010, when a severe heat wave occurred.
+
+According to \cite{Jolliffe2003} the recommended skill scores for multi-category forecasts are Heidke Skill Score (HSS), Peirce Skill Score (PSS) and Gerrity Skill Score (GSS). However, maybe due to the sparseness of data in some categories (like ``Orange'' and ``Red''), GSS didn't provide reasonable values, suggesting different thresholds for the categories. However, these were maintained since the objective of this work is to assess the forecast skill with the official IM's thresholds. Nevertheless, more than one year of data should be used for better representativeness. 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Results}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+In this section, observed events for all variables are first presented to give an idea of the warnings that should have been issued along the year. Next, each variable is analysed individually, and compared at the end. All dates and times referred in the text are in UTC.
+
+The temporal evolution of the analysed variables and respective threshold levels for warning are shown in figure \ref{fig:ts}. It can be seen that “Red” thresholds were not surpassed by any of the variables. “Orange” thresholds were not reached for cold weather and wind speed, but were hit 3 times by 6-hour accumulated precipitation at IGeo, in 2009-10-20 12:00 (52.5 mm), 2010-01-12 12:00 (41.7 mm), and 2010-04-15 06:00 (55.6 mm); twice by hourly precipitation at SJT, in 2009-10-21 05:00 (28.4 mm) and 2010-04-22 02:00 (22.6 mm); and twice by warm weather at LPPT, in 2010-07-05 15:00 ($37.0\mathrm{\ ^{\circ}C}$) and 2010-07-26 15:00 ($37.4\mathrm{\ ^{\circ}C}$).  “Yellow” thresholds were surpassed once by 6-hour accumulated precipitation at 2009-12-28 06:00 (35.7 mm); 8 times by hourly precipitation; 25 times by warm weather, 3 times by cold weather,  in 2009-12-20 06:00 ($2.9\mathrm{\ ^{\circ}C}$) and at 09:00 ($2.4\mathrm{\ ^{\circ}C}$), and 2010-03-12 00:00 ($1.1\mathrm{\ ^{\circ}C}$), and 3 times by wind speed, in 2009-10-22 12:00 ($14.9\mathrm{\ m\ s^{-1}}$), 2010-02-27 15:00 ($14.39\mathrm{\ m\ s^{-1}}$) and 2010-05-03 09:00 ($15.42\mathrm{\ m\ s^{-1}}$).
+
+\begin{figure}[!htp]
+    \centering
+    \subfloat[6-hour accumulated precipitation at IGeo] {\label{fig:ts_pcp6h}\includegraphics[width=0.45\columnwidth]{warnings/Figure3.png}}
+    \subfloat[hourly precipitation at SJT] {\label{fig:ts_pcp1h}\includegraphics[width=0.45\columnwidth]{warnings/Figure4.png}}\\
+    \subfloat[2 m air temperature at LPPT (warm and cold weather)] {\label{fig:ts_t2m}\includegraphics[width=0.45\columnwidth]{warnings/Figure5.png}}
+    \subfloat[10 m wind speed at LPPT] {\label{fig:ts_ws10}\includegraphics[width=0.45\columnwidth]{warnings/Figure6.png}}
+    \mycaption{Temporal evolution and warning levels.}
+    \label{fig:ts}
+\end{figure}
+
+%======================================
+\FloatBarrier
+\subsection{6-hour Accumulated Precipitation}
+%======================================
+
+Table \ref{tb:ct_pcp6h} shows the distribution of events and performance scores according to the warnings issued by MM5 and WRF forecasts (MM5/WRF). As expected, the most frequent categories are “No Rain” and “Green” and both were correctly forecast (high values in the diagonal of the contingency table) although a significant number of the “Green” forecasts were “No Rain” events. This is reflected in the FBIAS for these 2 categories where the “Green” category is clearly overforecast (FBIAS $> 1$), particularly by WRF model. The “No Rain” has a high H, above 80 \%, and low FAR, below 10 \%, for both models, with higher hits in MM5. In the “Green” category, H is slightly lower but still above 80 \%, while FAR increases to approximately 50 \%. Looking at the contingency table, it can be seen that this is mainly due to forecast “Green” events that were “No Rain”.  On the other hand, the few forecast “Yellow” warnings revealed to be “No Rain” or “Green” events, leading to very low H and high FAR for this category.  In the “Red” category each model issued one single warning in the entire year, which also revealed to be false alarms.  It is important to stress that the false alarms in the “Orange” and “Red” forecasts, as well 1/3 of the “Yellow” forecasts, were overestimations with lead times higher than 100 hours ($\sim$ 4 days). 
+
+In terms of skill scores, 6 h accumulated precipitation warnings are relatively good ($\sim$ 50 \%) and very similar for both models, although MM5 has higher H and lower FAR in the most frequent categories.
+
+\begin{table}[!htp]
+\small
+\centering
+\mycaption{Contingency table and performance scores for 6-hour accumulated precipitation MM5/WRF forecasts at IGeo.}
+\begin{tabular}{l|cccccc}
+\toprule
+         &         &             & Observ.   &           &                 & \\ 
+Forecast & No Rain & Green       & Yellow    & Orange    & Red             & Total \\
+         &         & $]0.01,30]$ & $]30,40]$ & $]40,60]$ & $]60,+\infty]$ &  \\
+\midrule
+No Rain & 16938/16048 & 1151/870 & 0/0 & 4/3 & 0/0 & 18093/16921 \\
+Green & 2484/3778 & 2613/2937 & 16/17 & 44/47 & 0/0 & 5157/6779 \\
+Yellow & 6/4 & 7/9 & 0/0 & 0/1 & 0/0 & 13/14 \\
+Orange & 0/2 & 0/1 & 0/0 & 0/0 & 0/0 & 0/3 \\
+Red & 0/1 & 1/0 & 0/0 & 0/0 & 0/0 & 1/1 \\
+Total & 19428/19833 & 3772/3817 & 16/17 & 48/51 & 0/0 & 23264/23718 \\
+\bottomrule
+FBIAS & 0.93/0.85 & 1.37/1.78 & 0.81/0.82 & 0/0 & - & \\ 
+H   & 0.87/0.81 & 0.69/0.77 & 0/0 & 0/0 & - & \\ 
+FAR & 0.06/0.05 & 0.49/0.57 & 1/1 & 1/1 & - & \\ 
+\midrule
+HSS & & & & & & 0.49/0.44 \\
+PSS & & & & & & 0.56/0.57 \\
+\bottomrule
+\end{tabular}
+\label{tb:ct_pcp6h}
+\end{table}
+\FloatBarrier
+
+%======================================
+\subsection{Hourly Precipitation}
+%======================================
+
+The distribution of events is similar to the 6-hourly accumulated precipitation, with high H and low FAR for the most frequent “No Rain” category and $H \sim FAR$ for the “Green” category (table \ref{tb:ct_pcp1h}). Here, the “Green” category is not so overforecast as in the 6-hour accumulated precipitation, but H is of the slightly lower than FAR.  This leads to a decrease from 50 \% to 36 \% in the skill scores, which can be explained by phase errors, more significant for data with higher temporal resolution. Nevertheless, they should be investigated. As in the previous section, “Yellow” and “Orange” categories also have low H and high FAR, and again the false alarms correspond to overforecast, typically for lead times higher than 72 h. For instance, MM5 issued one “Orange” warning, for 2010-01-10 06:00 (20.47 mm) with 174 hours advance that was observed as “Green”.  However, a peak occurred two days after, between 09:00 and 11:00 ($\sim$ 20 mm in 2 hours).
+
+\begin{table}[!htp]
+\small
+\centering
+\mycaption{Contingency table and performance scores for hourly precipitation MM5/WRF forecasts at SJT.}
+\begin{tabular}{l|cccccc}
+\toprule
+         &         &             & Observ.   &           &                 & \\ 
+Forecast & No Rain & Green       & Yellow    & Orange    & Red             & Total \\
+         &         & $]0.01,10]$ & $]10,20]$ & $]20,40]$ & $]40,+\infty]$ &  \\
+\midrule
+No Rain & 113246/110891 & 9952/8807 & 41/38 & 12/12 & 0/0 & 123251/119748 \\
+Green   & 10036/14546 & 7882/9245 & 88/96 & 19/18 & 0/0 & 18025/23905 \\
+Yellow  & 28/33 & 36/25 & 1/1 & 0/0 & 0/0 & 65/59 \\
+Orange  & 0/0 & 1/3 & 0/0 & 0/0 & 0/0 & 1/3 \\
+Red     & 0/0 & 0/0 & 0/0 & 0/0 & 0/0 & 0/0 \\
+Total   & 123310/125470 & 17871/18080 & 130/135 & 31/30 & 0/0 & 141342/143715 \\
+\bottomrule
+FBIAS   & 1.00/0.95 & 1.01/1.32 & 0.50/0.44 & 0.03/0.10 & - & \\ 
+H       & 0.92/0.88 & 0.44/0.51 & 0.01/0.01 & 0/0 & - & \\ 
+FAR     & 0.08/0.07 & 0.56/0.61 & 0.98/0.98 & 1/1 & - & \\ 
+\midrule
+HSS & & & & & & 0.36/0.35 \\
+PSS & & & & & & 0.36/0.39 \\
+\bottomrule
+\end{tabular}
+\label{tb:ct_pcp1h}
+\end{table}
+\FloatBarrier
+
+%======================================
+\subsection{Air Temperature}
+%======================================
+
+As expected, in both warm and cold weather, the most frequent category (“Green”) has almost unitary BIAS, high H and low FAR (tables \ref{tb:ct_tmax} and \ref{tb:ct_tmin}). 
+
+In warm weather, all other categories are underforecast ($FBIAS < 1$) with low H and high FAR. There's a significant different between MM5 and WRF forecasts in the “Yellow” and “Orange” categories, with the WRF being superior (lower H, higher FAR). For instance, MM5 didn't forecast any “Orange” warning while WRF had an hit rate of 16 \%. This difference is evident in the skill scores that are about 4 \% for MM5 and 40 \% for WRF.
+
+For cold weather, only “Yellow” warnings were issued and observed, but with lower H and higher FAR than for warm weather.Here, MM5 forecasts were better than WRF, with skill scores of about 30 \% for MM5 and 10\% for WRF.
+
+
+\begin{table}[!htp]
+\small
+\centering
+\mycaption{Contingency table and performance scores for warm weather MM5/WRF forecasts at LPPT.}
+\begin{tabular}{l|ccccc}
+\toprule
+         &                 & Observ.   &           &                 & \\ 
+Forecast & Green           & Yellow    & Orange    & Red             & Total \\
+         & $]-\infty,30]$ & $]30,33]$ & $]33,37]$ & $]37,+\infty[$ & \\
+\midrule
+Green   & 137250/139745 & 1529/1011 & 269/99 & 0/0 & 139048/140855 \\
+Yellow  & 9/189 & 26/541 & 51/170 & 0/0 & 86/900 \\
+Orange  & 0/4 & 0/17 & 0/51 & 0/0 & 0/72 \\
+Red     & 0/0 & 0/0 & 0/0 & 0/0 & 0/0 \\
+Total   & 137259/139938 & 1555/1569 & 320/320 & 0/0 & 139134/141827 \\
+\bottomrule
+FBIAS   & 1.01/1.01 & 0.06/0.57 & 0.00/0.22 & - & \\ 
+H       & 1.00/1.00 & 0.02/0.34 & 0.00/0.16 & - & \\ 
+FAR     & 0.01/0.01 & 0.70/0.40 & -/0.29 & - & \\ 
+\midrule
+HSS & & & & & 0.05/0.47 \\
+PSS & & & & & 0.03/0.36 \\
+\bottomrule
+\end{tabular}
+\label{tb:ct_tmax}
+\end{table}
+\FloatBarrier
+
+\begin{table}[!htp]
+\small
+\centering
+\mycaption{Contingency table and performance scores for cold weather MM5/WRF forecasts at LPPT.}
+\begin{tabular}{l|ccccc}
+\toprule
+         &                & Observ. &          &                 & \\ 
+Forecast & Green          & Yellow  & Orange   & Red             & Total \\
+         & $[3,+\infty]$ & $[0,3[$ & $[-1,0[$ & $]-\infty,-1[$ &  \\
+\midrule
+Green   & 138936/141723 & 75/88 & 0/0 & 0/0 & 139011/141811 \\
+Yellow  & 78/5 & 45/11 & 0/0 & 0/0 & 123/16 \\
+Orange  & 0/0 & 0/0 & 0/0 & 0/0 & 0/0 \\
+Red     & 0/0 & 0/0 & 0/0 & 0/0 & 0/0 \\
+Total   & 139014/141728 & 120/99 & 0/0 & 0/0 & 139134/141827 \\
+\bottomrule
+FBIAS   & 1/1 & 1.02/0.16 & - & - & \\ 
+H       & 1/1 & 0.37/0.11 & - & - & \\ 
+FAR     & 0/0 & 0.63/0.31 & - & - & \\ 
+\midrule
+\midrule
+HSS & & & & & 0.36/0.19 \\
+PSS & & & & & 0.37/0.19 \\
+\bottomrule
+\end{tabular}
+\label{tb:ct_tmin}
+\end{table}
+\FloatBarrier
+
+
+The difference in performance of both models can be attributed to the different resolution and land surface schemes (table \ref{tb:nwp_options}). WRF has a more detailed land use database than MM5, and uses a different physical parameterization (Noah) that significantly improves the forecast of surface air temperature, but not of the other variables. 
+
+Figure \ref{fig:t2m_rmse_bias_hz} shows  diurnal variability present in RMSE and BIAS for the 00Z forecast cycle. The higher errors in the afternoon, with negative BIAS, indicate that both models underforecast daily high temperatures with inferior performance by MM5 model. This is evidenced in figure \ref{fig:t2m_heat_wave_ts}, the first week of the 2010 summer heat wave, where WRF hourly temperatures are very close to observations. Given the end-user of these warnings, it is interesting to point out that, during the heat wave that covered more or less the entire country, the WRF system was able to predict the high temperatures that occur in the city, i.e., the urban heat island effect. This is illustrated in figure \ref{fig:t2m_lst} where land surface temperature from model results can be compared to the satellite image from LandSAF with 3 km resolution \citep{LST2005}.
+
+\begin{figure}[!htp]
+    \centering
+    \includegraphics[width=0.4\columnwidth]{warnings/plt_RMSE_BIAS_TempAir_LPPT_00-0.png}
+    \mycaption{2 m air temperature RMSE and BIAS over lead time for 00Z forecast cycle at LPPT.}
+    \label{fig:t2m_rmse_bias_hz}
+\end{figure}
+\FloatBarrier
+%                MM5          WRF
+%MAE       1.2394413    1.2048670
+%RMSE      1.6797827    1.6195534
+%BIAS     -0.5357631   -0.5018262
+%SDE       1.5921446    1.5399356
+%SDBIAS   -0.7459552   -0.5122057
+%DISP      1.4065829    1.4522558
+%R         0.9686557    0.9680094
+%N      8537.0000000 8537.0000000
+
+\begin{figure}[!htp]
+\centering
+\includegraphics[width=0.45\columnwidth]{warnings/plot_ts_TempAir_avisos_LPPT_Summer.png}
+\mycaption{2 m air temperature evolution at LPPT with MM5 9 km and WRF 3 km resolution during the first week of the 2010 heat wave.}
+\label{fig:t2m_heat_wave_ts}
+\end{figure}
+\FloatBarrier
+
+\begin{figure}[!htp]
+    \centering
+    \subfloat[WRF (3 km)] {\label{fig:t2m_lst_wrf3km}\includegraphics[width=0.45\columnwidth]{warnings/plt_d02_2010070100_lst_sat_2010070620-0.png}}
+    \subfloat[LandSAF (3 km)] {\label{fig:t2m_lst_landsaf}\includegraphics[width=0.45\columnwidth]{warnings/plt_d02_2010070100_lst_sat_2010070620-1.png}}\\
+    \mycaption{Land Surfae Temperature (LST) forecasts and observations for 2010-07-06 20:00.}
+\label{fig:t2m_lst}
+\end{figure}
+\FloatBarrier
+
+Figure \ref{fig:t2m_hzd} complements figure \ref{fig:t2m_rmse_bias_hz} evidencing RMSE and BIAS per forecast day for hourly, maximum and minimum temperatures. WRF is always better than MM5 in simulating maximum temperatures, but both have strong negative BIAS (cold BIAS for maximum temperature). For minimum temperatures, errors are quantitatively lower than for maximum temperatures and both models have similar performances. In the long range (after 4 days of simulation), WRF tends to overforecast minimum temperatures (hot BIAS for minimum temperature), having thus an overall inferior performance than MM5.
+
+
+\begin{figure}[!htp]
+    \centering
+    \includegraphics[width=0.7\columnwidth]{warnings/plt_RMSE_BIAS_TempAirMaxMin_LPPT_hzd.png}
+    \mycaption{RMSE and BIAS per day in lead time, with maximum and mimum temperatures.}
+    \label{fig:t2m_hzd}
+\end{figure}
+\FloatBarrier
+
+
+%======================================
+\subsection{Wind Speed}
+%======================================
+
+Table \ref{tb:ct_ws} shows that the majority of the forecasts and observations are in the “Green” category, and that no “Orange” or “Red” warnings were forecast or observed. Nevertheless, the “Yellow” forecasts were almost all “Green” occurrences (false alarms), and some of the “Green” forecasts were “Yellow” occurrences (misses). This is translated into low H and high FAR for the ``Yellow'' category. A slight advantage can be given to MM5 but the higher H is also accompanied by higher FAR. This explains the higher skill scores of MM5 over WRF, but all skill scores for both models are very low (below 10 \%).
+
+%fig:ws_rmse_bias_hz
+
+In the overall, MM5 and WRF 10 m wind short-term forecasts for LPPT have a RMSE of approximately 1.5 $\mathrm{m\ s^{-1}}$ in both models with an overall BIAS of $-0.04/-0.62\mathrm{\ m\ s^{-1}}$ for MM5/WRF. From figure \ref{fig:ws_rmse_bias_hz} it can be seen that the errors have a diurnal cycle where MM5 overforcasts (lower) winds during the night and underforecasts (higher) during the day, whereas WRF only underforecasts winds during the night, but strongly. This systematic and persistent BIAS doesn't increase with lead time, as in RMSE, suggesting that it might be connected to the conditions surrounding the forecast and observation location. In both models, due to spatial discretization, winds are interpolated to the forecast location using surrounding ``water'' points over the Estuary (bilinear interpolation), while observations were made at the airport, where wind is not directly influenced by the water body.
+
+\begin{table}[!htp]
+\small
+\centering
+\mycaption{Contingency table and performance scores for wind speed MM5/WRF forecasts at LPPT.}
+\begin{tabular}{l|ccccc}
+\toprule
+         &                & Observ. &          &                 & \\ 
+Forecast & Green    & Yellow    & Orange    & Red             & Total \\
+         & $[0,14[$ & $[14,19[$ & $[19,25[$ & $]25,+\infty[$ &  \\
+\midrule
+Green   & 135994/138650 & 45/48 & 0/0 & 0/0 & 136039/138698 \\
+Yellow  & 43/7 & 4/1 & 0/0 & 0/0 & 47/8 \\
+Orange  & 0/0 & 0/0 & 0/0 & 0/0 & 0/0 \\
+Red     & 0/0 & 0/0 & 0/0 & 0/0 & 0/0 \\
+Total   & 136037/138657 & 49/49 & 0/0 & 0/0 & 136086/138706 \\
+\bottomrule
+FBIAS   & 1/1 & 0.96/0.16 & - & - & \\ 
+H       & 1/1 & 0.08/0.02 & - & - & \\ 
+FAR     & 0/0 & 0.91/0.88 & - & - & \\ 
+\midrule
+HSS & & & & & 0.08/0.03 \\
+PSS & & & & & 0.08/0.02 \\
+\bottomrule
+\end{tabular}
+\label{tb:ct_ws}
+\end{table}
+\FloatBarrier
+
+\begin{figure}[!htp]
+    \centering
+    \includegraphics[width=0.4\columnwidth]{warnings/plt_RMSE_BIAS_WindSpeed_LPPT-0.png}
+    \mycaption{10 m wind speed RMSE and BIAS over lead time for 00Z forecast cycle at LPPT.}
+    \label{fig:ws_rmse_bias_hz}
+\end{figure}
+\FloatBarrier
+%                 MM5          WRF
+%MAE       1.36640466    1.3592610
+%RMSE      1.73793518    1.7478288
+%B        -0.04475827   -0.6167233
+%SDE       1.73746281    1.6355056
+%SDBIAS   -0.35916220   -0.5340081
+%DISP      1.69993515    1.5458699
+%R         0.69278345    0.7215618
+%N      8348.00000000 8348.0000000
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Discussion}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+In the overall, the OS has positive skill scores for all analysed variables  with significative improvements over random forecasts (figure \ref{fig:ss}). MM5 has higher skill in forecasting precipitation, cold weather and wind speed, whereas WRF can significantly improve warm weather warnings. This is mainly due to the different parameterizations and resolutions of both models: WRF has a more detailed land use database than MM5, and uses a different physical parameterization (Noah) that significantly improves the forecast of surface air temperature, but not of the other variables. 
+
+\begin{figure}[!htp]
+    \centering
+    \includegraphics[width=0.9\columnwidth]{warnings/plt_scores_HSS_PSS.png}
+    \mycaption{Skill scores for warning variables: HSS – Heidke Skill Score (improvement of forecast accuracy, measured in proportion of corrects, over random forecasts statistically independent of observations); PSS – Peirce Skill Score (same as HSS but random forecasts are unbiased. Also, indicates how well the forecast discriminated different categories of events, being compromised by the large frequency of correct rejections). Skill scores are 0 for no skill and 1 for perfect forecasts. See appendix \ref{sec:verif_mcat} and \cite{Jolliffe2003}.}
+\label{fig:ss}
+\end{figure}
+\FloatBarrier
+
+As expected, the most frequent categories (“No Rain” and “Green”) have high H and low FAR for all variables. The “Yellow” category has low H and high FAR for both models, except for cold weather in MM5 and warm weather in WRF, which have higher H and lower FAR. The “Orange” and “Red” categories have practically null H, being mostly false alarms (not misses), which is explained by their scarcity (just one year of data) and the model phase errors.  With time, more data will be available to perform an inter-annual study and properly evaluate the most extreme phenomena.
+
+Phase errors lower the skill of warnings forecast, as can be seen from the difference in scores of 6 hour accumulated and hourly precipitation (using SJT to forecast 6-hour accumulated precipitation, the skill scores are  about 2 \% lower than for IGeo but still higher than for 1-hour precipitation). The accumulated precipitation aggregates phase errors into 6 hour periods. Phase errors are also significant in temperature and wind speed forecasts as can be seen from the difference in magnitude between RMSE and BIAS (figures \ref{fig:t2m_rmse_bias_hz} and \ref{fig:ws_rmse_bias_hz})\footnote{see appendix \ref{sec:verif_cont} for more details in RMSE decomposition in amplitude and phase errors.}.
+
+Nevertheless, the system can be considered reasonable for early warning, since the false alarms are not severe (mainly in “Yellow” category) and correspond to forecasts with lead times above 3 days, allowing the SMPC to monitor a given weather situation with other tools (observations, satellite, radar, etc \ldots) and be prepared with the necessary anticipation, while avoiding unnecessary economic expenditures if the warnings do not persist with forecast updates.
+
+These aspects together with intrinsic phase errors of the models reinforce the importance of having access to hourly forecasts, allowing the SMPC to be aware of events that are near the threshold limits and/or in the proximity of the hour. For instance, severe incidents can occur in high intensity but low duration (below 30 min) precipitation, which would be “diluted” in the hourly and 6-hourly accumulated precipitation. One example of severe incidents in precipitation events below the “Yellow” threshold is the first rain event of the hydrological year, which, apart from the intensity or duration, cause more accidents than the following, due to road traffic sliding and floods by blocked gutters.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\FloatBarrier
+\section{Conclusions}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The current work describes and evaluates an Early Warning System for meteorological risk in Lisbon that has been functioning in SMPC since February 2008. The system aims to integrate multiple sources of information and facilitate cross checking observations, forecasts and warnings, allowing for an efficient and timely evaluation of the alert level to issue. Currently, it comprises hourly weather and tide level forecasts and automated warnings for Lisbon city, given by MM5 and WRF models running at IST. 
+
+Results presented constitute the first approach in evaluating the early warning system, where it was verified that MM5 performs better than WRF for precipitation, cold weather and wind forecasts, while WRF is significantly superior in warm weather forecasting, which can be attributed to the higher resolution and different land surface scheme. The system has demonstrated skill (positive skill scores), but “Orange” and “Red” categories are rare. In the “Yellow” category, the system has hit rates of the same order of false alarm ratios.
+
+In the overall, the system can be considered reasonable for early warning, since the false alarms are not severe (mainly in “Yellow” category) and correspond to forecasts with lead times above 3 days, usually correct in the occurrence of event, but out of phase by a few hours. This allows the SMPC to monitor a given weather situation with other tools (observations, satellite, radar, etc \ldots) and a potential problematic situation can be anticipated and checked, while avoiding unnecessary economic expenditures if the warnings do not persist with forecast updates. This aspect, together with the intrinsic phase errors of the model, reinforces the importance of having access to the hourly forecasts, allowing the SMPC to be aware of events that are near the threshold limits and/or in the vicinity of the hour. 
+

@@ -1,0 +1,143 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\FloatBarrier
+\section{Influence of the Weather Regimes}
+\label{sec:regimes}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Identification of weather patterns specific of a region can help validate forecast models applied to that domain by investigating if they can be identified in their daily output \citep{CorteReal1998}. Even if the overall performance of the forecast is acceptable (e.g. over one or more months) the model cannot be considered skillful if it doesn't perform well under each regime.
+
+Weather regimes have been helpful in characterizing variability of different variables such as rainfall \citep{CorteReal1998, TrigoCamara2000, Santos2005}, air quality \citep{Shahgedanova1998, BeaverPalazoglu2006} and wind \citep{Soriano2006}. The same concept was applied to wind power forecast uncertainty in \cite{LangeHeinemann2003} and \cite{LangeFocken2005}, following \cite{Shahgedanova1998} methodology. They concluded that wind power forecasts in Germany have higher uncertainty when low pressure systems quickly pass in the north, and lower uncertainty in stationary high pressure situations. \cite{McMurdieCasola2009} also mention the typical high position errors of offshore low pressure systems in the Pacific northwest.
+
+Several methods have been used for automatic classification schemes of weather patterns, from multivariate combinations to Bayesian methods, Objective Synoptic Classification and clustering coupled to Principal Component Analysis (PCA) as reviewed in \cite{Soriano2006}. PCA was traditionally called Empirical Orthogonal Function (EOF) analysis when applied to atmospheric data following \cite{Wilks2005} (p. 471).
+
+%=======================================
+\subsection{Data and Methodology}
+%=======================================
+
+In this work, PCA coupled with cluster analysis was used, following \cite{LangeFocken2005}. PCA was applied for each wind farm individually, using hub height wind speed and direction and mean sea level pressure (MSLP) at different hours of the day (00Z, 06Z, 12Z and 18Z), during one year (2007). PCA extracts the uncorrelated variability modes, which can then be grouped by cluster analysis. It should be noted that the inclusion of the different hours of the day is important because wind speed and direction can widely vary in a few hours, e.g. during the passage of a frontal system. Values in the data set correspond to the mean of the time lagged ensemble of 72 hours forecasts of 00Z runs (without the first 6 hours) during 2007 produced by the MM5 operational system running at IST (section \ref{sec:meteo_ist}). 
+
+The data were written into a matrix $M$ (365x15) where the columns contain the different variables at the different hours of the day, and each row corresponds to one day:
+
+\begin{equation}
+M = \begin{pmatrix} 
+u_{1,0} & \cdots & u_{1,24} & v_{1,0} & \cdots & v_{1,24} & mslp_{1,0} & \cdots & mslp_{1,24} \\
+\vdots  &        &          &         &        &          &            &        & \vdots \\
+u_{365,0} & \cdots & u_{365,24} & v_{365,0} & \cdots & v_{365,24} & mslp_{365,0} & \cdots & mslp_{365,24} \\
+\end{pmatrix}
+\end{equation}
+
+The matrix M was normalised and subject to PCA. The loadings matrix is: 
+
+\begin{equation}
+Q=(\overrightarrow{q_1} \ldots \overrightarrow{q_N} )
+\end{equation}
+
+where ${\overrightarrow{q_i}},i=1,\ldots,N$ is the basis chosen for the first N principal components of the full eigenvector basis of M. $Q$ is the transformation matrix that can be used to project the data in M on the new basis by a multiplication from the right:
+
+\begin{equation}
+X=MQ
+\end{equation}
+
+X is the scores matrix whose entries are the scalar products $x_{ij} = \overrightarrow{m_i}.\overrightarrow{q_j}$ where $\overrightarrow{m_i}$ is the $i$th row of M. In other words, $x_{ij}$ is the contribution of the $j$th principal component to the $i$th day. Consequently, each day $\overrightarrow{m_i}$ can be approximately (because only a N-dimensional space is considered) expressed by
+
+\begin{equation}
+\overrightarrow{m_i} \approx \sum_{j=1}^N x_{ij}\overrightarrow{q_j}
+\end{equation}
+
+Thus, the 365 by N matrix X is the reduced data matrix thought to contain the most relevant meteorological information of 1 year of data.  Cluster analysis will be applied to matrix X. 
+
+Cluster analysis was applied to the chosen number of principal components for each wind farm, using different linkage methods: average, complete, Ward's and K-means \citep{Wilks2005,LangeFocken2005}.
+
+%=======================================
+\subsection{Results and Discussion}
+%=======================================
+
+The first six principal components explained more than 95\% of total variance for all wind farms. Figure \ref{fig:pca_loadings} shows the wind and MSLP variation in these six modes for ATD wind farm. The graphics show the reprojected data (matrix Q) with diurnal variation. It can be seen that the first three components correspond to stationary situations, as opposed to the remaining three principal components, where wind and MSLP vary during the day. Apart from symmetry issues, similar results were found for all other wind farms (figures \ref{fig:pc1} and \ref{fig:pc2} in the appendix), meaning that the principal components can be attributed to typical weather patterns over Portugal. 
+
+\begin{figure}[!htp]
+    \centering
+    \subfloat[Wind vectors $\protect\overrightarrow{u}$. The symbols denote the points $(u_t,v_t)$ at times $t = 0, 6, 12, 18, 24$ h, where $(u_0,v_0)\ (t=0\ \mathrm{h})$ is marked by "+".
+    ]{\label{fig:pca_loadings_ATD_ws}\includegraphics[width=0.45\columnwidth,page=1]{eolica/join_clusters/plt_pca_clusters_ATD_loadings.pdf}}
+    \subfloat[MSLP varying during the day.]{\label{fig:pca_loadings_ATD_p}\includegraphics[width=0.45\columnwidth,page=2]{eolica/join_clusters/plt_pca_clusters_ATD_loadings.pdf}}\\    
+    \mycaption{First six principal components (loadings matrix Q) for ATD wind farm.}
+    \label{fig:pca_loadings}
+\end{figure}
+\FloatBarrier
+
+In the cluster analysis, the average and complete linkage methods produced inhomogeneous clusters, and the Ward's and K-means consistently discriminated four clusters for all wind farms. Results for ATD park are shown in figure \ref{fig:clusters_ATD}. The K-means algorithm doesn't have a dendrogram because it's not a hierarchical method, but number of clusters where the total distance within clusters starts to slow down is four. The clusters produced by K-means are very similar to those obtained with Ward's method (table \ref{tb:cl_ward_kmeans}). 
+
+\begin{figure}[!htp]
+    \centering
+    \subfloat[Average (best choice: k=9)] {\label{fig:clusters_ATD_average}\includegraphics[width=0.7\columnwidth]{eolica/join_clusters/plt_pca_clusters_ATD_average.pdf}}\\
+    \subfloat[Complete (best choice: k=6)] {\label{fig:clusters_ATD_complete}\includegraphics[width=0.7\columnwidth]{eolica/join_clusters/plt_pca_clusters_ATD_complete.pdf}}\\
+    \subfloat[Ward's (best choice: k=4)] {\label{fig:clusters_ATD_ward}\includegraphics[width=0.7\columnwidth]{eolica/join_clusters/plt_pca_clusters_ATD_ward.pdf}}\\        
+    \mycaption{Cluster analysis with different linkage methods, for wind farm ATD.}
+    \label{fig:clusters_ATD}
+\end{figure}
+\FloatBarrier
+
+\begin{figure}[!htp]
+   \addtocounter{figure}{-1} %continuacao da fig anterior
+   \setcounter{subfigure}{3}
+    \centering
+    \subfloat[K-means (best choice: k=4)] {\label{fig:clusters_ATD_kmeans}\includegraphics[width=0.4\columnwidth,page=1]{eolica/join_clusters/plt_pca_clusters_ATD_kmeans.pdf}}\\  
+    \mycaption{Cluster analysis with different linkage methods, for wind farm ATD (cont.).}
+    \label{fig:clusters_ATD2}
+\end{figure}
+\FloatBarrier
+
+% see 10b_pca_clusters.R
+\begin{table}[!htp]
+\small
+\centering
+\mycaption{Comparison of equal days in clusters produced with Ward's linkage method and K-means for wind farm ATD}
+\label{tb:cl_ward_kmeans}
+\begin{tabular}{cc|cccc}
+\toprule
+& & \multicolumn{4}{c}{Ward} \\
+&  & 1 & 2 & 3 & 4 \\ 
+\midrule
+\multirow{4}*{K-means} & 1 &  132 &   2 &   8 &   0 \\ 
+&   2 &   15 &  85 &   0 &   0 \\ 
+&   3 &   7 &   0 & 70 &  0 \\ 
+&   4 &   4 &   5 &   4 &  29 \\ 
+\bottomrule
+\end{tabular}
+\end{table}
+\FloatBarrier
+
+Being so, four clusters were chosen with the K-means method and table \ref{tb:clusters} summarizes their characteristics in terms of MSLP, wind direction and relative RMSE. Cluster numbering was ordered by frequency of occurrence. Results for all wind farms are presented in the appendix figures \ref{fig:clusters_kmeans_means_nor1} to \ref{fig:clusters_kmeans_means_cen1}. Wind farms were ordered from north to south (see figure \ref{fig:farms3years}), except AZM, which is the second most southward farm, leaving the two bigger wind farms in the last rows of the table. It can be seen that the clusters are relatively homogeneous for the northern wind farms (ATD to APO) with higher mean RMSE in clusters 2 and 3. AZM wind farm has similar clusters, but higher mean RMSE in clusters 1 and 3. The other south wind farms, APZ and ACD, have a similar cluster 1 but clusters 3 and 4 seem to be exchanged relatively to the other wind farms. Higher RMSE can be found in cluster 1 (like in AZM) and cluster 3. These two wind farms are expected to give different results as they have a much higher installed capacity ($\sim$ 100 MW), and are therefore more distributed in space and statistical compensation between turbines occurs.
+
+\begin{table}[!htp]
+\small
+\centering
+\mycaption{Summary of cluster characteristics. *higher mean daily RMSE.}
+\label{tb:clusters}
+\begin{tabular}{ccccc}
+\toprule
+     & C1 & C2 & C3 & C4 \\
+\midrule
+ATD  & mid-low, N   & mid-high, E* & low, SW*  & high, SW \\
+ATE  & mid-low, NW  & mid-high, E* & low, SW*  & high, S \\
+AIL  & mid-low, NW  & mid-high, E* & low, SW*  & high, S \\
+APO  & mid-low, NW  & mid-high, E* & low, SW*  & high, S \\ \midrule
+AZM  & mid-low, NW* & mid-high, SE & low, SW*  & high, S \\ 
+APZ  & mid-low, NW* & mid-low, SE  & high, SE* & low, SW \\ 
+ACD  & mid-low, NW* & mid-low, SE  & high, SE* & low, SW \\ 
+\bottomrule
+\end{tabular}
+\end{table}
+\FloatBarrier
+
+Cluster 1, the most frequent, is similar for all wind farms (mid-low pressure with N-NW winds) and can be connected to the passage of cold fronts associated with the polar front and low pressure systems.
+
+Cluster 2 (E-SE winds, mid-high pressure in the north and mid-low in the south) can be connected to a typical summer situation when a thermal trough extending from the North of Africa (thermal low created by regions with high temperatures) to the south of Europe, creates easterly flow in the Iberian Peninsula. 
+
+Cluster 3\footnote{cluster 4 in APZ and ACD} (low pressure and SW winds) can be connected with the warm sector of the frontal system associated with the British lows, or with low pressure systems that come from the South (Madeira).
+
+Cluster 4\footnote{cluster 3 in APZ and ACD} (high pressure SW winds in the north, S in the centre and SE in the southern farms) can be connected with a high pressure system over Europe, extending in ridge to the Iberian Peninsula.
+
+In the northern (small) wind farms, clusters 2 and 3 have higher error that can be associated with the arrival of low pressure systems, more prone to forecast location errors, particularly time of arrival (spatial displacement). The southern wind farms have higher error in cluster 1 that can be due to their proximity to the littoral and influence of air-sea circulations under NW flow.
+
+
+In summary, it was verified that the identified clusters are connected with typical seasonal weather regimes that influence forecast uncertainty in wind farms. Results divide the wind farms in two geographical groups: wind farms from the north, with higher uncertainty upon the arrival of low pressure systems, and wind farms from the centre of Portugal, with more uncertainty under north-westerly winds and south-easterly winds associated with high pressure conditions over the European continent. It should be noticed that this analysis was made with winds at turbine height and thus not so influenced by the terrain as the traditionally used 10 m winds. In addition, as no wind observations were available, the analysis was made upon simulated winds.

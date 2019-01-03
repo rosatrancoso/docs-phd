@@ -1,0 +1,171 @@
+\FloatBarrier
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Forecast Verification Methods}
+\label{sec:verif}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Forecast verification is the process of accessing the quality of a forecast, by comparing against a corresponding observation or measurement. Verification methods depend if the forecast is deterministic or probabilistic and if the variable of interest is categorical or not \citep{VerifFAQ}. In this thesis, only deterministic forecasts were analysed but both categorical and not categorical variables were studied. Meteorological variables such as precipitation, temperature and wind speed are continuous but the warnings computed with specific thresholds are categorical, having only a finite set of predefined values. 
+
+%======================================
+\section{Skill Score}
+\label{sec:verif_ss}
+%======================================
+
+Once the forecast is verified and its quality quantified, the value of that quality (the skill) can be accessed by comparing its accuracy with some set of standard control, or reference, forecasts. This is usually done through the use of a skill score, a relative accuracy measure with respect to a reference forecast, $SS_{ref}$, characterized by a particular measure of accuracy $A$ relative to the accuracy of the reference forecast $A_{ref}$, as given by:
+
+\begin{equation}
+    SS_{ref} = \frac{A-A_{ref}}{A_{perf} - A_{ref}} \times 100\%
+    \label{eq:ss}
+\end{equation}
+
+where $A_{perf}$ is the value of the accuracy measure that would be achieved by perfect forecasts. The skill score attains its maximum value of 100 \% for perfect forecasts ($A=A_{perf}$), being 0 \% for forecasts with the same accuracy as the reference, i.e., no skill ($A=A_{ref}$) and it's negative when the forecast accuracy is lower than the reference ($A<A_{ref}$). The skill score can be interpreted as a percentage improvement over the reference forecast. 
+
+Commonly used reference forecasts are climatological averages of the predictand, persistence forecasts (values of the predictand in the previous time period) or random forecasts (following the climatological frequencies of the observed events). Reference forecasts can also be from other forecasting systems, when the aim is to evaluate performance of different systems, or even from the same system but different situations, e.g. forecasting rain in a dry climate is a more difficult situation than forecasting rain in a wet climate \citep{Wilks2005}.
+
+The accuracy measures used depend on the type of variable analysed. For continuous variables, Mean Absolute Error (MAE) and Root Mean Square Errors (RMSE) are common choices. For categoric variables, it's Proportion of Corrects (PC) as described in the following sections.
+
+%======================================
+\section{Continuous Variables}
+\label{sec:verif_cont}
+%======================================
+
+Accuracy is an aspect of forecast quality that refers to the average correspondence between individual forecasts and the real situation. Accuracy measures summarize in a single number the overall quality of a set of forecasts. Two scalar measures of accuracy are commonly used: the Mean Absolute Error (MAE) and the Root Mean Square Error (RMSE):
+
+\begin{align}
+    MAE &= \sqrt{|e|} = \frac{1}{N} \sum_{i=1}^N |y_i - o_i| \\
+    RMSE &= \sqrt{\bar{e^2}} = \frac{1}{N} \sum_{i=1}^N (y_i - o_i)^2
+\end{align}
+
+where $y$ is the forecast, $o$ the observation, $e = y - o$ the forecast error, and $N$ the number of forecast/observation pairs. 
+
+RMSE is more sensitive to large errors (outliers) than the Mean Absolute Error (MAE) but it can be decomposed into meaningful parts that distinguish between amplitude and phase errors by simple algebraic manipulations. Amplitude errors are systematic over or under estimations of the real situation and can be corrected with linear transformations. Phase errors, which can be thought as displacements in time or space of the real situation, cannot. The RMSE can be decomposed into a BIAS (unconditional or systematic) and a variance of error (SDE), which can be further decomposed into an amplitude error term (SDBIAS) and a phase error term (DISP):
+
+\begin{align}
+    RMSE^2 & = BIAS^2 + SDE^2 = BIAS^2 + SDBIAS^2 + DISP^2 \\
+    BIAS & = \bar{e} \\
+    SDE & = s_e \\
+    SDBIAS & = s_y - s_o \\
+    DISP & = \sqrt{2 s_y s_o (1-r_{yo})} 
+\end{align}
+
+where $s$ is the standard deviation, and $r_{yo}$ is the correlation coefficient between forecast and observations. The BIAS and SDBIAS (wrongly predicted variability) can be seen as the amplitude error comprising RMSE because they can be corrected by subtracting the bias or inflating/deflating the standard deviation of the forecasts. The DISP term accounts for the contribution of phase errors to the RMSE but in terms of cross-correlation and not as a well defined phase shift \citep{Lange2005}.
+
+In skill scores, commonly used accuracy measures are MAE or RMSE, where $A_{perf}=0$, simplifying equation \ref{eq:ss} to:
+
+\begin{equation}
+    SS_{ref} = \left( 1 - \frac{RMSE}{RMSE_{ref}} \right) \times 100\%
+    \label{eq:ss_rmse}
+\end{equation}
+
+
+%======================================
+\section{Multi-category Variables} 
+\label{sec:verif_mcat}
+%======================================
+
+Events taking discrete values, such as tornado forecasts or weather warnings, can be analysed with categorical statistics. The events can fall into just two categories, usually yes/no, or can have multiple categories, such as the warning levels ``Green'', ``Yellow'', ``Orange'' and ``Red''. 
+
+Categorical forecast verification is based on the contingency table of events (table \ref{tb:ct_multi}), which shows the frequency of forecasts ($F_i$) and observations ($O_j$) in the various bins ($i,j$) for $K$ categories. 
+
+\begin{table}[!htp]
+\begin{center}
+\begin{tabular}{cc|cccc|c}
+\toprule
+          &           & \multicolumn{4}{c}{Observed Category} &  \\ 
+          &  $i,j$    & 1           & 2            & \ldots & K & Total\\  
+\midrule
+          & 1        & $n(F_1,O_1)$ & $n(F_1,O_2)$ & \ldots & $n(F_1,O_K)$ & $N(F_1)$ \\
+ Forecast & 2        & $n(F_2,O_1)$ & $n(F_2,O_2)$ & \ldots & $n(F_2,O_K)$ & $N(F_2)$ \\
+ Category & \ldots  & \ldots & \ldots & \ldots & \ldots & \ldots \\
+          & K        & $n(F_K,O_1)$ & $n(F_K,O_2)$ & \ldots & $n(F_K,O_K)$ & $N(F_K)$ \\
+\hline
+          & Total    & $N(O_1)$ & $N(O_2)$ & \ldots & $N(O_K)$ & $N$ \\
+\bottomrule
+\end{tabular}
+\mycaption{Multi-category contingency table.}
+\label{tb:ct_multi}
+\end{center}
+\end{table}
+\FloatBarrier
+
+In the case of binary events, having only two possible values, for example, yes/no forecasts, K=2 and the contingency table simplifies to:
+
+\begin{table}[!htp]
+\begin{center}
+\begin{tabular}{cc|cc|c}
+\toprule
+          &        & \multicolumn{2}{c}{Observed} &  \\ 
+          &        & yes           & no            & Total\\  
+\midrule
+\multirow{2}*{Forecast} & yes    & hits & false alarms & forecast yes \\
+          & no     & misses & correct negatives & forecast no \\
+\hline
+          & Total    & observed yes & observed no & total \\
+\bottomrule
+\end{tabular}
+\mycaption{Binary contingency table.}
+\label{tb:ct_bin}
+\end{center}
+\end{table}
+\FloatBarrier
+
+
+From tables \ref{tb:ct_multi} and \ref{tb:ct_bin}, a number of performance measures can be computed, such as the proportion of corrects (PC), frequency bias (FBIAS), hit rate (H) and false alarm ratio (FAR). These are defined for each category $i$ as:
+
+\begin{equation}
+FBIAS_i = \frac{N(F_i)}{N(O_i)}
+\end{equation}
+
+\begin{equation}
+H_i =  \frac{n(F_i,O_i)}{N(O_i)} 
+\end{equation}
+
+\begin{equation}
+FAR_i = \sum_{j \ne i} \frac{n(F_i,O_j)}{N(F_i)}
+\end{equation}
+
+
+For binary events, when the category of interest is ``yes'', and $p$ is probability:
+
+\begin{align}
+FBIAS & = \frac{p(F=1)}{p(O=1)} = \frac{\mathrm{forecast\ yes}}{\mathrm{observed\ yes}} = \frac{\mathrm{hits+false\ alarms}}{\mathrm{hits+misses}} \\
+H & = p(F=1 \backslash O=1) = \frac{\mathrm{hits}}{\mathrm{observed\ yes}} = \frac{\mathrm{hits}}{\mathrm{hits+misses}} \\ 
+FAR & = p(O=0 \backslash F=1) = \frac{\mathrm{false\ alarms}}{\mathrm{forecast\ yes}} = \frac{\mathrm{false alarms}}{\mathrm{hits + false\ alarms }}
+\end{align}
+
+
+The frequency bias of a given category, $FBIAS_i$, is the ratio of number of forecasts of occurrence of event in that category to the number of actual occurrences. This way, the perfect forecast has $FBIAS=1$, $FBIAS>1$ for overforecasts and $FBIAS < 1$ for underforecasts. The hit rate of a given category, $H_i$, also known as the Probability of Detection (POD), is the proportion of events in that category that were correctly forecast. It takes values between 0 (no correct forecasts) and 1 (all occurrences for that category were correctly forecast). The false alarm ratio of a given category, $FAR_i$, is the proportion of forecasts of occurrence that did not occur. It takes values between 0 (all forecasts of occurrence took place) and 1 (all forecasts of occurrence in that category were wrong). FAR should be distinguished from the false alarm rate $F$, also known as the Probability of False Detection (POFD), which is the proportion of observed non-occurrences that were incorrectly forecast:
+
+\begin{equation}
+F = p(F=1 \backslash O=0 ) = \frac{\mathrm{false\ alarms}}{\mathrm{observed\ no}} = \frac{\mathrm{false alarms}}{\mathrm{correct\ negatives + false\ alarms }} 
+\end{equation}
+
+For binary events is complementary to H (F=1-H). Usually $F << FAR$ because $p(O=0) >> p(F=1)$ for rare events such as extreme conditions. Therefore only H and FAR are presented.
+
+
+However, the above mentioned measures do not provide a good accuracy measure for the overall performance of the forecast (skill score) since they are categoric-specific and not equitable. Equitability refers to a score that is normalized between 0 and 1, with 0 being the no skill forecast and 1 the perfect forecast, and that equally weights forecasts of less frequent events (e.g. "Red" category) with more frequent ones (e.g. "Green" category) \citep{Wilks2005}. In multi-categoric verification, the most common used equitable skill scores are the Heidke Skill Score (HSS) and Peirce Skill Score (PSS):
+
+\begin{equation}
+HSS = \frac{\frac{1}{N} \sum\limits^K_{i=1}n(F_i,O_i) - \frac{1}{N^2} \sum\limits^K_{i=1} N(F_i)N(O_i)}{1- \frac{1}{N^2} \sum\limits^K_{i=1} N(F_i)N(O_i)}
+\end{equation}
+
+
+\begin{equation}
+PSS = \frac{\frac{1}{N} \sum\limits^K_{i=1}n(F_i,O_i) - \frac{1}{N^2} \sum\limits^K_{i=1} N(F_i)N(O_i)}{1- \frac{1}{N^2} \sum\limits^K_{i=1} N^2(O_i)}
+\end{equation}
+
+For binary events these are simply
+
+\begin{align}
+HSS & = \frac{PC-E}{1-E} \\
+PSS &= H -F 
+\end{align}
+
+Both are based in the PC measure but use different reference forecasts. In HSS the reference is the PC that would be achieved by random forecasts (E) that are statistically independent of the observations, and assuming the same proportion of forecasts of occurrence to non-occurrence \citep{Jolliffe2003}. In PSS, also called the True Skill Statistic (TSS), the reference forecast is the same but constrained to be unbiased (e.g. assumes $N(O_i)=N(F_i)$). PSS gives a better indication of how well the forecast discriminates different categories by increasing the contribution of a correct forecast as the event is less likely. Otherwise, forecasters would be encouraged to be conservative by avoiding predictions of less likely events \citep{Wilks2005}. However, for $K>2$ HSS and PSS don't use off-diagonal information, and don't penalize heavier large forecast errors.  Other skill scores that incorporate such issues can be used, such as the Gerrity Skill Scores (GSS ) \citep{Jolliffe2003}.
+
+% HSS and PSS weight all forecasts the same way regardless of the relative sample probabilities, encouraging forecasters to be conservative by not providing a greater reward for successfully predicting a less likely category \citep{Jolliffe2003}.
+
+
+
+ 
+

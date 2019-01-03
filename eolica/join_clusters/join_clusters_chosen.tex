@@ -1,0 +1,125 @@
+%\documentclass[a4paper,10pt]{article}
+%\input{preamble}
+%\begin{document}
+
+\chapter{Principal Components and Cluster Analysis}
+\label{sec:pca}
+
+This appendix shows the results of Principal Components Analysis (PCA) coupled to K-means clustering for all wind farms in the case study.
+
+Figures \ref{fig:pc1} and \ref{fig:pc2} show the loadings of the first 6 principal components for wind and mean sea level pressure (MSLP), which explained more than 95 \% of the total variance. 
+
+Figures  \ref{fig:clusters_kmeans_means_nor1} and \ref{fig:clusters_kmeans_means_cen1} show the characteristics of the four clusters obtained with K-means. From left to right, graphics show the number of days, mean wind vectors and MSLP and daily RMSE in each cluster. 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%              PCs                %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{sidewaysfigure}[!htp]
+    \centering
+    \subfloat[ATE wind] {\label{fig:pc_ATE_ws}\includegraphics[width=0.25\columnwidth,page=1]{eolica/join_clusters/plt_pca_clusters_ATE_loadings.pdf}}
+    \subfloat[ATE MSLP] {\label{fig:pc_ATE_p}\includegraphics[width=0.25\columnwidth,page=2]{eolica/join_clusters/plt_pca_clusters_ATE_loadings.pdf}}
+    \subfloat[ATD wind] {\label{fig:pc_ATD_ws}\includegraphics[width=0.25\columnwidth,page=1]{eolica/join_clusters/plt_pca_clusters_ATD_loadings.pdf}}
+    \subfloat[ATD MSLP] {\label{fig:pc_ATD_p}\includegraphics[width=0.25\columnwidth,page=2]{eolica/join_clusters/plt_pca_clusters_ATD_loadings.pdf}}
+
+    \subfloat[AIL wind] {\label{fig:pc_AIL_ws}\includegraphics[width=0.25\columnwidth,page=1]{eolica/join_clusters/plt_pca_clusters_AIL_loadings.pdf}}
+    \subfloat[AIL MSLP] {\label{fig:pc_AIL_p}\includegraphics[width=0.25\columnwidth,page=2]{eolica/join_clusters/plt_pca_clusters_AIL_loadings.pdf}}
+    \subfloat[APO wind] {\label{fig:pc_APO_ws}\includegraphics[width=0.25\columnwidth,page=1]{eolica/join_clusters/plt_pca_clusters_APO_loadings.pdf}}
+    \subfloat[APO MSLP] {\label{fig:pc_APO_p}\includegraphics[width=0.25\columnwidth,page=2]{eolica/join_clusters/plt_pca_clusters_APO_loadings.pdf}}
+
+    \mycaption{First six principal components (loadings matrix X) for ATE, ATD, AIL and APO wind farms. In the wind vectors $\protect\overrightarrow{u}$, the symbols denote the points $(u_t,v_t)$ at times $t = 0, 6, 12, 18, 24$ h, where $(u_0,v_0)\ (t=0\ \mathrm{h})$ is marked by "+".}
+    \label{fig:pc1}
+\end{sidewaysfigure}
+
+\begin{sidewaysfigure}[!htp]
+    \centering
+
+    \subfloat[AZM wind] {\label{fig:pc_AZM_ws}\includegraphics[width=0.25\columnwidth,page=1]{eolica/join_clusters/plt_pca_clusters_AZM_loadings.pdf}}
+    \subfloat[AZM MSLP] {\label{fig:pc_AZM_p}\includegraphics[width=0.25\columnwidth,page=2]{eolica/join_clusters/plt_pca_clusters_AZM_loadings.pdf}}
+    \subfloat[APZ wind] {\label{fig:pc_APZ_ws}\includegraphics[width=0.25\columnwidth,page=1]{eolica/join_clusters/plt_pca_clusters_APZ_loadings.pdf}}
+    \subfloat[APZ MSLP] {\label{fig:pc_APZ_p}\includegraphics[width=0.25\columnwidth,page=2]{eolica/join_clusters/plt_pca_clusters_APZ_loadings.pdf}}
+
+    \subfloat[ACD wind] {\label{fig:pc_ACD_ws}\includegraphics[width=0.25\columnwidth,page=1]{eolica/join_clusters/plt_pca_clusters_ACD_loadings.pdf}}
+    \subfloat[ACD MSLP] {\label{fig:pc_ACD_p}\includegraphics[width=0.25\columnwidth,page=2]{eolica/join_clusters/plt_pca_clusters_ACD_loadings.pdf}}
+
+    \mycaption{First six principal components (loadings matrix X) for AZM, APZ and ACD wind farms. In the wind vectors $\protect\overrightarrow{u}$, the symbols denote the points $(u_t,v_t)$ at times $t = 0, 6, 12, 18, 24$ h, where $(u_0,v_0)\ (t=0\ \mathrm{h})$ is marked by "+".}
+    \label{fig:pc2}
+\end{sidewaysfigure}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%        parques do norte         %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{sidewaysfigure}[!htp]
+    \centering
+
+    \subfloat[ATE counts] {\label{fig:clusters_ATE_kmeans_count}\includegraphics[width=0.25\columnwidth,page=1]{eolica/join_clusters/plt_pca_clusters_ATE_kmeans_means.pdf}}
+    \subfloat[ATE wind] {\label{fig:clusters_ATE_kmeans_ws}\includegraphics[width=0.25\columnwidth,page=3]{eolica/join_clusters/plt_pca_clusters_ATE_kmeans_means.pdf}}
+    \subfloat[ATE MSLP] {\label{fig:clusters_ATE_kmeans_p}\includegraphics[width=0.25\columnwidth,page=4]{eolica/join_clusters/plt_pca_clusters_ATE_kmeans_means.pdf}}
+    \subfloat[ATE rmse] {\label{fig:clusters_ATE_kmeans_rmse}\includegraphics[width=0.25\columnwidth,page=2]{eolica/join_clusters/plt_RMSEclusters_ATE_kmeans.pdf}}
+
+    \subfloat[ATD counts] {\label{fig:clusters_ATD_kmeans_count}\includegraphics[width=0.25\columnwidth,page=1]{eolica/join_clusters/plt_pca_clusters_ATD_kmeans_means.pdf}}
+    \subfloat[ATD wind] {\label{fig:clusters_ATD_kmeans_ws}\includegraphics[width=0.25\columnwidth,page=3]{eolica/join_clusters/plt_pca_clusters_ATD_kmeans_means.pdf}}       
+    \subfloat[ATD MSLP] {\label{fig:clusters_ATD_kmeans_p}\includegraphics[width=0.25\columnwidth,page=4]{eolica/join_clusters/plt_pca_clusters_ATD_kmeans_means.pdf}}
+    \subfloat[ATD rmse] {\label{fig:clusters_ATD_rmse}\includegraphics[width=0.25\columnwidth,page=2]{eolica/join_clusters/plt_RMSEclusters_ATD_kmeans.pdf}}
+
+    \mycaption{Number of days (counts), mean wind vectors and MSLP and daily RMSE for 00d0 forecasts in each cluster generated with K-means, for the northern farms.}
+    \label{fig:clusters_kmeans_means_nor1}
+\end{sidewaysfigure}
+
+\begin{sidewaysfigure}[!htp]
+    \addtocounter{figure}{-1} %continuacao da fig anterior
+    \setcounter{subfigure}{2}
+    \centering
+    \subfloat[AIL counts] {\label{fig:clusters_AIL_kmeans_count}\includegraphics[width=0.25\columnwidth,page=1]{eolica/join_clusters/plt_pca_clusters_AIL_kmeans_means.pdf}}
+    \subfloat[AIL wind] {\label{fig:clusters_AIL_kmeans_ws}\includegraphics[width=0.25\columnwidth,page=3]{eolica/join_clusters/plt_pca_clusters_AIL_kmeans_means.pdf}}
+    \subfloat[AIL MSLP] {\label{fig:clusters_AIL_kmeans_p}\includegraphics[width=0.25\columnwidth,page=4]{eolica/join_clusters/plt_pca_clusters_AIL_kmeans_means.pdf}}
+    \subfloat[AIL rmse] {\label{fig:clusters_AIL_kmeans_rmse}\includegraphics[width=0.25\columnwidth,page=2]{eolica/join_clusters/plt_RMSEclusters_AIL_kmeans.pdf}}
+
+    \subfloat[APO counts] {\label{fig:clusters_APO_kmeans_count}\includegraphics[width=0.25\columnwidth,page=1]{eolica/join_clusters/plt_pca_clusters_APO_kmeans_means.pdf}}
+    \subfloat[APO wind] {\label{fig:clusters_APO_kmeans_ws}\includegraphics[width=0.25\columnwidth,page=3]{eolica/join_clusters/plt_pca_clusters_APO_kmeans_means.pdf}} 
+    \subfloat[APO MSLP] {\label{fig:clusters_APO_kmeans_p}\includegraphics[width=0.25\columnwidth,page=4]{eolica/join_clusters/plt_pca_clusters_APO_kmeans_means.pdf}}
+    \subfloat[APO rmse] {\label{fig:clusters_APO_rmse}\includegraphics[width=0.25\columnwidth,page=2]{eolica/join_clusters/plt_RMSEclusters_APO_kmeans.pdf}}
+
+    \mycaption{Number of days (counts), mean wind, MSLP and daily RMSE for 00d0 forecasts in each cluster generated with K-means, for the northern farms (cont.).}
+    \label{fig:clusters_kmeans_means_nor2}
+\end{sidewaysfigure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%        parques do centro        %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{sidewaysfigure}[!htp]
+    \centering
+
+    \subfloat[AZM counts] {\label{fig:clusters_AZM_kmeans_count}\includegraphics[width=0.25\columnwidth,page=1]{eolica/join_clusters/plt_pca_clusters_AZM_kmeans_means.pdf}}
+    \subfloat[AZM wind] {\label{fig:clusters_AZM_kmeans_ws}\includegraphics[width=0.25\columnwidth,page=3]{eolica/join_clusters/plt_pca_clusters_AZM_kmeans_means.pdf}}
+    \subfloat[AZM MSLP] {\label{fig:clusters_AZM_kmeans_p}\includegraphics[width=0.25\columnwidth,page=4]{eolica/join_clusters/plt_pca_clusters_AZM_kmeans_means.pdf}}
+    \subfloat[AZM rmse] {\label{fig:clusters_AZM_kmeans_rmse}\includegraphics[width=0.25\columnwidth,page=2]{eolica/join_clusters/plt_RMSEclusters_AZM_kmeans.pdf}}
+
+    \subfloat[APZ counts] {\label{fig:clusters_APZ_kmeans_count}\includegraphics[width=0.25\columnwidth,page=1]{eolica/join_clusters/plt_pca_clusters_APZ_kmeans_means.pdf}}
+    \subfloat[APZ wind] {\label{fig:clusters_APZ_kmeans_ws}\includegraphics[width=0.25\columnwidth,page=3]{eolica/join_clusters/plt_pca_clusters_APZ_kmeans_means.pdf}}
+    \subfloat[APZ MSLP] {\label{fig:clusters_APZ_kmeans_p}\includegraphics[width=0.25\columnwidth,page=4]{eolica/join_clusters/plt_pca_clusters_APZ_kmeans_means.pdf}}
+    \subfloat[APZ rmse] {\label{fig:clusters_APZ_kmeans_rmse}\includegraphics[width=0.25\columnwidth,page=2]{eolica/join_clusters/plt_RMSEclusters_APZ_kmeans.pdf}}
+
+    \mycaption{Number of days (counts), mean wind, MSLP and daily RMSE for 00d0 forecasts in each cluster generated with K-means, for the southern farms.}
+    \label{fig:clusters_kmeans_means_cen1}
+\end{sidewaysfigure}
+
+\begin{sidewaysfigure}[!htp]
+    \addtocounter{figure}{-1} %continuacao da fig anterior
+    \setcounter{subfigure}{2}
+    \centering
+   \subfloat[ACD counts] {\label{fig:clusters_ACD_kmeans_count}\includegraphics[width=0.25\columnwidth,page=1]{eolica/join_clusters/plt_pca_clusters_ACD_kmeans_means.pdf}}
+    \subfloat[ACD wind] {\label{fig:clusters_ACD_kmeans_ws}\includegraphics[width=0.25\columnwidth,page=3]{eolica/join_clusters/plt_pca_clusters_ACD_kmeans_means.pdf}}
+    \subfloat[ACD MSLP] {\label{fig:clusters_ACD_kmeans_p}\includegraphics[width=0.25\columnwidth,page=4]{eolica/join_clusters/plt_pca_clusters_ACD_kmeans_means.pdf}}
+    \subfloat[ACD rmse] {\label{fig:clusters_ACD_kmeans_rmse}\includegraphics[width=0.25\columnwidth,page=2]{eolica/join_clusters/plt_RMSEclusters_ACD_kmeans.pdf}}
+
+    \mycaption{Number of days (counts), mean wind, MSLP and daily RMSE for 00d0 forecasts in each cluster generated with K-means, for the southern farms (cont.).}
+    \label{fig:clusters_kmeans_means_cen2}
+\end{sidewaysfigure}
+
+
+%\end{document}
+

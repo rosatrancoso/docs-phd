@@ -1,0 +1,205 @@
+\chapter{Introduction}\label{sec:intro}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Scope of the Thesis}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Numerical weather prediction (NWP) in meteorology is a relatively recent science. The first approaches to quantitative weather forecast, based on the equations of conservation of momentum and energy, go back to 1904 with the Norwegian hydrodynamicist Vilhelm Bjecrkens and 1922 with the British Lewis F. Richardson. However, the theoretical and practical means to resolve the equations were not developed and simpler models had to be used. Only in the 50's, after the Second World War, with the establishment of a hemispheric network of upper-air stations and the advent of the first electronic computer (the Electronic Numerical Integrator and Computer, or ENIAC) a more complex model could be used, based on conservation of absolute vorticity in the mid-troposphere\citep{Charney1950}. In 1962, the United States (US) launched their first operational quasi-geostrophic baroclinic model, and after only four years, the first global numerical model, with a 300 km grid and 6 layer vertical resolution. This model turned out to have great similarities with Richardson's model 45 years earlier \citep{ECMWF2007}. 
+
+Nowadays, NWP is widely accessible not only within the science of meteorology. The development of robust and open-source NWP models and the explosion of cheap computing power in personal computers facilitated their application by other scientific areas that need meteorological derived products to answer their specific needs. 
+
+The research presented in this thesis consists in the exploration of methodologies that use NWP as support tool in answering questions posed by specific needs with economic value such as:
+
+\begin{itemize}
+    \item provide accurate wind power forecasts to the Transmission System Operator (TSO) for a secure and economic wind power integration in the electrical grid, and
+    \item provide meteorological forecasts and warnings at the city level to the Civil Protection Department of Lisbon Municipality for a more efficient response in emergency management.
+\end{itemize}
+
+Verification against observations of the developed methodologies is an essential part of the research allowing to assess forecast quality and value to the end-user, to quantify uncertainty, and to understand weaknesses and strengths that allow for further improvements. \cite{VerifFAQ} makes the following analogy: ``a forecast is like an experiment -- given a set of conditions, you make a hypothesis that a certain outcome will occur. You wouldn't consider an experiment to be complete until you determined its outcome. In the same way, you shouldn't consider a forecast experiment to be complete until you find out whether the forecast was successful''.
+
+To assess forecast value to the end user, and not just its quality, verification methodologies and performance scores must be appropriate to the intended application of the forecast. Forecasting ``no rain'' in a typical summer day in Lisbon is a high quality forecast but with little value for emergency response agencies. Therefore, for meteorological warnings, categorical verification tools were applied to determine the system how reliable the NWP is to the emergency response (hit rate, false alarm ratios, misses, etc \ldots). In wind power forecasts for the grid utility, verification tools focused in decomposing the error into amplitude and phase and computing improvements obtained by the developed forecasting methodologies. 
+
+%Forecast quality is not the same as forecast value. A forecast has high quality if it predicts the observed conditions well according to some objective or subjective criteria. It has value if it helps the user to make a better decision. An example of a forecast with high quality but little value is a forecast of clear skies over the Sahara Desert during the dry season. 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Meteorological Operational Modelling at IST}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+A NWP system is an operational system that continuously produces weather forecasts for a region of interest. Following \cite{Warner2011}, it can be comprised of the processes illustrated in figure \ref{fig:op_scheme}. Being large infrastructures, national weather services traditionally have all the processes running, particularly large-scale forecasting systems with data assimilation procedures that involve several observational data networks with data from meteorological stations, buoys, ships, satellite imagery, etc. When running limited area models (LAM), lateral boundary conditions are necessary and usually provided by large scale models running at these large operational centres. In modest-size and more specialized operational systems, LAM models are preferred, usually without data assimilation because of the constrains in having a reliable real-time connectivity to observational data with sufficient quality to be ingested in model solutions without compromising the system. Verification of model performance can be made in real time, but also from the archived forecasts. Archiving allows modellers to perform experiences to evaluate model's strengths and correct model weaknesses. This implies the use of a stable model, where improvement experiences, such as change resolution or any model configuration, should be made off line.
+
+\begin{figure}[!htp]
+    \centering
+     \includegraphics[width=0.7\columnwidth]{operational_modelling/op_system_cut.png}
+    \mycaption{Schematic showing the various components of an operational NWP system. QC - Quality control; LBC - Lateral Boundary Conditions. Source: \citet[p. 359]{Warner2011}.}
+    \label{fig:op_scheme}
+\end{figure}
+\FloatBarrier
+
+At Instituto Superior T\'{e}cnico (IST), an operational weather forecasting system is producing weather forecasts for Continental Portugal. The system is comprised of two mesoscale meteorological numerical models: MM5 (Meteorological Model 5) and WRF (Weather Research \& Forecasting), both freely provided and supported by the United States National Center for Atmospheric Research (NCAR) and suitable for a broad spectrum of applications across scales ranging from meters to thousands of kilometres. Initial and boundary conditions to these are provided by the Global Forecast System (GFS), a global spectral weather prediction model running at the National Centers for Environmental Prediction (NCEP).
+
+%=======================================
+\subsection{Numerical Models Description} 
+%=======================================
+
+The MM5 (\url{http://www.mmm.ucar.edu/mm5/}) modelling system software was initially developed, in 1994, by the United States Pennsylvania State University (PSU) and was improved with numerous contributions of a large number of institutions and individuals until 2005 \citep{Dudhia2005}. The last major MM5 release (3.7) was December 2004, with the last bug fix release Oct 2006. Currently the model is supported but further developments are incorporated in the new WRF model (\url{http://www.wrf-model.org/}). 
+
+WRF is a next-generation mesoscale numerical weather prediction system designed to serve both operational forecasting and atmospheric research needs. It is a result of the collaborative partnership, mainly between the NCAR, the National Oceanic and Atmospheric Administration (NCEP  and the Forecast Systems Laboratory (FSL)), the Air Force Weather Agency (AFWA), the Naval Research Laboratory, the University of Oklahoma, and the Federal Aviation Administration (FAA) and it is currently in operational use at NCEP. Main improvements over MM5 model are its flexibility and computational efficiency, with a software architecture allowing for easier computational parallelization and system extensibility, while offering the advances in physics, numerics, and data assimilation contributed by the research community \citep{WRF2008}.
+
+GFS global scale forecasts were initiated in 1989, at the former National Meteorological Center (NMC), with the Global Data Assimilation System (GDAS), a four-dimensional analysis/forecast system providing initial conditions for aviation (AVN) and medium-range (MRF) forecasts. In 1990, AVN forecasts, run at 00Z and 12Z up to 3 days, were used mainly for aviation purposes and transmitted over the Global Telecommunications System (GTS). MRF forecasts were only run at 00Z, up to 10 days ahead \citep{Kalnay1990}.  GFS has been continuously improving since then, with model changes documented in \url{http://www.emc.ncep.noaa.gov/GFS/doc.php}. In 2002, the AVN and MRF forecasts were merged into a single model GFS, generating forecasts four times per day (at 00, 06, 12 and 18Z) out to 384 h (16 days) with decreasing spatial and temporal resolution over time \citep{EMC2003}. By March 2005, GFS was upgraded from a horizontal triangular truncation of T254 ($\sim$ 50 km, since 2002) to T382 ($\sim$ 35 km) out to 180 h, and T190 ($\sim$ 70 km) out to 384 h, with 64 vertical layers (hybrid sigma pressure coordinate) for the entire 16 day forecast. Among other changes, the land surface model was upgraded to the Noah model, which compiled several years of substantial upgrades over its Oregon State University (OSU) ancestor model of the mid 1990's \citep{CampanaCaplan2005}. In 2010 (July 28th), another major upgrade was made, increasing resolution to T574L64 out to 192 h and T190L64 to 384 h.
+
+% transformation to a Gaussian grid for calculation of nonlinear quantities and physics.
+
+% ftp://ftpprd.ncep.noaa.gov/pub/data/nccf/com/gfs/prod/gfs.2011092506/gfs.t06z.pgrb2f105
+
+% Other known global models are the ECMWF's Integrated Forecast System (IFS), the Canadian Global Environmental Multiscale Model (GEM), both of which run out 10 days.
+% Metoffice, Japanese (http://en.wikipedia.org/wiki/Earth_Simulator)
+
+%=======================================
+\subsection{System Configuration} 
+\label{sec:meteo_ist}
+%=======================================
+
+The operational meteorological system was initiated at IST in 1999 with the MM5 model, by Prof. Delgado Domingos, using a cluster of 4 Intel PCs. He also wrote the basic scripts for automatically running the full set of programs needed for a reliable operational model, from downloading the initial conditions to post processing, redundancy, and final delivery to users. After extensive configuration and calibrations tests \citep{Sousa2002} the prediction of the main meteorological variables was made publicly available in 2001 in \url{http://meteo.ist.utl.pt}. This implementation allows any public user to choose any location given by its geographical coordinates, and was the first available in Portugal.
+
+MM5 model was initially implemented with three nested grids that downscale atmospheric circulation from GFS model with 1º resolution to 81, 27 and 9 km resolution domains (figure \ref{fig:dom_mm5_old}). GFS output was available every 6 hours, in GRIB1 format and the system was running 4 times per day (at 00Z, 06Z, 12Z and 18Z) producing 3 days weather forecasts.
+
+After the 2005 upgrade, GFS output was made available with 0.5º resolution, with 3 hour interval and in GRIB2 format. Concurrently, the first versions of the new model WRF appeared to the community. Only in 2007, after some preliminary stability tests and comparisons between MM5 and WRF with the new and old GFS resolution \citep{EMS2007}, changes were incorporated in the IST operational system: the new GFS was adopted in both MM5 and WRF; the outer coarse domain of MM5 was dropped (figure \ref{fig:doms_mm5}); and WRF model, now sufficiently mature to be operationalized, was added. WRF was implemented with nested grids of 9 km for Portugal, and a 3 km in a square domain with approximately 200x200 km in extent centred in the city of Lisbon (figure \ref{fig:doms_wrf}). 
+
+Currently, both models are producing 72 h (3 days) forecasts updated 4 times per day (at 00Z, 06Z, 12Z and 18Z) and 180 h (7.5 days) forecast updated at 00Z.
+
+\begin{figure}[!htp]
+    \centering
+     \includegraphics[width=0.7\columnwidth]{operational_modelling/domains_old/plt_domains_MM5old-0.png}
+    \mycaption{Domains in IST 3-day forecasts system for Portugal, with GFS 1º, until 2007.}
+    \label{fig:dom_mm5_old}
+\end{figure}
+\FloatBarrier
+
+\begin{figure}[!htp]
+    \centering
+    \subfloat[MM5]{\label{fig:doms_mm5}\includegraphics[width=0.45\columnwidth]{operational_modelling/domains_new/plt_domains-0.png}}
+    \subfloat[WRF]{\label{fig:doms_wrf}\includegraphics[width=0.45\columnwidth]{operational_modelling/domains_new/plt_domains-1.png}}\\
+    \mycaption{Domains in IST 3-day and 7-day forecast system for Portugal, since 2007.}
+    \label{fig:doms}
+\end{figure}
+\FloatBarrier
+
+Table \ref{tb:nwp_options} shows the options used in each model and domain. In MM5, the microphysics option for the inner domains (mixed phase Reisner 2) is similar to the outer (mixed phase Reisner 1) but considers graupel and ice number concentration prediction equations. WRF model has been implemented with the new land surface scheme Noah \citep{ChenDudhia2001} while MM5 continued to use the Five-Layer Soil Model \citep{Dudhia1996}. 
+% because in the lower resolutions there are sufficient grid points to resolve specific cloud features that must be parameterized in coarser resolutions.
+
+
+\begin{table}[!htp]
+\small
+\centering
+\mycaption{Options used in each model and domain of the IST operational system. GFS - Global Forecast System resolution used for boundary and initial conditions in the outer domain; LSM - Land surface model; PBL - planetary boundary layer. 27 vertical layers were used in all domains.}
+\label{tb:nwp_options}
+\begin{tabularx}{\textwidth}{Y|YYYYYYYY}
+    \toprule
+    Model & GFS & Resol. (km) & NYxNX & Micro-physics & Radiation & LSM & PBL & Cumulus \\
+    \midrule
+    MM5     & 1º & 81 & 40x50  & Reisner1 & Cloud & 5-layer soil & MRF & Grell \\
+    3.7     & -  & 27 & 55x40  & Reisner2 &  '' & '' & '' & '' \\
+            & -  & 9  & 82x55  & '' &  '' & '' & '' & '' \\
+    \midrule 
+    MM5     & 0.5º & 27 & 55x40 & Reisner1 &  '' & '' & '' & '' \\
+    3.7     & -    & 9  & 82x55 & Reisner2 &  '' & '' & '' & '' \\        
+    \midrule
+    WRF     & 0.5º & 9 & 135x80 & 3-class & RRTM & Noah & Yonsei Univ. & Kain-Fritsch \\
+    3.2     & -    & 3 & 79x64  & ''& '' & '' & '' & '' \\    
+            
+    \bottomrule
+\end{tabularx}
+\end{table}
+\FloatBarrier
+
+%======================================
+\subsection{Time Lagged Ensemble}
+\label{sec:tle}
+%======================================
+
+The update frequency of the 3 and 7 days forecasts at IST produce several prediction values available for each instant and each point in the model grid.  This ensemble of forecasts is usually called a Time Lagged Ensemble (TLE) where each member is a forecast produced by a new cycle in a frequently updating system. It is also known as a poor man's ensemble since the members are produced during the normal operational cycle with no additional cost to the system, as opposed to traditional ensembles where each new member is initialized at the same time using different initial conditions or model configurations (figure \ref{fig:tle_scheme}). The TLE approach was first proposed and evaluated by \cite{HoffmanKalnay1983} with TLEs produced at national computational centres. Improved forecast skill at longer ranges as well as accessibility to computational power ensures that TLEs are now a more viable option than in the past \citep{Mittermaier2007}.
+
+\begin{figure}[!htp]
+    \centering
+    \includegraphics[width=0.45\columnwidth]{time_lagged_ensemble/tle_cut.png}
+    \mycaption{Schematic showing forecasts in time lagged ensemble (top) and traditional (bottom) approaches to ensemble prediction. Source: \cite[p. 271]{Warner2011}.}
+\label{fig:tle_scheme}
+\end{figure}
+\FloatBarrier
+
+Currently, MM5 72 h forecasts are considered to take 6 hours to be available, using a conservative approach. Simulations are initiated 4 hours after initial run time (e.g. run 00Z starts at 04Z) and it takes at least 1 more hour to be delivered to the final client: 20-30 min to download and ungrib GFS data, 30 min MM5 run\footnote{considering a 64-bit double Quad-Core AMD Opteron at 2 GHz and 16 GB RAM}). Postprocessing of data and delivery to external sites usually take less than 5 min for the applications presented in this thesis. Therefore, the first 6 hours of simulation are not considered as forecast and the number of TLE members for forecasts up to 6 hours (which means lead times, or simulation times, from 6 to 12 hours) is 11, decreasing to 1 at 66 h lead time (table \ref{tb:tlesize}). \cite{Yuan2009} provides a general formula for the number of members ($N$) at each lead time $h$: $N=INT( (h_{max} - h)/dt) +1$ where $h_{max}$ is the forecast length (72 h) and $dt$ is the model initialization interval (6 h).
+
+% WRF run with 135x80x27 + 79x64x27 = 428112 points (1 h 30 min)
+% MM5 run with 55x40x27 + 82x55x27 = 181170 points (30 min)
+
+\begin{table}[!htp]
+    \scriptsize
+    \centering
+    \mycaption{Number of members in TLE per lead time.}
+    \label{tb:tlesize}
+    \begin{tabular}{ccc}
+        \toprule
+        & Lead time (hours) & Number of members \\
+        \midrule
+        \multirow{3}*{D0}& $]6,12]$  & 11 \\
+        & $]12,18]$ & 10 \\
+        & $]18,24]$ & 9 \\
+        \midrule
+        \multirow{4}*{D1} & $]24,30]$ & 8 \\
+        & $]30,36]$ & 7 \\
+        & $]36,42]$ & 6 \\
+        & $]42,48]$ & 5 \\
+        \midrule
+        \multirow{4}*{D2} & $]48,54]$ & 4 \\
+        & $]54,60]$ & 3 \\
+        & $]60,66]$ & 2 \\
+        & $]66,72]$ & 1 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+\FloatBarrier
+
+The characteristics of available members in the short-term TLE (up to 6h) are detailed in table \ref{tb:tle11_members}. Here, the boxed cells correspond to the most recent available forecast, which will be the reference forecast in the development of new methodologies for wind power forecasting (section \ref{sec:wind_farms}). For medium range forecasts (from 12 to 72 h lead time) TLE members are shown in table \ref{tb:tle}. 
+
+\input{time_lagged_ensemble/tle11_members_table_small.tex}
+\FloatBarrier
+
+\input{time_lagged_ensemble/tle_members_table_small.tex}
+\FloatBarrier
+
+Figure \ref{fig:tle_20091223} shows an example of the TLE dispersion for Dec 23rd 2009, the day with highest wind power decrease and increase in an 8 hours period between 2007 and 2009.
+
+\begin{figure}[!htp]
+    \centering
+     \includegraphics[width=0.7\columnwidth]{eolica/ParquesIndiv/plt_tle11_ParquesSum15min_20091223.png}
+    \mycaption{Time lagged ensemble of wind power forecasts for Dec 23rd 2009, the day with highest wind power decrease and increase in an 8 hours period between 2007 and 2009.}
+    \label{fig:tle_20091223}
+\end{figure}
+\FloatBarrier
+
+The verification rank histogram, also called the Talagrand Diagram, is used to investigate ensemble consistency for a single scalar predictand. The ensemble is said to be consistent if the members have equiprobability of including the observation being predicted. Necessary conditions are the non-existence of unconditional bias (observations consistently lower or higher than the members) and a somewhat degree of dispersion. As pointed out by \cite{Lu2007}, this last criterion is usually not met by TLEs because members are too much like each other, as they come from the same model configuration. Nevertheless, as seen in the literature and later in section \ref{sec:wp}, they significantly improve forecasts, being particularly useful in the medium term range (a few days). As more TLEs are being used, the importance of dispersion criterion is being discussed.
+
+The rank histogram is computed for $n$ ensemble forecasts, each of which consists of $n_{ens}$ ensemble members. For each of these $n$ sets, if the $n_{ens}$ members and the single observation have been drawn from the same distribution, then the rank of the observation within these $n_{ens}+1$ values is equally likely to take any of the values $i=1, 2, 3, \ldots, n_{ens}+1$. For example, if the observation is smaller than all $n_{ens}$ members, then the rank is $i=1$. If it is larger than all ensemble members, then its rank is $i=n_{ens}+1$. The $n$ observation ranks can be visualized in a histogram. If the consistency condition has been met this histogram of verification ranks will be uniform, reflecting equiprobability of the observations within their ensemble distributions \citep{Wilks2005}. 
+
+%The rank histogram reveals deficiencies in ensemble calibration, or reliability\footnote{Reliability, or conditional bias, is relationship of the forecasts to the average observation, for specific values of (i.e. conditional on) the forecasts \citep{Wilks2005}. 
+
+%======================================
+\section{Rationale}
+\label{sec:racionale}
+%======================================
+
+Given the myriad of prediction values, from different models, resolutions and projection times, this thesis tries to answer a question so often posed by weather forecast users: ``what is the best forecast?''. A quick answer might be, the most recent one, or the one with higher resolution, but it depends on the intended application \citep{MassEtAl2002}.
+
+The work presented here tries to answer this question for three main applications:
+
+\begin{itemize}
+\item wind power forecasts for the grid utility load balancing strategy;
+\item offshore wind power forecast challenges in Portugal for the grid utility and future wind farm operators;
+\item meteorological warnings for civil protection authorities.
+\end{itemize}
+
+Different approaches were applied in each topic, using the operational meteorological system running at IST as a support tool. Like all research topics, the answers found are neither definitive nor static, but knowledge of forecast strengths and weaknesses leads to a more confident usage and widens the path for further improvements.
+
+%In view of recent developemtns
+%The driving force beyond the present work was to develop... 

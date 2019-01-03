@@ -1,0 +1,120 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\chapter{Forecasting offshore wind power in Portugal}
+\chapter{Influence of Upwelling in Offshore Wind Forecasts}
+\label{sec:offshore}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%Accurately forecasting offshore wind power is particularly important to TSOs due to the magnitude of power fluctuations, because offshore wind farms have a high power capacity, and the spatial smoothing effects are much lower than in inland farms. Thermal effects are recognized as relevant in near and offshore wind profiles. As offshore wind farms are being planned for the Portuguese coast, which is subject to frequent upwelling episodes, it is important to know the ability of models to forecast wind under such events. Forecast differences are analysed by feeding WRF model with realistic Sea Surface Temperature (SST) data from satellite images by ODYSSEA, instead of using SST given by the global atmospheric model GFS. Conclusions are preliminary but indicate that there is a positive feedback of SST in winds, and that SST influences the atmospheric stability regime up to 200 m, and in nearshore regions both in land and sea, by stabilizing and by weakening the characteristic daily cycle.
+% This work was published in \cite{EOW2009}.
+
+%======================================
+\section{Introduction}
+%======================================
+
+Accurately forecasting offshore wind power is important to TSOs not just because offshore wind farms have a high power capacity (usually above 100 MW), but also because there are no spatial smoothing effects due to topographic differences (statistical compensation), and thus the magnitude of power fluctuations can be very significant \citep{Pinson2008}. Also, offshore wind farms have higher energy availability, or capacity factor, than onshore due to the lower surface roughness and higher turbine hub heights. To be economically viable, offshore turbines are usually higher than inland, with power capacities of 5 MW and hub heights of 120 m. This is facilitated by ship transportation, while on land such high dimensions are difficult to move.
+
+Historically, offshore \textit{in situ} observations have been undertaken below 100 m in height and the stability corrections based on Monin-Obukhov similarity theory on the logarithmic profile have been used to extrapolate wind to the turbine height. However, recent measurements of wind above 50 m have shown that this may not be adequate \citep{Sempreviva2007}.  While variations in sea surface roughness (e.g. wave field) seem to have a minor impact on offshore vertical wind profiles, the influence of thermal effects (air-sea temperature gradients and thermal winds such as sea breeze) is being recognized as non negligible \citep{LangeB_PhD2002, Sempreviva2007}. These temperature gradients vary not only with solar radiation and heat capacities, but also with ocean circulation conditions, as for example, coastal upwelling. This is a frequent and intense phenomenon in the Portuguese coast, which occurs between April and September, being stronger and persistent in August. Its influence on the offshore wind profile is not yet quantified. 
+
+At the time of writing and publishing of this work \citep{EOW2009}, the Portuguese TSO was planning to have 550 MW of nearshore wind power (up to 35 meters deep) by 2019, with 60 \% (330 MW) north of Peniche, 25 \% (137.5 MW) near Viana do Castelo, and 15 \% (82.5 MW) south of Lisbon \citep{REN2008}. Currently, due to economic restrictions and technology that is not yet economically viable, only 75 MW are planned up to 2020 mainly for research purposes \citep{NREAP2010}. However, according to a recent article in the newspaper Expresso (2011-09-24) and the information available Principle Power web site (\url {http://www.principlepowerinc.com/sitedev/portugal.html}) a project agreement for a phased development of 150 MW offshore wind farm off the Portuguese coast was established in 2010 between Principle Power, Energias de Portugal (EDP), InovCapital, Vestas Wind Systems A/S, A. Silva Matos and Fundo de Apoio à Inovação. A single WindFloat system with a Vestas V80-2.0MW turbine is presently under construction with installation and commissioning scheduled for late 2011, in Póvoa do Varzim. Another 25 MW are expected to be installed by 2016.
+
+\cite{CostaEtAl2010} identified areas along the Portuguese Coast that could be used for offshore wind farms, taking into account grid connection, security constrains and environmental impacts. The authors conclude that Portugal has a very large potential, particularly for deep offshore solutions, but many issues have still to be investigated, such as the strong Atlantic Ocean storms and excessive wave energy for the safe operation of wind turbines.
+
+The present work is well within the NREAP guidelines and companies investments, i.e., creation of knowledge and new capacities in offshore wind technology. It can be applied to Portugal and other coastal areas where upwelling episodes occur.
+
+Past studies in several locations over the world have shown that feeding realistic sea surface temperature (SST) fields into atmospheric models can significantly improve wind patterns simulation, but that the strength of this coupling is usually underestimated \citep{Song2009}. In addition, the influence of upwelling episodes needs further study.
+
+Here, the influence of SST in wind speed off the Portuguese Coast is analysed during the upwelling episode of August 2008 by feeding realistic SST fields (ODYSSEA - 2 km) into the WRF model operational configuration.
+
+%======================================
+\section{Data and Methodology}
+%======================================
+
+To assess the effects of upwelling in offshore wind, a twin experiment was made with WRF model. The control run emulated the operational configuration of WRF running at IST (section \ref{sec:meteo_ist}) where SST is provided by the GFS model. The test run was equal to the control run except for SST, which was given by ODYSSEA satellite images \citep{Odyssea2005}.  These images are a multi-sensor merged high-resolution level 4 product with 0.02º resolution ($\sim$ 2 km) overt the Mediterranean Sea), available every 24 hours. WRF version 3.0.1.1 was used with the same options as in table \ref{tb:nwp_options}. Here, only the outer domain was simulated with lower number of horizontal grid points (88x54). 
+
+The study period covered the month of August 2008, characterized by an intense and prolonged upwelling episode on the Portuguese coast, due to the permanent northerly winds caused by the combined action of the Azores High (to the west) and Thermal Lows that form in the Iberian Peninsula (to the right of the Portuguese Coast) (figure \ref{fig:syn1}). These winds can be strong particularly in the late afternoon due to continental heating.
+
+\begin{figure}[!htp]
+    \centering
+    \subfloat[day 1]{\label{fig:syn1a}\includegraphics[width=0.45\columnwidth]{offshore/Rtavn00120080801.png}}
+    \subfloat[day 10]{\label{fig:syn1b}\includegraphics[width=0.45\columnwidth]{offshore/Rtavn00120080810.png}}\\
+    \subfloat[day 20]{\label{fig:syn1c}\includegraphics[width=0.45\columnwidth]{offshore/Rtavn00120080820.png}}
+    \subfloat[day 30]{\label{fig:syn1d}\includegraphics[width=0.45\columnwidth]{offshore/Rtavn00120080830.png}}\\
+    \mycaption{Synoptic situation in August 2008, days 1, 10, 20 and 30 at 00Z given by GFS reanalysis. Colour: 500 hPa geopotential (gpdm), White contours: Mean sea level pressure (hPa), Dashed gray contours: air temperature ($^{\circ}$C). Source: \url{http://www.wetterzentrale.de/topkarten/fsavneur.html}.}
+    \label{fig:syn1}
+\end{figure}
+\FloatBarrier
+
+Figure \ref{fig:SST1} shows the differences in the imposed SST for the day 2008-08-06. 
+
+\begin{figure}[!htp]
+    \centering
+    \includegraphics[width=0.9\columnwidth]{offshore/Plot_MET_Normal_SST_ODYSSEA_2008-08-06_12.png}
+    \mycaption{SST fields fed to WRF simulations in the twin experiment. Left: constant SST given by the GFS model. Right: daily SST image for 2008-08-06 given by ODYSSEA. In both images, SST is interpolated to 9 km resolution.}
+    \label{fig:SST1}
+\end{figure}
+\FloatBarrier
+
+%======================================
+\section{Results and Discussion}
+%======================================
+
+Wind speed fields obtained from the twin experiment were subtracted and averaged for the entire case study period:
+
+\begin{equation}
+Diff = \overline{ V_{test} - V_{control} } = \overline{V_{ODYSSEA} - V_{GFS} }
+\label{eq:dif}
+\end{equation}
+
+Figure \ref{fig:DiffMeanWS3} shows the mean wind speed obtained for the control run, and the mean difference between runs averaged for the all month, and for turbine heights 80, 100 and 120 m, the most probable heights of offshore turbines. It can be seen that there's a negative difference in wind speed along the coast, in the upwelling area, meaning that the colder water decreases surface wind speeds. Differences can go up to $-0.6\mathrm{\ m\ s^{-1}}$ and, as expected, are attenuated with height. In relative terms, for example, near Figueira da Foz (black dot in figure \ref{fig:MeanWS_80}), the decrease in wind speed is approximately $-0.6$ in 6 $\mathrm{m\ s^{-1}}$, i.e. a 10 \% difference. Just to have an idea of the importance of this difference in terms of wind power, and following the conclusions in \cite{Lange2005}, that says that and error in wind speed more than duplicates in terms of wind power, it can be said that a 10 \% difference in wind speed can produce a 20 \% difference in wind power, e.g. 100 MW in 500 MW.
+
+\begin{figure}[!htp]
+    \centering
+    \subfloat[Mean wind speed in control run, turbine height = 80 m. The black dot is the location of Figueira da Foz.]{\label{fig:MeanWS_80}\includegraphics[width=0.45\columnwidth]{offshore/Vento80_Normal_MEAN_200808_Fig.png}}
+    \subfloat[Mean wind speed difference, turbine height = 80 m]{\label{fig:DiffMeanWS3_80}\includegraphics[width=0.45\columnwidth]{offshore/Dif_Vento80_Normal_ODYSSEA_BIAS_200808_zlim.png}}\\
+    \subfloat[Mean wind speed difference, turbine height = 100 m]{\label{fig:DiffMeanWS3_100}\includegraphics[width=0.45\columnwidth]{offshore/Dif_Vento100_Normal_ODYSSEA_BIAS_200808_zlim.png}}
+    \subfloat[Mean wind speed difference, turbine height = 120 m]{\label{fig:DiffMeanWS3_120}\includegraphics[width=0.45\columnwidth]{offshore/Dif_Vento120_Normal_ODYSSEA_BIAS_200808_zlim.png}}
+    \mycaption{Mean wind speed for control run and difference between test and control ($\overline{V_{ODYSSEA} - V_{GFS}}$) for the month of August 2008, and for different turbine heights.}
+    \label{fig:DiffMeanWS3}
+\end{figure}
+\FloatBarrier
+
+These differences in wind speed are related to the different atmospheric stability conditions during upwelling. Figure \ref{fig:stabFig} shows the differences in stability conditions, near Figueira da Foz, during the day 2008-08-11. It can be seen that the lower atmospheric layers have a more stable profile with upwelling, and were neutral or even unstable in the control run.  
+As evident from the rightmost column, the stabilizing effect is propagated inland and affects coastal zones, attenuating the characteristic daily cycle. The influence of different SST goes up to 200 m, well within the range of aerogenerators.
+
+
+\begin{figure}[!htp]
+    \centering
+    \includegraphics[width=0.9\columnwidth]{offshore/Diario_FigueiraFoz_20080811.png}
+    \mycaption{Vertical profiles of potential temperature with height for 2008-08-11 near Figueira da Foz. Each row represents one hour of the day (00Z, 06Z, 12Z, 18Z and 24Z) for four 9 km spaced grid points: from (22,42) to (25,42). This last grid point is an inland point, while the others are offshore.}
+    \label{fig:stabFig}
+\end{figure}
+\FloatBarrier
+
+Upwelling also has an effect in wind direction, as illustrated in figure \ref{fig:vort_uv_80}. The mean vorticity nearshore decreases, meaning that wind rotates clockwise, consistent with the decrease in the mean zonal component (figure \ref{fig:u80}). The overall wind speed decreases because the meridional wind speed differences are positive (figure \ref{fig:v80}), and according to equation \eqref{eq:dif} this means a decrease in absolute values. 
+
+\begin{figure}[!htp]
+    \centering
+    \subfloat[vertical vorticity]{\label{fig:vort80}\includegraphics[width=0.45\columnwidth]{offshore/Dif_vort80_Normal_ODYSSEA_BIAS_200808.png}}\\
+    \subfloat[zonal wind]{\label{fig:u80}\includegraphics[width=0.45\columnwidth]{offshore/Dif_u80_Normal_ODYSSEA_BIAS_200808.png}}
+    \subfloat[meridional wind]{\label{fig:v80}\includegraphics[width=0.45\columnwidth]{offshore/Dif_v80_Normal_ODYSSEA_BIAS_200808.png}}
+    \mycaption{Mean differences ($\overline{X_{ODYSSEA} - X_{GFS}}$) for the month of August 2008 and for turbine height 80 m.}
+    \label{fig:vort_uv_80}
+\end{figure}
+\FloatBarrier
+
+In summary, a positive feedback between SST and wind speed was identified during a strong upwelling episode on the Portuguese Coast. The influence of SST in wind speed was relatively weak (10 \% of mean wind speed) but can be significant in terms of power load, depending on the installed capacity. Changes in stability conditions and wind direction have other effects such as the weakening of transversal coastal breeze which can lead to unexpected feedbacks, such as power ramp events (large variations in wind over short periods of time) that are important to grid utilities and should be further investigated.
+
+
+%======================================
+\section{Conclusions}
+%======================================
+
+As offshore wind farms are being planned for the Portuguese coast, which is subject to frequent upwelling episodes, it is important to know the ability of models to forecast wind under such events. 
+
+The twin experiment made with WRF model and realistic high-resolution SST provided by satellite imagery during a strong upwelling episode in the Portuguese coast allowed to identify a positive feedback between SST and wind speed, i.e., a decrease in SST causes a decrease in the nearshore wind speed. In addition, the lower SSTs have a stabilizing effect in the atmosphere that can reach more than 200 m in height, well within the level of wind power turbines. This effect is propagated inland and affects coastal zones, attenuating the characteristic daily cycle. Also, there seems to be a clockwise rotation of the northerly winds, which could weaken the transversal sea breeze, particularly if the diurnal atmospheric stability cycle is also weakened. These changes can lead to unexpected feedbacks, such as occurrence of power ramp events that are important to grid utilities. 
+
+Although further study is needed, it can be said that, in upwelling areas, offshore wind resource assessment and forecasts should take into account sea interaction, otherwise they can be too optimistic.
+
+
+% TO DO: ver quantos graus de SST abaixo provocam 10 % menos vento!!
+
